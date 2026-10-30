@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0A0A0A" />
+  <title>Mascaritas GDL — Máscaras Semi-Profesionales de Lucha Libre</title>
+  <meta name="description" content="Máscaras de lucha libre semi-profesionales con doble forro hechas a mano en Guadalajara. Envíos gratis a todo México." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            canvas: '#0A0A0A',
+            surface: '#161616',
+            'surface-hover': '#1F1F1F',
+            'accent-green': '#00A86B',
+            'accent-green-hover': '#00C97E',
+            'accent-green-pressed': '#008F5A',
+            'accent-red': '#E63946',
+            'accent-red-hover': '#EF5A66',
+            'text-muted': '#A0A0A5',
+            'text-faint': '#6B6B70',
+            'border-subtle': '#2A2A2A',
+            'border-emphasis': '#3A3A3A',
+          },
+          fontFamily: {
+            display: ['Bangers', 'Impact', 'sans-serif'],
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          },
+          fontSize: {
+            'display-xl': ['clamp(2.75rem, 6vw, 4.5rem)', { lineHeight: '1.05', letterSpacing: '0.02em' }],
+            'display-lg': ['clamp(2.25rem, 4.5vw, 3.5rem)', { lineHeight: '1.1', letterSpacing: '0.02em' }],
+            'display-md': ['clamp(1.75rem, 3vw, 2.5rem)', { lineHeight: '1.15', letterSpacing: '0.02em' }],
+          },
+          boxShadow: {
+            card: '0 4px 24px rgba(0,0,0,0.4)',
+            'glow-green': '0 0 0 3px rgba(0,168,107,0.25)',
+            'glow-red': '0 0 0 3px rgba(230,57,70,0.25)',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-8px)' },
+            },
+          },
+          animation: {
+            float: 'float 6s ease-in-out infinite',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto { content-visibility: auto; }
+      .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+      .scrollbar-hide::-webkit-scrollbar { display: none; }
+      .text-balance { text-wrap: balance; }
+      .touch-target { min-height: 48px; min-width: 48px; }
+      .hero-pattern {
+        background-image:
+          radial-gradient(circle at 20% 20%, rgba(0,168,107,0.08), transparent 50%),
+          radial-gradient(circle at 80% 70%, rgba(230,57,70,0.06), transparent 50%),
+          linear-gradient(180deg, rgba(22,22,22,0.5) 0%, transparent 100%);
+      }
+      .product-ph {
+        background:
+          radial-gradient(circle at 50% 40%, rgba(255,255,255,0.04) 0%, transparent 60%),
+          repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0 2px, transparent 2px 14px);
+      }
+      .hero-mask-ph {
+        background:
+          radial-gradient(circle at 50% 35%, #2A2A2A 0%, #1A1A1A 45%, #0A0A0A 100%),
+          radial-gradient(circle at 50% 35%, rgba(0,168,107,0.18), transparent 60%);
+      }
+    }
+  </style>
+
+  <style>
+    html { overflow-x: hidden; scroll-behavior: smooth; }
+    body { overflow-x: hidden; background-color: #0A0A0A; color: #FFFFFF; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased bg-canvas text-white">
+
+  <!-- ============================================================= -->
+  <!--  ANNOUNCEMENT BAR                                              -->
+  <!-- ============================================================= -->
+  <div
+    role="region"
+    aria-label="Anuncio promocional"
+    class="w-full bg-gradient-to-r from-accent-green to-accent-green-pressed text-white"
+  >
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-10 flex items-center justify-center gap-2 text-sm sm:text-[15px] font-medium tracking-wide">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M10 17h4V5H2v12h3"/><path d="M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5v8h1"/>
+        <circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/>
+      </svg>
+      <span class="truncate">Envíos gratis a todo México en pedidos +$999&nbsp;MXN</span>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!--  HEADER (minimal — nav only in future expansion)              -->
+  <!-- ============================================================= -->
+  <header class="sticky top-0 z-40 bg-canvas/80 backdrop-blur border-b border-border-subtle">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="#" aria-label="Mascaritas GDL — Inicio" class="flex items-center gap-2 group">
+        <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-surface border border-border-subtle group-hover:border-border-emphasis transition-colors">
+          <span class="font-display text-2xl text-accent-green leading-none">MG</span>
+        </span>
+        <span class="font-display text-xl sm:text-2xl tracking-wide leading-none group-hover:text-accent-green-hover transition-colors">
+          Mascaritas&nbsp;GDL
+        </span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-text-muted">
+        <a href="#productos" class="hover:text-white transition-colors">Catálogo</a>
+        <a href="#beneficios" class="hover:text-white transition-colors">Beneficios</a>
+        <a href="#contacto" class="hover:text-white transition-colors">Contacto</a>
+      </nav>
+
+      <a
+        href="#productos"
+        class="touch-target inline-flex items-center justify-center px-4 sm:px-5 rounded-xl bg-accent-green text-white text-sm font-semibold
+               hover:bg-accent-green-hover active:bg-accent-green-pressed active:scale-95
+               focus-visible:outline-none focus-visible:shadow-glow-green
+               transition-all duration-200 ease-out"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5" aria-hidden="true">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        <span class="hidden sm:inline">Ver catálogo</span>
+        <span class="sm:hidden">Catálogo</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ============================================================= -->
+  <!--  HERO SECTION                                                  -->
+  <!-- ============================================================= -->
+  <section class="relative content-auto">
+    <div class="absolute inset-0 hero-pattern pointer-events-none" aria-hidden="true"></div>
+
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 sm:py-20 lg:py-28">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+        <!-- Copy -->
+        <div class="relative z-10 max-w-xl lg:max-w-none">
+          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface border border-border-subtle text-xs font-medium uppercase tracking-[0.12em] text-text-muted mb-6">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent-red animate-pulse" aria-hidden="true"></span>
+            Hechas a mano en&nbsp;Guadalajara
+          </span>
+
+          <h1 class="font-display text-display-xl text-balance text-white drop-shadow-[0_2px_12px_rgba(0,168,107,0.15)] mb-6">
+            ¡Lucha con estilo,<br/>
+            <span class="text-accent-green">siente la arena!</span>
+          </h1>
+
+          <p class="text-lg sm:text-[19px] leading-relaxed text-text-muted mb-10 max-w-xl">
+            Máscaras semi-profesionales con doble forro, cosidas a mano por maestros
+            tapiceros tapatíos. Resisten el ring y se ven legendarias en la grada.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a
+              href="#productos"
+              class="touch-target inline-flex items-center justify-center px-7 py-4 rounded-xl bg-accent-green text-white text-[17px] font-semibold
+                     hover:bg-accent-green-hover active:bg-accent-green-pressed active:scale-95
+                     focus-visible:outline-none focus-visible:shadow-glow-green
+                     transition-all duration-200 ease-out shadow-[0_10px_40px_-12px_rgba(0,168,107,0.55)]"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2" aria-hidden="true">
+                <path d="M4 6h16l-2 13H6L4 6z"/><path d="M9 6a3 3 0 0 1 6 0"/>
+              </svg>
+              Ver catálogo
+            </a>
+
+            <a
+              href="#beneficios"
+              class="touch-target inline-flex items-center justify-center px-7 py-4 rounded-xl border border-border-emphasis bg-transparent text-white text-[17px] font-semibold
+                     hover:bg-surface-hover active:scale-95
+                     focus-visible:outline-none focus-visible:shadow-glow-green
+                     transition-all duration-200 ease-out"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/>
+              </svg>
+              ¿Por qué elegirnos?
+            </a>
+          </div>
+
+          <!-- Social proof line -->
+          <div class="mt-10 flex items-center gap-4 text-sm text-text-muted">
+            <div class="flex -space-x-2" aria-hidden="true">
+              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-accent-green to-accent-green-pressed border-2 border-canvas"></div>
+              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-accent-red to-accent-red-hover border-2 border-canvas"></div>
+              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#F4C542] to-[#D99B2C] border-2 border-canvas"></div>
+            </div>
+            <div>
+              <span class="font-semibold text-white">+2,400</span> luchadores y coleccionistas confían en nosotros
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Visual -->
+        <div class="relative lg:justify-self-end w-full max-w-[520px] mx-auto lg:mx-0">
+          <div class="relative aspect-square w-full animate-float" aria-hidden="true">
+            <!-- Glow -->
+            <div class="absolute -inset-6 bg-gradient-to-br from-accent-green/20 via-accent-red/10 to-transparent rounded-[3rem] blur-3xl opacity-70"></div>
+
+            <!-- Mask placeholder -->
+            <div class="relative w-full h-full hero-mask-ph rounded-[2.5rem] border border-border-subtle shadow-card overflow-hidden flex items-center justify-center">
+              <!-- SVG stylized mask -->
+              <svg viewBox="0 0 300 300" class="w-[72%] h-[72%]" aria-hidden="true">
+                <defs>
+                  <linearGradient id="maskBody" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#1F1F1F"/>
+                    <stop offset="100%" stop-color="#0F0F0F"/>
+                  </linearGradient>
+                  <linearGradient id="accents" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#00A86B"/>
+                    <stop offset="100%" stop-color="#008F5A"/>
+                  </linearGradient>
+                </defs>
+                <!-- Head shape -->
+                <path d="M150 30 C210 30 250 70 250 130 C250 180 235 230 210 260 C190 275 170 280 150 280 C130 280 110 275 90 260 C65 230 50 180 50 130 C50 70 90 30 150 30 Z"
+                      fill="url(#maskBody)" stroke="#2A2A2A" stroke-width="1.5"/>
+                <!-- Forehead fins (Sargento Tiburón vibe) -->
+                <path d="M90 70 L120 40 L140 70 Z" fill="url(#accents)"/>
+                <path d="M210 70 L180 40 L160 70 Z" fill="url(#accents)"/>
+                <path d="M130 55 L150 25 L170 55 Z" fill="#E63946"/>
+                <!-- Eye openings -->
+                <ellipse cx="110" cy="150" rx="28" ry="14" fill="#050505" stroke="#00A86B" stroke-width="3"/>
+                <ellipse cx="190" cy="150" rx="28" ry="14" fill="#050505" stroke="#00A86B" stroke-width="3"/>
+                <!-- Eyebrow stripes -->
+                <path d="M78 130 L142 118 L138 128 L80 140 Z" fill="#E63946"/>
+                <path d="M222 130 L158 118 L162 128 L220 140 Z" fill="#E63946"/>
+                <!-- Mouth / nose -->
+                <path d="M150 165 L135 200 L165 200 Z" fill="#0A0A0A" stroke="#3A3A3A" stroke-width="1"/>
+                <path d="M115 215 Q150 230 185 215 L180 228 Q150 242 120 228 Z" fill="url(#accents)"/>
+                <!-- Laces -->
+                <g stroke="#A0A0A5" stroke-width="2" fill="none" stroke-linecap="round">
+                  <path d="M70 140 L50 130"/>
+                  <path d="M70 155 L48 155"/>
+                  <path d="M70 170 L50 180"/>
+                  <path d="M230 140 L250 130"/>
+                  <path d="M230 155 L252 155"/>
+                  <path d="M230 170 L250 180"/>
+                </g>
+              </svg>
+
+              <!-- Floating price tag -->
+              <div class="absolute top-5 right-5 bg-canvas/90 backdrop-blur border border-border-subtle rounded-2xl px-4 py-3 shadow-card">
+                <div class="text-[11px] font-medium uppercase tracking-wider text-text-muted mb-1">Desde</div>
+                <div class="font-display text-2xl text-accent-green leading-none">$899 <span class="text-sm font-sans text-text-muted font-normal">MXN</span></div>
+              </div>
+
+              <!-- Floating stock tag -->
+              <div class="absolute bottom-5 left-5 inline-flex items-center gap-1.5 bg-accent-red/95 backdrop-blur text-white rounded-full px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider shadow-glow-red">
+                <span class="w-1.5 h-1.5 rounded-full bg-white" aria-hidden="true"></span>
+                Stock limitado
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!--  PRODUCT GRID (3 máscaras)                                    -->
+  <!-- ============================================================= -->
+  <section id="productos" class="content-auto border-t border-border-subtle">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 sm:mb-12">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-[0.18em] text-accent-green mb-3 block">Catálogo estrella</span>
+          <h2 class="font-display text-display-lg text-balance">Máscaras listas para la batalla</h2>
+        </div>
+        <a href="#" class="text-sm font-semibold text-text-muted hover:text-white transition-colors inline-flex items-center gap-1.5 group">
+          Ver todo el catálogo
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform" aria-hidden="true">
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8" role="list">
+
+        <!-- ======== Product 1 — Tiburón Dorado ======== -->
+        <article role="listitem" class="group flex flex-col bg-surface border border-border-subtle rounded-3xl p-4 sm:p-5 shadow-card
+                    hover:-translate-y-1 hover:border-border-emphasis hover:shadow-[0_20px_60px_-20px_rgba(0,168,107,0.35)]
+                    transition-all duration-300 ease-out">
+          <div class="relative aspect-[4/5] rounded-2xl overflow-hidden product-ph mb-5 flex items-center justify-center">
+            <!-- SVG placeholder -->
+            <svg viewBox="0 0 240 300" class="w-[70%] h-[70%]" alt="">
+              <defs>
+                <linearGradient id="p1body" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#2A2000"/>
+                  <stop offset="100%" stop-color="#120C00"/>
+                </linearGradient>
+              </defs>
+              <path d="M120 20 C180 20 210 60 210 120 C210 160 198 200 180 225 L180 260 L120 275 L60 260 L60 225 C42 200 30 160 30 120 C30 60 60 20 120 20 Z"
+                    fill="url(#p1body)" stroke="#F4C542" stroke-width="2"/>
+              <!-- Aleta tiburón -->
+              <path d="M90 40 L120 15 L150 40 L140 55 L120 48 L100 55 Z" fill="#F4C542"/>
+              <ellipse cx="90" cy="130" rx="22" ry="11" fill="#000" stroke="#F4C542" stroke-width="2.5"/>
+              <ellipse cx="150" cy="130" rx="22" ry="11" fill="#000" stroke="#F4C542" stroke-width="2.5"/>
+              <!-- Dientes -->
+              <path d="M95 175 L105 200 L115 175 L125 200 L135 175 L145 200 L155 175 L150 210 L90 210 Z" fill="#fff"/>
+              <path d="M100 175 H150" stroke="#000" stroke-width="1"/>
+              <!-- Detalles rojos -->
+              <path d="M60 115 L95 108 L93 118 L62 125 Z" fill="#E63946"/>
+              <path d="M180 115 L145 108 L147 118 L178 125 Z" fill="#E63946"/>
+            </svg>
+
+            <!-- Badge: Últimas piezas (RED) -->
+            <span class="absolute top-4 left-4 inline-flex items-center gap-1.5 bg-accent-red text-white rounded-full px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider shadow-glow-red">
+              <span class="w-1.5 h-1.5 rounded-full bg-white" aria-hidden="true"></span>
+              Últimas piezas
+            </span>
+          </div>
+
+          <div class="flex-1 flex flex-col">
+            <div class="flex items-start justify-between gap-3 mb-2">
+              <h3 class="font-display text-display-md text-white">Sargento Tiburón<br/><span class="text-base font-sans text-text-muted font-normal">Edición Dorada</span></h3>
+            </div>
+
+            <div class="flex items-baseline gap-2 mb-5 mt-2">
+              <span class="text-[15px] font-semibold text-accent-green">$</span>
+              <span class="font-display text-3xl sm:text-4xl text-white leading-none">1,299</span>
+              <span class="text-sm text-text-muted font-medium">MXN</span>
+              <span class="ml-auto text-sm line-through text-text-faint">$1,599</span>
+            </div>
+
+            <button
+              type="button"
+              aria-label="Agregar Sargento Tiburón al carrito"
+              class="touch-target mt-auto w-full inline-flex items-center justify-center gap-2 px-5 py-4 rounded-xl bg-accent-green text-white text-[15px] font-semibold
+                     hover:bg-accent-green-hover active:bg-accent-green-pressed active:scale-95
+                     focus-visible:outline-none focus-visible:shadow-glow-green
+                     transition-all duration-200 ease-out"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              Agregar al carrito
+            </button>
+          </div>
+        </article>
+
+        <!-- ======== Product 2 — Diablo Verde ======== -->
+        <article role="listitem" class="group flex flex-col bg-surface border border-border-subtle rounded-3xl p-4 sm:p-5 shadow-card
+                    hover:-translate-y-1 hover:border-border-emphasis hover:shadow-[0_20px_60px_-20px_rgba(0,168,107,0.35)]
+                    transition-all duration-300 ease-out">
+          <div class="relative aspect-[4/5] rounded-2xl overflow-hidden product-ph mb-5 flex items-center justify-center">
+            <svg viewBox="0 0 240 300" class="w-[70%] h-[70%]" alt="">
+              <defs>
+                <linearGradient id="p2body" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#003322"/>
+                  <stop offset="100%" stop-color="#001810"/>
+                </linearGradient>
+              </defs>
+              <path d="M120 20 C180 20 210 60 210 120 C210 165 200 210 180 240 L150 265 L120 275 L90 265 L60 240 C40 210 30 165 30 120 C30 60 60 20 120 20 Z"
+                    fill="url(#p2body)" stroke="#00A86B" stroke-width="2"/>
+              <!-- Cuernos -->
+              <path d="M55 45 L30 5 L65 35 Z" fill="#00A86B"/>
+              <path d="M185 45 L210 5 L175 35 Z" fill="#00A86B"/>
+              <!-- Cabeza de tiburón / máscara -->
+              <ellipse cx="90" cy="140" rx="24" ry="12" fill="#000" stroke="#fff" stroke-width="2"/>
+              <ellipse cx="150" cy="140" rx="24" ry="12" fill="#000" stroke="#fff" stroke-width="2"/>
+              <circle cx="88" cy="140" r="3" fill="#E63946"/>
+              <circle cx="148" cy="140" r="3" fill="#E63946"/>
+              <!-- Relleno facial -->
+              <path d="M80 180 Q120 150 160 180 L160 210 Q120 235 80 210 Z" fill="#0A0A0A" stroke="#E63946" stroke-width="2"/>
+              <!-- Dientes -->
+              <g fill="#fff">
+                <path d="M92 192 L100 215 L108 192 Z"/>
+                <path d="M108 192 L116 218 L124 192 Z"/>
+                <path d="M124 192 L132 218 L140 192 Z"/>
+                <path d="M140 192 L148 215 L156 192 Z"/>
+              </g>
+              <!-- Patrón escamas -->
+              <g stroke="#00A86B" stroke-width="1" fill="none" opacity="0.4">
+                <path d="M50 100 Q70 92 90 100"/>
+                <path d="M150 100 Q170 92 190 100"/>
+                <path d="M45 125 Q65 117 85 125"/>
+                <path d="M155 125 Q175 117 195 125"/>
+              </g>
+            </svg>
+
+            <!-- Badge: Semi-Pro (RED) -->
+            <span class="absolute top-4 left-4 inline-flex items-center gap-1.5 bg-accent-red text-white rounded-full px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider shadow-glow-red">
+              Semi-Pro
+            </span>
+          </div>
+
+          <div class="flex-1 flex flex-col">
+            <h3 class="font-display text-display-md text-white mb-2">Diablo Verde<br/><span class="text-base font-sans text-text-muted font-normal">Ring Resist Edition</span></h3>
+
+            <div class="flex items-baseline gap-2 mb-5 mt-2">
+              <span class="text-[15px] font-semibold text-accent-green">$</span>
+              <span class="font-display text-3xl sm:text-4xl text-white leading-none">999</span>
+              <span class="text-sm text-text-muted font-medium">MXN</span>
+            </div>
+
+            <button
+              type="button"
+              aria-label="Agregar Diablo Verde al carrito"
+              class="touch-target mt-auto w-full inline-flex items-center justify-center gap-2 px-5 py-4 rounded-xl bg-accent-green text-white text-[15px] font-semibold
+                     hover:bg-accent-green-hover active:bg-accent-green-pressed active:scale-95
+                     focus-visible:outline-none focus-visible:shadow-glow-green
+                     transition-all duration-200 ease-out"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              Agregar al carrito
+            </button>
+          </div>
+        </article>
+
+        <!-- ======== Product 3 — El Galáctico ======== -->
+        <article role="listitem" class="group flex flex-col bg-surface border border-border-subtle rounded-3xl p-4 sm:p-5 shadow-card
+                    hover:-translate-y-1 hover:border-border-emphasis hover:shadow-[0_20px_60px_-20px_rgba(0,168,107,0.35)]
+                    transition-all duration-300 ease-out">
+          <div class="relative aspect-[4/5] rounded-2xl overflow-hidden product-ph mb-5 flex items-center justify-center">
+            <svg viewBox="0 0 240 300" class="w-[70%] h-[70%]" alt="">
+              <defs>
+                <linearGradient id="p3body" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#1a1a2e"/>
+                  <stop offset="100%" stop-color="#0a0a14"/>
+                </linearGradient>
+                <radialGradient id="p3star" cx="50%" cy="50%">
+                  <stop offset="0%" stop-color="#fff"/>
+                  <stop offset="100%" stop-color="transparent"/>
+                </radialGradient>
+              </defs>
+              <path d="M120 20 C180 20 210 60 210 120 C210 170 195 220 170 255 L120 275 L70 255 C45 220 30 170 30 120 C30 60 60 20 120 20 Z"
+                    fill="url(#p3body)" stroke="#FFFFFF" stroke-width="2"/>
+              <!-- Stars background -->
+              <g fill="#fff" opacity="0.8">
+                <circle cx="55" cy="70" r="1.5"/><circle cx="190" cy="85" r="1"/>
+                <circle cx="45" cy="190" r="1.2"/><circle cx="200" cy="200" r="1.5"/>
+                <circle cx="100" cy="55" r="0.8"/><circle cx="150" cy="50" r="1"/>
+              </g>
+              <!-- Corona / Mohawk -->
+              <path d="M95 45 L105 15 L120 30 L135 15 L145 45 L130 55 L120 42 L110 55 Z" fill="#00A86B"/>
+              <path d="M105 15 L135 15 L130 20 L110 20 Z" fill="#E63946"/>
+              <!-- Ojos -->
+              <path d="M78 130 Q110 122 110 145 Q78 140 78 130 Z" fill="#000" stroke="#E63946" stroke-width="2.5"/>
+              <path d="M162 130 Q130 122 130 145 Q162 140 162 130 Z" fill="#000" stroke="#E63946" stroke-width="2.5"/>
+              <circle cx="88" cy="136" r="2.5" fill="#fff"/><circle cx="152" cy="136" r="2.5" fill="#fff"/>
+              <!-- Mouth / cosmic -->
+              <path d="M80 185 Q120 170 160 185 L158 205 Q120 220 82 205 Z" fill="#00A86B" opacity="0.6"/>
+              <path d="M100 190 L108 200 L116 190 L124 200 L132 190 L140 200 L148 190" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <!-- Estrella central -->
+              <path d="M120 90 L124 100 L135 102 L126 110 L128 122 L120 116 L112 122 L114 110 L105 102 L116 100 Z" fill="#F4C542"/>
+            </svg>
+
+            <!-- Badge: Últimas piezas (RED) -->
+            <span class="absolute top-4 left-4 inline-flex items-center gap-1.5 bg-accent-red text-white rounded-full px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider shadow-glow-red">
+              <span class="w-1.5 h-1.5 rounded-full bg-white" aria-hidden="true"></span>
+              Últimas piezas
+            </span>
+          </div>
+
+          <div class="flex-1 flex flex-col">
+            <h3 class="font-display text-display-md text-white mb-2">El Galáctico<br/><span class="text-base font-sans text-text-muted font-normal">Mil Máscaras Tribute</span></h3>
+
+            <div class="flex items-baseline gap-2 mb-5 mt-2">
+              <span class="text-[15px] font-semibold text-accent-green">$</span>
+              <span class="font-display text-3xl sm:text-4xl text-white leading-none">1,149</span>
+              <span class="text-sm text-text-muted font-medium">MXN</span>
+            </div>
+
+            <button
+              type="button"
+              aria-label="Agregar El Galáctico al carrito"
+              class="touch-target mt-auto w-full inline-flex items-center justify-center gap-2 px-5 py-4 rounded-xl bg-accent-green text-white text-[15px] font-semibold
+                     hover:bg-accent-green-hover active:bg-accent-green-pressed active:scale-95
+                     focus-visible:outline-none focus-visible:shadow-glow-green
+                     transition-all duration-200 ease-out"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              Agregar al carrito
+            </button>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!--  VALUE PROPS / TRUST GRID                                     -->
+  <!-- ============================================================= -->
+  <section id="beneficios" class="content-auto border-t border-border-subtle bg-surface/40">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+
+      <div class="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+        <span class="text-xs font-semibold uppercase tracking-[0.18em] text-accent-red mb-3 block">¿Por qué Mascaritas GDL?</span>
+        <h2 class="font-display text-display-lg text-balance">Hechas con alma de luchador</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8" role="list">
+
+        <!-- Prop 1 -->
+        <div role="listitem" class="relative bg-surface border border-border-subtle rounded-2xl p-6 sm:p-8 hover:border-border-emphasis hover:bg-surface-hover transition-colors duration-200">
+          <div class="w-14 h-14 rounded-2xl bg-accent-green/10 border border-accent-green/20 text-accent-green flex items-center justify-center mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M10 17h4V5H2v12h3"/><path d="M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5v8h1"/>
+              <circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/>
+            </svg>
+          </div>
+          <h3 class="font-semibold text-xl text-white mb-2">Envío desde GDL</h3>
+          <p class="text-text-muted leading-relaxed">
+            Salen desde Guadalajara con paquetería certificada. Entrega a todo México en
+            <span class="font-semibold text-white">24 a 72 horas</span>. Rastreo en tiempo real.
+          </p>
+        </div>
+
+        <!-- Prop 2 -->
+        <div role="listitem" class="relative bg-surface border border-border-subtle rounded-2xl p-6 sm:p-8 hover:border-border-emphasis hover:bg-surface-hover transition-colors duration-200">
+          <div class="w-14 h-14 rounded-2xl bg-accent-green/10 border border-accent-green/20 text-accent-green flex items-center justify-center mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v5"/>
+              <path d="M6 11V6a2 2 0 0 1 2-2a2 2 0 0 1 2 2v5"/>
+              <path d="M4 21h16a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2Z"/>
+            </svg>
+          </div>
+          <h3 class="font-semibold text-xl text-white mb-2">Ajuste cómodo</h3>
+          <p class="text-text-muted leading-relaxed">
+            Doble forro de spandex suave al rostro. Cordones ajustables en la nuca para que se
+            adapte a <span class="font-semibold text-white">cualquier talla</span> sin lastimar.
+          </p>
+        </div>
+
+        <!-- Prop 3 -->
+        <div role="listitem" class="relative bg-surface border border-border-subtle rounded-2xl p-6 sm:p-8 hover:border-border-emphasis hover:bg-surface-hover transition-colors duration-200">
+          <div class="w-14 h-14 rounded-2xl bg-accent-green/10 border border-accent-green/20 text-accent-green flex items-center justify-center mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2 3 7v6c0 5 4 8 9 9 5-1 9-4 9-9V7l-9-5z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+          </div>
+          <h3 class="font-semibold text-xl text-white mb-2">Materiales de arena</h3>
+          <p class="text-text-muted leading-relaxed">
+            Lona de alta densidad y vinilo de 3mm. Costuras dobles reforzadas.
+            <span class="font-semibold text-white">Diseñadas para el ring</span>, no sólo para la foto.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!--  FOOTER                                                        -->
+  <!-- ============================================================= -->
+  <footer id="contacto" class="border-t border-border-subtle bg-surface">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 items-start">
+
+        <!-- Brand -->
+        <div class="md:col-span-5 lg:col-span-4">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-canvas border border-border-subtle">
+              <span class="font-display text-2xl text-accent-green leading-none">MG</span>
+            </span>
+            <span class="font-display text-2xl sm:text-3xl tracking-wide leading-none text-white">
+              Mascaritas GDL
+            </span>
+          </div>
+          <p class="text-text-muted max-w-sm leading-relaxed mb-6">
+            Taller familiar de máscaras de lucha libre. Diseñamos y cosemos cada pieza en
+            Guadalajara, Jalisco, desde 2015.
+          </p>
+
+          <!-- Social Icons -->
+          <div class="flex items-center gap-3" aria-label="Redes sociales">
+            <a href="#" aria-label="Instagram"
+               class="touch-target inline-flex items-center justify-center w-12 h-12 rounded-xl bg-canvas border border-border-subtle text-text-muted
+                      hover:text-white hover:border-border-emphasis hover:bg-surface-hover active:scale-95
+                      focus-visible:outline-none focus-visible:shadow-glow-green
+                      transition-all duration-200 ease-out">
+              <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+              </svg>
+            </a>
+            <a href="#" aria-label="Facebook"
+               class="touch-target inline-flex items-center justify-center w-12 h-12 rounded-xl bg-canvas border border-border-subtle text-text-muted
+                      hover:text-white hover:border-border-emphasis hover:bg-surface-hover active:scale-95
+                      focus-visible:outline-none focus-visible:shadow-glow-green
+                      transition-all duration-200 ease-out">
+              <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+              </svg>
+            </a>
+            <a href="#" aria-label="TikTok"
+               class="touch-target inline-flex items-center justify-center w-12 h-12 rounded-xl bg-canvas border border-border-subtle text-text-muted
+                      hover:text-white hover:border-border-emphasis hover:bg-surface-hover active:scale-95
+                      focus-visible:outline-none focus-visible:shadow-glow-green
+                      transition-all duration-200 ease-out">
+              <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
+              </svg>
+            </a>
+            <a href="#" aria-label="WhatsApp"
+               class="touch-target inline-flex items-center justify-center w-12 h-12 rounded-xl bg-canvas border border-border-subtle text-text-muted
+                      hover:text-white hover:border-border-emphasis hover:bg-surface-hover active:scale-95
+                      focus-visible:outline-none focus-visible:shadow-glow-green
+                      transition-all duration-200 ease-out">
+              <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Links block -->
+        <div class="md:col-span-4 lg:col-span-5">
+          <div class="grid grid-cols-2 gap-6">
+            <div>
+              <h4 class="text-sm font-semibold uppercase tracking-wider text-white mb-4">Tienda</h4>
+              <ul class="space-y-3 text-sm text-text-muted">
+                <li><a href="#productos" class="hover:text-white transition-colors">Catálogo</a></li>
+                <li><a href="#" class="hover:text-white transition-colors">Más vendidas</a></li>
+                <li><a href="#" class="hover:text-white transition-colors">Ofertas</a></li>
+                <li><a href="#" class="hover:text-white transition-colors">Personalizadas</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-sm font-semibold uppercase tracking-wider text-white mb-4">Soporte</h4>
+              <ul class="space-y-3 text-sm text-text-muted">
+                <li><a href="#" class="hover:text-white transition-colors">Envíos</a></li>
+                <li><a href="#" class="hover:text-white transition-colors">Devoluciones</a></li>
+                <li><a href="#" class="hover:text-white transition-colors">Guía de tallas</a></li>
+                <li><a href="#contacto" class="hover:text-white transition-colors">Contacto</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact / Whatsapp CTA -->
+        <div class="md:col-span-3 lg:col-span-3">
+          <h4 class="text-sm font-semibold uppercase tracking-wider text-white mb-4">¿Dudas?</h4>
+          <a
+            href="#"
+            class="touch-target w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-accent-green text-white text-sm font-semibold
+                   hover:bg-accent-green-hover active:bg-accent-green-pressed active:scale-95
+                   focus-visible:outline-none focus-visible:shadow-glow-green
+                   transition-all duration-200 ease-out mb-3"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+            </svg>
+            WhatsApp
+          </a>
+          <p class="text-xs text-text-faint leading-relaxed">
+            Respuesta inmediata en horario comercial:<br/>Lun–Sáb · 10am – 7pm CST
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Divider + copyright -->
+      <div class="mt-12 pt-8 border-t border-border-subtle flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-text-faint">
+        <p>© 2026 Mascaritas GDL · Todos los derechos reservados.</p>
+        <div class="flex items-center gap-5">
+          <a href="#" class="hover:text-text-muted transition-colors">Términos y condiciones</a>
+          <a href="#" class="hover:text-text-muted transition-colors">Aviso de privacidad</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Minimal cart counter script (decorative) -->
+  <script>
+    document.querySelectorAll('button[aria-label*="Agregar"]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.animate(
+          [{ transform: 'scale(1)' }, { transform: 'scale(0.94)' }, { transform: 'scale(1)' }],
+          { duration: 280, easing: 'cubic-bezier(0.2, 0.9, 0.3, 1.3)' }
+        );
+        const label = btn.querySelector('span, .sr-only') || btn.lastChild;
+        const original = btn.innerHTML;
+        const prevText = btn.querySelector('svg').nextSibling;
+        const iconSvg = btn.querySelector('svg').outerHTML;
+        btn.innerHTML = iconSvg + ' ¡Agregado!';
+        btn.classList.remove('bg-accent-green', 'hover:bg-accent-green-hover');
+        btn.classList.add('bg-accent-green-pressed');
+        setTimeout(() => {
+          btn.innerHTML = original;
+          btn.classList.remove('bg-accent-green-pressed');
+          btn.classList.add('bg-accent-green');
+        }, 1200);
+      });
+    });
+  </script>
+</body>
+</html>
