@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { X } from 'lucide-react';
 import { cn } from '@/__lib__/utils';
 import { Button } from '@/components/ui/Button';
@@ -37,6 +38,7 @@ export function ActiveFilters({
   onClearAll,
   className,
 }: ActiveFiltersProps) {
+  const t = useTranslations('filters');
   const bucketsByDimension: Record<FacetDimension, ReadonlyArray<{ id: string; label: string }>> = {
     categoryIds: facets?.categories ?? [],
     sizeIds: facets?.sizes ?? [],
@@ -79,7 +81,7 @@ export function ActiveFilters({
       ? [
           {
             key: 'stock',
-            label: 'Solo disponibles',
+            label: t('stockChip'),
             onRemove: onToggleStock,
           },
         ]
@@ -91,7 +93,7 @@ export function ActiveFilters({
   return (
     <div className={cn('w-full flex flex-wrap items-center gap-2', className)}>
       <span className="text-xs font-semibold uppercase tracking-[0.14em] text-text-faint mr-1">
-        Filtros activos
+        {t('active')}
       </span>
 
       {allChips.map((chip) => (
@@ -100,7 +102,7 @@ export function ActiveFilters({
           <button
             type="button"
             onClick={chip.onRemove}
-            aria-label={`Quitar filtro ${chip.label}`}
+            aria-label={t('removeChip', { label: chip.label })}
             className={cn(
               'inline-flex items-center justify-center w-8 h-8 rounded-xl',
               'text-text-muted hover:text-white hover:bg-surface-hover',
@@ -114,7 +116,7 @@ export function ActiveFilters({
       ))}
 
       <Button variant="ghost" size="sm" onClick={onClearAll}>
-        Limpiar todo
+        {t('clearAll')}
       </Button>
     </div>
   );

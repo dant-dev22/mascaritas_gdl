@@ -1,0 +1,244 @@
+{
+  "common": {
+    "brandName": "Mascaritas GDL",
+    "brandShortCode": "MG",
+    "brandDescription": "Premium lucha libre masks at the best price. We ship anywhere in Mexico from Guadalajara, Jalisco.",
+    "copyright": "© 2026 Mascaritas GDL · All rights reserved.",
+    "whatsappScheduleTitle": "Fast replies during business hours",
+    "whatsappSchedule": "Mon–Sat · 10am – 7pm CST"
+  },
+  "announcement": {
+    "ariaLabel": "Promotional announcement",
+    "message": "Free shipping anywhere in Mexico on orders +$999 MXN"
+  },
+  "nav": {
+    "catalog": "Catalog",
+    "benefits": "Why us",
+    "contact": "Contact",
+    "bestSellers": "Best sellers",
+    "offers": "Deals",
+    "professional": "Pro",
+    "supportShipping": "Shipping",
+    "supportReturns": "Returns",
+    "supportSizes": "Size guide",
+    "legalTerms": "Terms & conditions",
+    "legalPrivacy": "Privacy policy",
+    "viewCatalog": "Shop catalog",
+    "catalogShort": "Catalog",
+    "storeHeading": "Shop",
+    "supportHeading": "Support",
+    "questionsHeading": "Questions?",
+    "whatsappButton": "WhatsApp"
+  },
+  "hero": {
+    "badge": "Top quality, great price",
+    "titleLine1": "Fight with style,",
+    "titleLine2": "feel the arena!",
+    "description": "Semi-pro and pro-grade masks of the finest quality, 100% handmade.",
+    "ctaCatalog": "Shop the catalog",
+    "ctaWhyUs": "Why choose us?",
+    "priceFrom": "From",
+    "priceCurrency": "MXN",
+    "limitedStock": "Limited stock",
+    "customersLabel": "wrestlers and collectors trust us"
+  },
+  "featured": {
+    "eyebrow": "Star catalog",
+    "heading": "Masks ready for battle",
+    "description": "Three standout pieces from this season. Head to the full catalog to filter by category, size, color and price.",
+    "ctaLabel": "Browse the full catalog"
+  },
+  "trust": {
+    "eyebrow": "Mascaritas GDL",
+    "heading": "Same-day shipping",
+    "shipTitle": "Shipped from GDL",
+    "shipDescription": "They leave Guadalajara with certified couriers. Delivery anywhere in Mexico in 24 to 72 hours with real-time tracking.",
+    "shipHighlight": "24 to 72 hours",
+    "fitTitle": "Comfortable fit",
+    "fitDescription": "Double soft spandex lining against your face. Adjustable laces at the back of the head so it fits any size without hurting.",
+    "fitHighlight": "any size",
+    "materialsTitle": "Arena-grade materials",
+    "materialsDescription": "High-density canvas and 3mm vinyl. Reinforced double stitching. Built for the ring, not just for the photo.",
+    "materialsHighlight": "Built for the ring"
+  },
+  "meta": {
+    "titleDefault": "Mascaritas GDL — Semi-Professional Lucha Libre Masks",
+    "titleTemplate": "%s · Mascaritas GDL",
+    "description": "Semi-professional lucha libre masks with double lining, handmade in Guadalajara. Free shipping anywhere in Mexico.",
+    "keywords": [
+      "lucha libre masks",
+      "semi professional masks",
+      "lucha libre guadalajara",
+      "handmade masks",
+      "lucha libre collectibles"
+    ],
+    "catalogTitle": "Mask catalog",
+    "catalogDescription": "Explore semi-professional and professional lucha libre masks, 100% handmade. Filter by category, size, color and price.",
+    "productNotFound": "Mask not found"
+  },
+  "a11y": {
+    "skipToContent": "Skip to content",
+    "mainNav": "Main navigation",
+    "homeLink": "{brand} — Home",
+    "catalogLink": "Go to the catalog",
+    "catalogLinkWithCount": "Go to the catalog, {count} items in your cart",
+    "socialLinks": "Social media",
+    "socialInstagram": "Open Mascaritas GDL on Instagram",
+    "socialFacebook": "Open Mascaritas GDL on Facebook",
+    "socialTiktok": "Open Mascaritas GDL on TikTok",
+    "socialWhatsapp": "Chat with Mascaritas GDL on WhatsApp",
+    "whatsappChat": "Chat on WhatsApp",
+    "benefitsList": "Buying benefits",
+    "featuredMasks": "Featured masks",
+    "breadcrumb": "Breadcrumb",
+    "pagination": "Catalog pagination",
+    "paginationPrev": "Previous page",
+    "paginationNext": "Next page",
+    "paginationGoTo": "Go to page {page}",
+    "paginationPage": "Page <b>{page}</b> of <b>{total}</b>"
+  },
+  "catalog": {
+    "breadcrumbHome": "Home",
+    "breadcrumbCurrent": "Catalog",
+    "availableCount": "{count} masks available",
+    "title": "Full catalog",
+    "description": "Filter by category, size, color and price. Every piece is 100% handmade and built to take real training.",
+    "loading": "Loading catalog",
+    "resultsRegion": "Catalog results",
+    "emptyTitle": "No mask matches",
+    "emptyDescription": "Try another style, remove a filter or use a shorter search term. You can also message us on WhatsApp and we'll help you choose.",
+    "errorTitle": "The ropes came down on us",
+    "errorLoad": "We couldn't load the catalog.",
+    "errorInvalid": "The catalog response is invalid.",
+    "errorUnexpected": "Unexpected error.",
+    "retry": "Try again",
+    "clearFiltersAction": "Clear filters",
+    "priceCurrency": "MXN",
+    "productCard": {
+      "viewDetails": "View details for {title} {subtitle}",
+      "viewDetailsShort": "View details for {title}",
+      "soldOutOverlay": "SOLD OUT",
+      "soldOutButton": "Sold out",
+      "added": "Added!",
+      "addToCart": "Add to cart",
+      "reviewsCount": "({count} reviews)"
+    }
+  },
+  "filters": {
+    "regionLabel": "Catalog filters",
+    "title": "Filters",
+    "button": "Filters",
+    "clear": "Clear",
+    "clearAll": "Clear all",
+    "active": "Active filters",
+    "removeChip": "Remove filter {label}",
+    "stockChip": "In stock only",
+    "sectionCategory": "Category",
+    "sectionSize": "Size",
+    "sectionColor": "Primary color",
+    "sectionPrice": "Price",
+    "sectionAvailability": "Availability",
+    "onlyAvailable": "Available pieces only",
+    "onlyAvailableHint": "Hide sold-out masks",
+    "drawerTitle": "Filter catalog",
+    "closeDrawer": "Close filters",
+    "closePanel": "Close filter panel"
+  },
+  "search": {
+    "placeholder": "Search by name, style or color…",
+    "ariaLabel": "Search masks",
+    "sortAriaLabel": "Sort results",
+    "noResults": "No results",
+    "showingRange": "Showing <b>{start}–{end}</b> of <b>{total}</b> masks",
+    "updating": "Updating",
+    "sort": {
+      "featured": "Featured",
+      "priceAsc": "Price: low to high",
+      "priceDesc": "Price: high to low",
+      "newest": "Newest",
+      "rating": "Top rated"
+    }
+  },
+  "product": {
+    "loading": "Loading product",
+    "reviewsVerified": "{count} verified reviews",
+    "galleryAria": "Product views",
+    "imageAlt": "{title} {subtitle} — {view} view",
+    "views": {
+      "frontal": "Front",
+      "profile": "Profile",
+      "detail": "Detail"
+    },
+    "relatedTitle": "You might also like",
+    "relatedCta": "Browse the full catalog",
+    "relatedAria": "Related products",
+    "priceFinal": "Final price, VAT included",
+    "discount": "-{percent}%",
+    "inStock": "In stock",
+    "stockAvailable": "{count, plural, one {· # piece available} other {· # pieces available}}",
+    "outOfStock": "Sold out for now",
+    "waitlist": "· Message us to join the waitlist",
+    "addToCart": "Add to cart",
+    "added": "Added!",
+    "noStock": "Out of stock",
+    "askWhatsapp": "Ask on WhatsApp",
+    "whatsappMessage": "Hi, I'm interested in the {title} {subtitle} mask (SKU {sku}).",
+    "benefits": {
+      "shipping": "Free shipping on orders over $999 MXN",
+      "handmade": "Hand-sewn, with a 12-month stitching warranty"
+    },
+    "notFound": {
+      "title": "That mask isn't in the ring",
+      "description": "The product you're looking for doesn't exist or is no longer available. Head back to the catalog to see this season's pieces.",
+      "ctaCatalog": "View full catalog",
+      "ctaHome": "Back to home"
+    }
+  },
+  "specs": {
+    "title": "Technical specs",
+    "tagsAria": "Product tags",
+    "rows": {
+      "sku": "SKU",
+      "category": "Category",
+      "size": "Size",
+      "style": "Style",
+      "color": "Primary color",
+      "finish": "Finish",
+      "material": "Material",
+      "lining": "Lining"
+    },
+    "categories": {
+      "semiPro": "Semi-Pro",
+      "semiProDescription": "Reinforced for training and local shows.",
+      "profesional": "Professional",
+      "profesionalDescription": "Collector editions with premium finishes."
+    },
+    "sizes": {
+      "infantil": "Kids",
+      "infantilHint": "Ages 6 to 12",
+      "adulto": "Adult",
+      "adultoHint": "Standard adjustable size",
+      "adultoXl": "Adult XL",
+      "adultoXlHint": "Larger heads / with hair"
+    },
+    "colors": {
+      "gold": "Gold",
+      "green": "Green",
+      "red": "Red",
+      "blue": "Blue",
+      "purple": "Purple",
+      "silver": "Silver"
+    }
+  },
+  "LanguageSwitcher": {
+    "label": "Language",
+    "aria": "Change the site language"
+  },
+  "LanguageModal": {
+    "title": "Choose your language",
+    "description": "Select the language you want to browse Mascaritas GDL in. You can switch anytime from the header.",
+    "optionEs": "Español",
+    "optionEn": "English",
+    "continue": "Continue"
+  }
+}

@@ -1,0 +1,244 @@
+{
+  "common": {
+    "brandName": "Mascaritas GDL",
+    "brandShortCode": "MG",
+    "brandDescription": "Máscaras de lucha libre de excelente calidad al mejor precio. Enviamos a todo México desde Guadalajara, Jalisco.",
+    "copyright": "© 2026 Mascaritas GDL · Todos los derechos reservados.",
+    "whatsappScheduleTitle": "Respuesta inmediata en horario comercial",
+    "whatsappSchedule": "Lun–Sáb · 10am – 7pm CST"
+  },
+  "announcement": {
+    "ariaLabel": "Anuncio promocional",
+    "message": "Envíos gratis a todo México en pedidos +$999 MXN"
+  },
+  "nav": {
+    "catalog": "Catálogo",
+    "benefits": "Beneficios",
+    "contact": "Contacto",
+    "bestSellers": "Más vendidas",
+    "offers": "Ofertas",
+    "professional": "Profesional",
+    "supportShipping": "Envíos",
+    "supportReturns": "Devoluciones",
+    "supportSizes": "Guía de tallas",
+    "legalTerms": "Términos y condiciones",
+    "legalPrivacy": "Aviso de privacidad",
+    "viewCatalog": "Ver catálogo",
+    "catalogShort": "Catálogo",
+    "storeHeading": "Tienda",
+    "supportHeading": "Soporte",
+    "questionsHeading": "¿Dudas?",
+    "whatsappButton": "WhatsApp"
+  },
+  "hero": {
+    "badge": "Excelente calidad, gran precio",
+    "titleLine1": "¡Lucha con estilo,",
+    "titleLine2": "siente la arena!",
+    "description": "Máscaras semi-profesionales y profesionales de la mejor calidad, hechas 100% a mano.",
+    "ctaCatalog": "Ver catálogo",
+    "ctaWhyUs": "¿Por qué elegirnos?",
+    "priceFrom": "Desde",
+    "priceCurrency": "MXN",
+    "limitedStock": "Stock limitado",
+    "customersLabel": "luchadores y coleccionistas confían en nosotros"
+  },
+  "featured": {
+    "eyebrow": "Catálogo estrella",
+    "heading": "Máscaras listas para la batalla",
+    "description": "Tres piezas destacadas de esta temporada. Entra al catálogo completo para filtrar por categoría, talla, color y precio.",
+    "ctaLabel": "Ver todo el catálogo"
+  },
+  "trust": {
+    "eyebrow": "Mascaritas GDL",
+    "heading": "Envíos el mismo día",
+    "shipTitle": "Envío desde GDL",
+    "shipDescription": "Salen desde Guadalajara con paquetería certificada. Entrega a todo México en 24 a 72 horas con rastreo en tiempo real.",
+    "shipHighlight": "24 a 72 horas",
+    "fitTitle": "Ajuste cómodo",
+    "fitDescription": "Doble forro de spandex suave al rostro. Cordones ajustables en la nuca para que se adapte a cualquier talla sin lastimar.",
+    "fitHighlight": "cualquier talla",
+    "materialsTitle": "Materiales de arena",
+    "materialsDescription": "Lona de alta densidad y vinilo de 3mm. Costuras dobles reforzadas. Diseñadas para el ring, no sólo para la foto.",
+    "materialsHighlight": "Diseñadas para el ring"
+  },
+  "meta": {
+    "titleDefault": "Mascaritas GDL — Máscaras Semi-Profesionales de Lucha Libre",
+    "titleTemplate": "%s · Mascaritas GDL",
+    "description": "Máscaras semi-profesionales de lucha libre con doble forro hechas a mano en Guadalajara. Envíos gratis a todo México.",
+    "keywords": [
+      "mascaras lucha libre",
+      "mascaras semi profesionales",
+      "lucha libre guadalajara",
+      "mascaras hechas a mano",
+      "coleccionista lucha libre"
+    ],
+    "catalogTitle": "Catálogo de máscaras",
+    "catalogDescription": "Explora máscaras de lucha libre semi-profesionales y profesionales, hechas 100% a mano. Filtra por categoría, talla, color y precio.",
+    "productNotFound": "Máscara no encontrada"
+  },
+  "a11y": {
+    "skipToContent": "Saltar al contenido",
+    "mainNav": "Navegación principal",
+    "homeLink": "{brand} — Inicio",
+    "catalogLink": "Ir al catálogo",
+    "catalogLinkWithCount": "Ir al catálogo, {count} productos en el carrito",
+    "socialLinks": "Redes sociales",
+    "socialInstagram": "Abrir Instagram de Mascaritas GDL",
+    "socialFacebook": "Abrir Facebook de Mascaritas GDL",
+    "socialTiktok": "Abrir TikTok de Mascaritas GDL",
+    "socialWhatsapp": "Chatear por WhatsApp con Mascaritas GDL",
+    "whatsappChat": "Chatear por WhatsApp",
+    "benefitsList": "Beneficios de compra",
+    "featuredMasks": "Máscaras destacadas",
+    "breadcrumb": "Ruta de navegación",
+    "pagination": "Paginación del catálogo",
+    "paginationPrev": "Página anterior",
+    "paginationNext": "Página siguiente",
+    "paginationGoTo": "Ir a la página {page}",
+    "paginationPage": "Página <b>{page}</b> de <b>{total}</b>"
+  },
+  "catalog": {
+    "breadcrumbHome": "Inicio",
+    "breadcrumbCurrent": "Catálogo",
+    "availableCount": "{count} máscaras disponibles",
+    "title": "Catálogo completo",
+    "description": "Filtra por categoría, talla, color y precio. Cada pieza está hecha 100% a mano y resiste entrenamiento real.",
+    "loading": "Cargando catálogo",
+    "resultsRegion": "Resultados del catálogo",
+    "emptyTitle": "Ninguna máscara coincide",
+    "emptyDescription": "Prueba con otro estilo, quita un filtro o busca por una palabra más corta. También puedes escribirnos por WhatsApp y te ayudamos a elegir.",
+    "errorTitle": "Se nos cayó la lona",
+    "errorLoad": "No pudimos cargar el catálogo.",
+    "errorInvalid": "La respuesta del catálogo es inválida.",
+    "errorUnexpected": "Error inesperado.",
+    "retry": "Reintentar",
+    "clearFiltersAction": "Limpiar filtros",
+    "priceCurrency": "MXN",
+    "productCard": {
+      "viewDetails": "Ver detalle de {title} {subtitle}",
+      "viewDetailsShort": "Ver detalle de {title}",
+      "soldOutOverlay": "AGOTADA",
+      "soldOutButton": "Agotada",
+      "added": "¡Agregado!",
+      "addToCart": "Agregar al carrito",
+      "reviewsCount": "({count} reseñas)"
+    }
+  },
+  "filters": {
+    "regionLabel": "Filtros del catálogo",
+    "title": "Filtros",
+    "button": "Filtros",
+    "clear": "Limpiar",
+    "clearAll": "Limpiar todo",
+    "active": "Filtros activos",
+    "removeChip": "Quitar filtro {label}",
+    "stockChip": "Solo disponibles",
+    "sectionCategory": "Categoría",
+    "sectionSize": "Talla",
+    "sectionColor": "Color principal",
+    "sectionPrice": "Precio",
+    "sectionAvailability": "Disponibilidad",
+    "onlyAvailable": "Solo piezas disponibles",
+    "onlyAvailableHint": "Oculta las máscaras agotadas",
+    "drawerTitle": "Filtrar catálogo",
+    "closeDrawer": "Cerrar filtros",
+    "closePanel": "Cerrar panel de filtros"
+  },
+  "search": {
+    "placeholder": "Busca por nombre, estilo o color…",
+    "ariaLabel": "Buscar máscaras",
+    "sortAriaLabel": "Ordenar resultados",
+    "noResults": "Sin resultados",
+    "showingRange": "Mostrando <b>{start}–{end}</b> de <b>{total}</b> máscaras",
+    "updating": "Actualizando",
+    "sort": {
+      "featured": "Destacados",
+      "priceAsc": "Precio: menor a mayor",
+      "priceDesc": "Precio: mayor a menor",
+      "newest": "Más recientes",
+      "rating": "Mejor calificadas"
+    }
+  },
+  "product": {
+    "loading": "Cargando producto",
+    "reviewsVerified": "{count} reseñas verificadas",
+    "galleryAria": "Vistas del producto",
+    "imageAlt": "{title} {subtitle} — vista {view}",
+    "views": {
+      "frontal": "Frontal",
+      "profile": "Perfil",
+      "detail": "Detalle"
+    },
+    "relatedTitle": "También te puede servir",
+    "relatedCta": "Ver todo el catálogo",
+    "relatedAria": "Productos relacionados",
+    "priceFinal": "Precio final, IVA incluido",
+    "discount": "-{percent}%",
+    "inStock": "Disponible",
+    "stockAvailable": "{count, plural, one {· # pieza} other {· # piezas}} disponibles",
+    "outOfStock": "Agotada por ahora",
+    "waitlist": "· Escríbenos para lista de espera",
+    "addToCart": "Agregar al carrito",
+    "added": "¡Agregado!",
+    "noStock": "Sin stock",
+    "askWhatsapp": "Preguntar por WhatsApp",
+    "whatsappMessage": "Hola, me interesa la máscara {title} {subtitle} (SKU {sku}).",
+    "benefits": {
+      "shipping": "Envío gratis en pedidos mayores a $999 MXN",
+      "handmade": "Cocida a mano, con garantía de costura por 12 meses"
+    },
+    "notFound": {
+      "title": "Esa máscara no está en el ring",
+      "description": "El producto que buscas no existe o ya no está disponible. Vuelve al catálogo para ver las piezas de esta temporada.",
+      "ctaCatalog": "Ver catálogo completo",
+      "ctaHome": "Volver al inicio"
+    }
+  },
+  "specs": {
+    "title": "Ficha técnica",
+    "tagsAria": "Etiquetas del producto",
+    "rows": {
+      "sku": "SKU",
+      "category": "Categoría",
+      "size": "Talla",
+      "style": "Estilo",
+      "color": "Color principal",
+      "finish": "Acabado",
+      "material": "Material",
+      "lining": "Forro"
+    },
+    "categories": {
+      "semiPro": "Semi-Pro",
+      "semiProDescription": "Reforzadas para entrenamiento y funciones locales.",
+      "profesional": "Profesional",
+      "profesionalDescription": "Ediciones de colección y acabados premium."
+    },
+    "sizes": {
+      "infantil": "Infantil",
+      "infantilHint": "6 a 12 años",
+      "adulto": "Adulto",
+      "adultoHint": "Talla estándar ajustable",
+      "adultoXl": "Adulto XL",
+      "adultoXlHint": "Cabezas grandes / con cabello"
+    },
+    "colors": {
+      "gold": "Dorado",
+      "green": "Verde",
+      "red": "Rojo",
+      "blue": "Azul",
+      "purple": "Morado",
+      "silver": "Plata"
+    }
+  },
+  "LanguageSwitcher": {
+    "label": "Idioma",
+    "aria": "Cambiar el idioma del sitio"
+  },
+  "LanguageModal": {
+    "title": "Elige tu idioma",
+    "description": "Selecciona el idioma con el que quieres navegar Mascaritas GDL. Podrás cambiarlo cuando quieras desde el encabezado.",
+    "optionEs": "Español",
+    "optionEn": "English",
+    "continue": "Continuar"
+  }
+}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { X } from 'lucide-react';
 import { cn } from '@/__lib__/utils';
 import { BUTTON_ICON_PROPS } from '@/components/ui/Button';
@@ -17,8 +18,11 @@ export function FilterDrawer({
   isOpen,
   onClose,
   children,
-  title = 'Filtrar catálogo',
+  title,
 }: FilterDrawerProps) {
+  const t = useTranslations('filters');
+  const resolvedTitle = title ?? t('drawerTitle');
+
   useEffect(() => {
     if (!isOpen) return;
 
@@ -39,10 +43,10 @@ export function FilterDrawer({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label={title}>
+    <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label={resolvedTitle}>
       <button
         type="button"
-        aria-label="Cerrar filtros"
+        aria-label={t('closeDrawer')}
         onClick={onClose}
         className="absolute inset-0 bg-black/70 backdrop-blur-sm cursor-default"
       />
@@ -56,12 +60,12 @@ export function FilterDrawer({
         )}
       >
         <div className="flex items-center justify-between gap-3">
-          <h2 className="font-display text-2xl text-white leading-none">{title}</h2>
+          <h2 className="font-display text-2xl text-white leading-none">{resolvedTitle}</h2>
           <button
             type="button"
             onClick={onClose}
             autoFocus
-            aria-label="Cerrar panel de filtros"
+            aria-label={t('closePanel')}
             className={cn(
               'touch-target inline-flex items-center justify-center',
               'w-12 h-12 rounded-2xl',

@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { Star } from 'lucide-react';
 import { CATALOG_PATH } from '@/__lib__/catalogUrl';
 import { cn } from '@/__lib__/utils';
@@ -15,13 +16,16 @@ interface ProductDetailProps {
   readonly className?: string;
 }
 
-export function ProductDetail({ product, related, className }: ProductDetailProps) {
+export async function ProductDetail({ product, related, className }: ProductDetailProps) {
+  const tProduct = await getTranslations('product');
+  const tCatalog = await getTranslations('catalog');
+
   return (
     <div className={cn('mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12', className)}>
       <Breadcrumbs
         items={[
-          { label: 'Inicio', href: '/' },
-          { label: 'Catálogo', href: CATALOG_PATH },
+          { label: tCatalog('breadcrumbHome'), href: '/' },
+          { label: tCatalog('breadcrumbCurrent'), href: CATALOG_PATH },
           { label: product.title },
         ]}
         className="mb-6"
@@ -60,7 +64,7 @@ export function ProductDetail({ product, related, className }: ProductDetailProp
                 <span className="font-semibold text-white">{product.rating.toFixed(1)}</span>
               </span>
               <span className="text-text-faint">·</span>
-              <span>{product.reviewsCount} reseñas verificadas</span>
+              <span>{tProduct('reviewsVerified', { count: product.reviewsCount })}</span>
               <span className="text-text-faint">·</span>
               <span>{product.sku}</span>
             </div>

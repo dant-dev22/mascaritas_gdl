@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { ProductCardSkeleton } from '@/components/product/ProductCardSkeleton';
 
@@ -7,11 +8,13 @@ const SKELETON_KEYS = ['sk-1', 'sk-2', 'sk-3', 'sk-4', 'sk-5', 'sk-6'];
  * Estado de carga del catálogo: replica la retícula real (aside de filtros +
  * toolbar + grid) para que el cambio de layout sea imperceptible.
  */
-export function CatalogSkeleton() {
+export async function CatalogSkeleton() {
+  const t = await getTranslations('catalog');
+
   return (
     <section
       role="status"
-      aria-label="Cargando catálogo"
+      aria-label={t('loading')}
       className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12"
     >
       <Skeleton className="h-4 w-40 mb-6" rounded="rounded-lg" />

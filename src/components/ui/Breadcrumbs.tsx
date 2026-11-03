@@ -1,5 +1,8 @@
-import Link from 'next/link';
+'use client';
+
+import { Link } from '@/i18n/navigation';
 import { ChevronRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { cn } from '@/__lib__/utils';
 
 export interface BreadcrumbItem {
@@ -13,8 +16,10 @@ interface BreadcrumbsProps {
 }
 
 export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
+  const t = useTranslations('a11y');
+
   return (
-    <nav aria-label="Ruta de navegación" className={cn('w-full', className)}>
+    <nav aria-label={t('breadcrumb')} className={cn('w-full', className)}>
       <ol className="flex flex-wrap items-center gap-1 text-sm">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;

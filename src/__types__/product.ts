@@ -24,6 +24,7 @@ export type ProductBadgeVariant = 'semi-pro' | 'last-units' | 'new';
 
 export interface MaskPalette {
   readonly id: AccentColor;
+  /** Clave del catálogo de mensajes (namespace `specs.colors`) con el nombre visible. */
   readonly label: string;
   readonly base: string;
   readonly baseDark: string;
@@ -35,13 +36,17 @@ export interface MaskPalette {
 
 export interface ProductCategory {
   readonly id: ProductCategoryId;
+  /** Clave del catálogo de mensajes (namespace `specs.categories`) con el nombre visible. */
   readonly label: string;
+  /** Clave del catálogo de mensajes (namespace `specs.categories`) con la descripción. */
   readonly description: string;
 }
 
 export interface ProductSize {
   readonly id: ProductSizeId;
+  /** Clave del catálogo de mensajes (namespace `specs.sizes`) con el nombre visible. */
   readonly label: string;
+  /** Clave del catálogo de mensajes (namespace `specs.sizes`) con la pista de talla. */
   readonly hint: string;
 }
 
@@ -77,7 +82,10 @@ export interface Product {
 export interface TrustProp {
   readonly id: string;
   readonly icon: IconName;
-  readonly title: string;
-  readonly description: string;
-  readonly highlight: string;
+  /** Clave del catálogo de mensajes (namespace `trust`) con el título visible. */
+  readonly titleKey: string;
+  /** Clave del catálogo de mensajes (namespace `trust`) con el texto descriptivo. */
+  readonly descriptionKey: string;
+  /** Clave del catálogo de mensajes (namespace `trust`) con el fragmento a destacar. */
+  readonly highlightKey: string;
 }

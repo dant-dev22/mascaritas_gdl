@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { MASK_PALETTES, PRODUCT_CATEGORIES, PRODUCT_SIZES } from '@/__data__/masks';
 import { cn } from '@/__lib__/utils';
 import type { Product } from '@/__types__';
@@ -7,24 +8,33 @@ interface ProductSpecsProps {
   readonly className?: string;
 }
 
-export function ProductSpecs({ product, className }: ProductSpecsProps) {
+export async function ProductSpecs({ product, className }: ProductSpecsProps) {
+  const t = await getTranslations('specs');
+  const tCategories = await getTranslations('specs.categories');
+  const tSizes = await getTranslations('specs.sizes');
+  const tColors = await getTranslations('specs.colors');
+
   const category = PRODUCT_CATEGORIES.find((item) => item.id === product.categoryId);
   const size = PRODUCT_SIZES.find((item) => item.id === product.sizeId);
   const palette = MASK_PALETTES[product.accentColor];
 
   const rows = [
-    { id: 'sku', label: 'SKU', value: product.sku },
-    { id: 'category', label: 'Categoría', value: category?.label ?? product.categoryId },
+    { id: 'sku', label: t('rows.sku'), value: product.sku },
+    {
+      id: 'category',
+      label: t('rows.category'),
+      value: category ? tCategories(category.label) : product.categoryId,
+    },
     {
       id: 'size',
-      label: 'Talla',
-      value: size ? `${size.label} · ${size.hint}` : product.sizeId,
+      label: t('rows.size'),
+      value: size ? `${tSizes(size.label)} · ${tSizes(size.hint)}` : product.sizeId,
     },
-    { id: 'style', label: 'Estilo', value: product.maskStyle },
-    { id: 'color', label: 'Color principal', value: palette.label },
-    { id: 'finish', label: 'Acabado', value: product.finish },
-    { id: 'material', label: 'Material', value: product.material },
-    { id: 'lining', label: 'Forro', value: product.lining },
+    { id: 'style', label: t('rows.style'), value: product.maskStyle },
+    { id: 'color', label: t('rows.color'), value: tColors(palette.label) },
+    { id: 'finish', label: t('rows.finish'), value: product.finish },
+    { id: 'material', label: t('rows.material'), value: product.material },
+    { id: 'lining', label: t('rows.lining'), value: product.lining },
   ] as const;
 
   return (
@@ -36,7 +46,7 @@ export function ProductSpecs({ product, className }: ProductSpecsProps) {
         id="ficha-tecnica"
         className="font-display text-2xl sm:text-3xl text-white mb-5"
       >
-        Ficha técnica
+        {t('title')}
       </h2>
 
       <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
@@ -56,7 +66,7 @@ export function ProductSpecs({ product, className }: ProductSpecsProps) {
       </dl>
 
       {product.tags.length > 0 ? (
-        <ul className="flex flex-wrap gap-2 mt-6" aria-label="Etiquetas del producto">
+        <ul className="flex flex-wrap gap-2 mt-6" aria-label={t('tagsAria')}>
           {product.tags.map((tag) => (
             <li
               key={tag}

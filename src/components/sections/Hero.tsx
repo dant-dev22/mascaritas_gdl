@@ -1,4 +1,5 @@
 import { ShoppingBag, Play } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 import { HERO_CTAS, SOCIAL_PROOF } from '@/__data__/navLinks';
 import { PRODUCT_PRICE_START_FROM_MXN } from '@/__data__/products';
 import { formatCompactMXN, formatMXN } from '@/__lib__/utils';
@@ -11,7 +12,9 @@ const HERO_ICON: Record<HeroCta['icon'], React.ComponentType<{ width: number; he
   play: Play,
 };
 
-export function Hero() {
+export async function Hero() {
+  const t = await getTranslations('hero');
+
   return (
     <section className="relative content-auto overflow-hidden">
       <div
@@ -27,18 +30,17 @@ export function Hero() {
                 className="w-1.5 h-1.5 rounded-full bg-accent-red animate-pulse"
                 aria-hidden="true"
               />
-              Excelente calidad, gran precio
+              {t('badge')}
             </span>
 
             <h1 className="font-display text-display-xl text-white text-balance mb-6 drop-shadow-[0_2px_12px_rgba(0,168,107,0.15)]">
-              ¡Lucha con estilo,
+              {t('titleLine1')}
               <br />
-              <span className="text-accent-green">siente la arena!</span>
+              <span className="text-accent-green">{t('titleLine2')}</span>
             </h1>
 
             <p className="text-lg sm:text-[19px] leading-relaxed text-text-muted mb-10 max-w-xl">
-              Máscaras semi-profesionales y profesionales de la mejor calidad,
-              hechas 100% a mano.
+              {t('description')}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
@@ -55,7 +57,7 @@ export function Hero() {
                       <Icon {...BUTTON_LARGE_ICON_PROPS} aria-hidden="true" />
                     }
                   >
-                    {cta.label}
+                    {t(cta.labelKey)}
                   </Button>
                 );
               })}
@@ -71,7 +73,7 @@ export function Hero() {
                 <span className="font-semibold text-white">
                   +{formatCompactMXN(SOCIAL_PROOF.happyCustomersCount)}
                 </span>{' '}
-                {SOCIAL_PROOF.happyCustomersLabel}
+                {t(SOCIAL_PROOF.happyCustomersLabelKey)}
               </div>
             </div>
           </div>
@@ -89,13 +91,13 @@ export function Hero() {
 
                 <div className="absolute top-5 right-5 bg-canvas/90 backdrop-blur border border-border-subtle rounded-2xl px-4 py-3 shadow-card">
                   <div className="text-[11px] font-medium uppercase tracking-wider text-text-muted mb-1">
-                    Desde
+                    {t('priceFrom')}
                   </div>
                   <div className="font-display text-2xl text-accent-green leading-none">
                     {formatMXN(PRODUCT_PRICE_START_FROM_MXN).replace('$', '$')}
                     <span className="text-sm font-sans text-text-muted font-normal">
                       {' '}
-                      MXN
+                      {t('priceCurrency')}
                     </span>
                   </div>
                 </div>
@@ -105,7 +107,7 @@ export function Hero() {
                     className="w-1.5 h-1.5 rounded-full bg-white"
                     aria-hidden="true"
                   />
-                  Stock limitado
+                  {t('limitedStock')}
                 </div>
               </div>
             </div>

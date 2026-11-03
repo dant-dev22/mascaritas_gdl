@@ -5,10 +5,17 @@ import type {
   ProductSize,
 } from '@/__types__';
 
+/**
+ * Los campos de texto (`label`, `description`, `hint`) ya NO contienen texto visible:
+ * ahora son CLAVES del catálogo de mensajes (namespaces `specs.colors`,
+ * `specs.categories` y `specs.sizes`) que resuelve `ProductSpecs` con `t(...)`.
+ * Se conservan los nombres de campo porque `catalogEngine.ts` (fuera de este bloque)
+ * lee `.label`; sus usos viven en código que ya no renderiza la ficha.
+ */
 export const MASK_PALETTES: Record<AccentColor, MaskPalette> = {
   gold: {
     id: 'gold',
-    label: 'Dorado',
+    label: 'gold',
     base: '#2a2000',
     baseDark: '#120c00',
     accent: '#f4c542',
@@ -18,7 +25,7 @@ export const MASK_PALETTES: Record<AccentColor, MaskPalette> = {
   },
   green: {
     id: 'green',
-    label: 'Verde',
+    label: 'green',
     base: '#003322',
     baseDark: '#001810',
     accent: '#00a86b',
@@ -28,7 +35,7 @@ export const MASK_PALETTES: Record<AccentColor, MaskPalette> = {
   },
   red: {
     id: 'red',
-    label: 'Rojo',
+    label: 'red',
     base: '#33080c',
     baseDark: '#1a0406',
     accent: '#e63946',
@@ -38,7 +45,7 @@ export const MASK_PALETTES: Record<AccentColor, MaskPalette> = {
   },
   blue: {
     id: 'blue',
-    label: 'Azul',
+    label: 'blue',
     base: '#041a33',
     baseDark: '#020d1a',
     accent: '#2f80ed',
@@ -48,7 +55,7 @@ export const MASK_PALETTES: Record<AccentColor, MaskPalette> = {
   },
   purple: {
     id: 'purple',
-    label: 'Morado',
+    label: 'purple',
     base: '#1e0633',
     baseDark: '#0f031a',
     accent: '#9b51e0',
@@ -58,7 +65,7 @@ export const MASK_PALETTES: Record<AccentColor, MaskPalette> = {
   },
   silver: {
     id: 'silver',
-    label: 'Plata',
+    label: 'silver',
     base: '#1f2226',
     baseDark: '#0f1114',
     accent: '#c9ced6',
@@ -71,18 +78,18 @@ export const MASK_PALETTES: Record<AccentColor, MaskPalette> = {
 export const PRODUCT_CATEGORIES: ReadonlyArray<ProductCategory> = [
   {
     id: 'semi-pro',
-    label: 'Semi-Pro',
-    description: 'Reforzadas para entrenamiento y funciones locales.',
+    label: 'semiPro',
+    description: 'semiProDescription',
   },
   {
     id: 'profesional',
-    label: 'Profesional',
-    description: 'Ediciones de colección y acabados premium.',
+    label: 'profesional',
+    description: 'profesionalDescription',
   },
 ] as const;
 
 export const PRODUCT_SIZES: ReadonlyArray<ProductSize> = [
-  { id: 'infantil', label: 'Infantil', hint: '6 a 12 años' },
-  { id: 'adulto', label: 'Adulto', hint: 'Talla estándar ajustable' },
-  { id: 'adulto-xl', label: 'Adulto XL', hint: 'Cabezas grandes / con cabello' },
+  { id: 'infantil', label: 'infantil', hint: 'infantilHint' },
+  { id: 'adulto', label: 'adulto', hint: 'adultoHint' },
+  { id: 'adulto-xl', label: 'adultoXl', hint: 'adultoXlHint' },
 ] as const;

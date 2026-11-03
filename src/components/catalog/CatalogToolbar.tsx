@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { Search, SlidersHorizontal } from 'lucide-react';
 import { PRODUCT_SORT_OPTIONS } from '@/__data__/catalogOptions';
 import { useSearchField } from '@/__hooks__/useSearchField';
@@ -23,9 +24,9 @@ interface CatalogToolbarProps {
   readonly className?: string;
 }
 
-const SORT_OPTIONS = PRODUCT_SORT_OPTIONS.map((option) => ({
+const SORT_OPTION_KEYS = PRODUCT_SORT_OPTIONS.map((option) => ({
   value: option.id,
-  label: option.label,
+  labelKey: option.labelKey,
 }));
 
 export function CatalogToolbar({
@@ -41,7 +42,14 @@ export function CatalogToolbar({
   isFetching,
   className,
 }: CatalogToolbarProps) {
+  const tSearch = useTranslations('search');
+  const tFilters = useTranslations('filters');
   const { term, setTerm } = useSearchField(searchValue, onSearchChange);
+
+  const sortOptions = SORT_OPTION_KEYS.map((option) => ({
+    value: option.value,
+    label: tSearch(`sort.${option.labelKey}`),
+  }));
 
   return (
     <div className={cn('w-full flex flex-col gap-4', className)}>
@@ -51,8 +59,8 @@ export function CatalogToolbar({
           name="buscar"
           value={term}
           onChange={(event) => setTerm(event.target.value)}
-          placeholder="Busca por nombre, estilo o color…"
-          aria-label="Buscar máscaras"
+          placeholder={tSearch('placeholder')}
+          aria-label={tSearch('ariaLabel')}
           leftIcon={<Search {...BUTTON_ICON_PROPS} aria-hidden="true" />}
           containerClassName="flex-1"
           autoComplete="off"
@@ -62,8 +70,8 @@ export function CatalogToolbar({
           name="orden"
           value={sort}
           onChange={(event) => onSortChange(event.target.value as ProductSortId)}
-          options={SORT_OPTIONS}
-          aria-label="Ordenar resultados"
+          options={sortOptions}
+          aria-label={tSearch('sortAriaLabel')}
           containerClassName="sm:w-60"
         />
 
@@ -74,7 +82,7 @@ export function CatalogToolbar({
           className="lg:hidden"
           leftIcon={<SlidersHorizontal {...BUTTON_ICON_PROPS} aria-hidden="true" />}
         >
-          Filtros
+          {tFilters('button')}
           {activeFilterCount > 0 ? (
             <span className="ml-0.5 inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-accent-green text-[11px] font-bold text-white">
               {activeFilterCount}
@@ -85,18 +93,16 @@ export function CatalogToolbar({
 
       <div className="flex items-center justify-between gap-3 text-sm text-text-muted">
         <p aria-live="polite">
-          {totalItems === 0 ? (
-            <>Sin resultados</>
-          ) : (
-            <>
-              Mostrando{' '}
-              <span className="font-semibold text-white tabular-nums">
-                {rangeStart}–{rangeEnd}
-              </span>{' '}
-              de <span className="font-semibold text-white tabular-nums">{totalItems}</span>{' '}
-              máscaras
-            </>
-          )}
+          {totalItems === 0
+            ? tSearch('noResults')
+            : tSearch.rich('showingRange', {
+                start: rangeStart,
+                end: rangeEnd,
+                total: totalItems,
+                b: (chunks) => (
+                  <span className="font-semibold text-white tabular-nums">{chunks}</span>
+                ),
+              })}
         </p>
 
         {isFetching ? (
@@ -105,7 +111,7 @@ export function CatalogToolbar({
               className="w-1.5 h-1.5 rounded-full bg-accent-green animate-pulse"
               aria-hidden="true"
             />
-            Actualizando
+            {tSearch('updating')}
           </span>
         ) : null}
       </div>

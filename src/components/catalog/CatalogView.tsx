@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { useCatalogProducts } from '@/__hooks__/useCatalogProducts';
 import { useCatalogQuery } from '@/__hooks__/useCatalogQuery';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -12,6 +13,8 @@ import { FilterDrawer } from './FilterDrawer';
 import { FilterPanel } from './FilterPanel';
 
 export function CatalogView() {
+  const t = useTranslations('catalog');
+  const tFilters = useTranslations('filters');
   const {
     query,
     activeFilterCount,
@@ -79,25 +82,27 @@ export function CatalogView() {
   return (
     <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
       <Breadcrumbs
-        items={[{ label: 'Inicio', href: '/' }, { label: 'Catálogo' }]}
+        items={[
+          { label: t('breadcrumbHome'), href: '/' },
+          { label: t('breadcrumbCurrent') },
+        ]}
         className="mb-6"
       />
 
       <header className="mb-8 sm:mb-10 max-w-2xl">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent-green mb-3">
-          {facets?.totalProducts ?? 0} máscaras disponibles
+          {t('availableCount', { count: facets?.totalProducts ?? 0 })}
         </p>
         <h1 className="font-display text-display-lg text-white text-balance mb-3">
-          Catálogo completo
+          {t('title')}
         </h1>
         <p className="text-text-muted text-base sm:text-lg leading-relaxed">
-          Filtra por categoría, talla, color y precio. Cada pieza está hecha 100%
-          a mano y resiste entrenamiento real.
+          {t('description')}
         </p>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8 lg:gap-12">
-        <aside className="hidden lg:block" aria-label="Filtros del catálogo">
+        <aside className="hidden lg:block" aria-label={tFilters('regionLabel')}>
           <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pb-6 pr-1">
             <FilterPanel {...panelProps} />
           </div>

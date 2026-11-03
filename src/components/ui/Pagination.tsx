@@ -1,6 +1,7 @@
 'use client';
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { cn } from '@/__lib__/utils';
 import type { PaginationMeta } from '@/__types__';
 
@@ -44,20 +45,22 @@ const NAV_BUTTON_CLASS = cn(
 );
 
 export function Pagination({ meta, onPageChange, className }: PaginationProps) {
+  const t = useTranslations('a11y');
+
   if (meta.totalPages <= 1) return null;
 
   const tokens = buildPageTokens(meta.page, meta.totalPages);
 
   return (
     <nav
-      aria-label="Paginación del catálogo"
+      aria-label={t('pagination')}
       className={cn('w-full flex items-center justify-between gap-3', className)}
     >
       <button
         type="button"
         onClick={() => onPageChange(meta.page - 1)}
         disabled={!meta.hasPrevPage}
-        aria-label="Página anterior"
+        aria-label={t('paginationPrev')}
         className={NAV_BUTTON_CLASS}
       >
         <ChevronLeft width={20} height={20} strokeWidth={2} aria-hidden="true" />
@@ -65,8 +68,11 @@ export function Pagination({ meta, onPageChange, className }: PaginationProps) {
 
       {/* Compacto en móvil */}
       <p className="sm:hidden text-sm text-text-muted" aria-live="polite">
-        Página <span className="font-semibold text-white">{meta.page}</span> de{' '}
-        <span className="font-semibold text-white">{meta.totalPages}</span>
+        {t.rich('paginationPage', {
+          page: meta.page,
+          total: meta.totalPages,
+          b: (chunks) => <span className="font-semibold text-white">{chunks}</span>,
+        })}
       </p>
 
       {/* Numerada con elipsis en escritorio */}
@@ -77,7 +83,7 @@ export function Pagination({ meta, onPageChange, className }: PaginationProps) {
               <button
                 type="button"
                 onClick={() => onPageChange(token)}
-                aria-label={`Ir a la página ${token}`}
+                aria-label={t('paginationGoTo', { page: token })}
                 aria-current={token === meta.page ? 'page' : undefined}
                 className={cn(
                   NAV_BUTTON_CLASS,
@@ -106,7 +112,7 @@ export function Pagination({ meta, onPageChange, className }: PaginationProps) {
         type="button"
         onClick={() => onPageChange(meta.page + 1)}
         disabled={!meta.hasNextPage}
-        aria-label="Página siguiente"
+        aria-label={t('paginationNext')}
         className={NAV_BUTTON_CLASS}
       >
         <ChevronRight width={20} height={20} strokeWidth={2} aria-hidden="true" />

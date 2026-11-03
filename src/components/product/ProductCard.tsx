@@ -1,6 +1,7 @@
 'use client';
 
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 import { useTransition } from 'react';
 import { Check, Eye, ShoppingCart, Star } from 'lucide-react';
 import { PRODUCT_IMAGE_ASPECT_RATIO } from '@/__data__/products';
@@ -17,6 +18,8 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, className }: ProductCardProps) {
+  const t = useTranslations('catalog.productCard');
+  const tCatalog = useTranslations('catalog');
   const [isPending, startTransition] = useTransition();
   const addToCart = useAddToCart();
   const detailHref = `/producto/${product.slug}`;
@@ -41,7 +44,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
     >
       <Link
         href={detailHref}
-        aria-label={`Ver detalle de ${product.title} ${product.subtitle}`}
+        aria-label={t('viewDetails', { title: product.title, subtitle: product.subtitle })}
         className="relative block rounded-2xl overflow-hidden product-ph mb-5 flex items-center justify-center focus-visible:outline-none focus-visible:shadow-glow-green"
         style={{ aspectRatio: PRODUCT_IMAGE_ASPECT_RATIO }}
       >
@@ -64,7 +67,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
         {!product.inStock ? (
           <span className="absolute inset-0 z-10 flex items-center justify-center bg-canvas/70 backdrop-blur-[2px]">
             <span className="font-display text-2xl text-white tracking-wide">
-              AGOTADA
+              {t('soldOutOverlay')}
             </span>
           </span>
         ) : null}
@@ -93,7 +96,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
             className="text-[#f4c542]"
           />
           <span className="font-semibold text-white">{product.rating.toFixed(1)}</span>
-          <span className="text-text-faint">({product.reviewsCount} reseñas)</span>
+          <span className="text-text-faint">{t('reviewsCount', { count: product.reviewsCount })}</span>
         </div>
 
         <p className="text-sm text-text-muted leading-relaxed mb-4 line-clamp-2">
@@ -105,7 +108,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
           <span className="font-display text-3xl sm:text-4xl text-white leading-none">
             {product.priceMXN.toLocaleString('es-MX')}
           </span>
-          <span className="text-sm text-text-muted font-medium">MXN</span>
+          <span className="text-sm text-text-muted font-medium">{tCatalog('priceCurrency')}</span>
           {hasDiscount ? (
             <span className="ml-auto text-sm line-through text-text-faint">
               {formatMXN(product.oldPriceMXN ?? product.priceMXN)}
@@ -131,15 +134,15 @@ export function ProductCard({ product, className }: ProductCardProps) {
             }
           >
             {!product.inStock
-              ? 'Agotada'
+              ? t('soldOutButton')
               : isPending
-                ? '¡Agregado!'
-                : 'Agregar al carrito'}
+                ? t('added')
+                : t('addToCart')}
           </Button>
 
           <Link
             href={detailHref}
-            aria-label={`Ver detalle de ${product.title}`}
+            aria-label={t('viewDetailsShort', { title: product.title })}
             className={cn(
               'touch-target shrink-0 inline-flex items-center justify-center',
               'w-12 h-12 rounded-2xl',

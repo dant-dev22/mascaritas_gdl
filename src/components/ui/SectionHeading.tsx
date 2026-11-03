@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/__lib__/utils';
 import { BUTTON_ICON_PROPS } from './Button';

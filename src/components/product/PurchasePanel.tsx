@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useTransition } from 'react';
 import { Check, MessageSquare, ShieldCheck, ShoppingCart, Truck } from 'lucide-react';
 import { useAddToCart } from '@/__hooks__/useAddToCart';
@@ -13,19 +14,13 @@ interface PurchasePanelProps {
 }
 
 const BENEFITS = [
-  {
-    id: 'shipping',
-    icon: Truck,
-    text: 'Envío gratis en pedidos mayores a $999 MXN',
-  },
-  {
-    id: 'handmade',
-    icon: ShieldCheck,
-    text: 'Cocida a mano, con garantía de costura por 12 meses',
-  },
+  { id: 'shipping', icon: Truck, textKey: 'benefits.shipping' },
+  { id: 'handmade', icon: ShieldCheck, textKey: 'benefits.handmade' },
 ] as const;
 
 export function PurchasePanel({ product }: PurchasePanelProps) {
+  const t = useTranslations('product');
+  const tCatalog = useTranslations('catalog');
   const [isPending, startTransition] = useTransition();
   const addToCart = useAddToCart();
 
@@ -37,7 +32,11 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
     : 0;
 
   const whatsAppHref = buildWhatsAppHref(
-    `Hola, me interesa la máscara ${product.title} ${product.subtitle} (SKU ${product.sku}).`,
+    t('whatsappMessage', {
+      title: product.title,
+      subtitle: product.subtitle,
+      sku: product.sku,
+    }),
   );
 
   const handleAdd = (): void => {
@@ -53,7 +52,7 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
         <span className="font-display text-4xl sm:text-5xl text-white leading-none">
           {product.priceMXN.toLocaleString('es-MX')}
         </span>
-        <span className="text-sm text-text-muted font-medium">MXN</span>
+        <span className="text-sm text-text-muted font-medium">{tCatalog('priceCurrency')}</span>
       </div>
 
       {hasDiscount ? (
@@ -61,10 +60,12 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
           <span className="line-through text-text-faint">
             {formatMXN(product.oldPriceMXN ?? product.priceMXN)}
           </span>{' '}
-          <span className="font-semibold text-accent-red">-{discountPercent}%</span>
+          <span className="font-semibold text-accent-red">
+            {t('discount', { percent: discountPercent })}
+          </span>
         </p>
       ) : (
-        <p className="text-sm text-text-faint mb-4">Precio final, IVA incluido</p>
+        <p className="text-sm text-text-faint mb-4">{t('priceFinal')}</p>
       )}
 
       <div className="flex items-center gap-2 mb-5 text-sm">
@@ -74,18 +75,16 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
               className="w-2 h-2 rounded-full bg-accent-green animate-pulse"
               aria-hidden="true"
             />
-            <span className="text-white font-medium">
-              Disponible
-            </span>
+            <span className="text-white font-medium">{t('inStock')}</span>
             <span className="text-text-muted">
-              · {product.stockCount} {product.stockCount === 1 ? 'pieza' : 'piezas'} disponibles
+              {t('stockAvailable', { count: product.stockCount })}
             </span>
           </>
         ) : (
           <>
             <span className="w-2 h-2 rounded-full bg-accent-red" aria-hidden="true" />
-            <span className="text-white font-medium">Agotada por ahora</span>
-            <span className="text-text-muted">· Escríbenos para lista de espera</span>
+            <span className="text-white font-medium">{t('outOfStock')}</span>
+            <span className="text-text-muted">{t('waitlist')}</span>
           </>
         )}
       </div>
@@ -107,7 +106,7 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
             )
           }
         >
-          {!product.inStock ? 'Sin stock' : isPending ? '¡Agregado!' : 'Agregar al carrito'}
+          {!product.inStock ? t('noStock') : isPending ? t('added') : t('addToCart')}
         </Button>
 
         <Button
@@ -120,7 +119,7 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
           rel="noreferrer noopener"
           leftIcon={<MessageSquare {...BUTTON_LARGE_ICON_PROPS} aria-hidden="true" />}
         >
-          Preguntar por WhatsApp
+          {t('askWhatsapp')}
         </Button>
       </div>
 
@@ -132,7 +131,7 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
               aria-hidden="true"
               className="shrink-0 mt-0.5 text-accent-green"
             />
-            <span>{benefit.text}</span>
+            <span>{t(benefit.textKey)}</span>
           </li>
         ))}
       </ul>

@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { PRODUCT_IMAGE_ASPECT_RATIO } from '@/__data__/products';
 import { Skeleton } from '@/components/ui/Skeleton';
 
@@ -5,11 +6,13 @@ import { Skeleton } from '@/components/ui/Skeleton';
  * Estado de carga de la vista de producto: replica la retícula de dos columnas
  * (galería + panel de compra) para evitar saltos de layout al hidratar.
  */
-export function ProductDetailSkeleton() {
+export async function ProductDetailSkeleton() {
+  const t = await getTranslations('product');
+
   return (
     <div
       role="status"
-      aria-label="Cargando producto"
+      aria-label={t('loading')}
       className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12"
     >
       <Skeleton className="h-4 w-56 mb-6" rounded="rounded-lg" />

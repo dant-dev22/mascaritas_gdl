@@ -4,25 +4,25 @@ export const SOCIAL_LINKS: ReadonlyArray<SocialLink> = [
   {
     id: 'ig',
     platform: 'instagram',
-    ariaLabel: 'Abrir Instagram de Mascaritas GDL',
+    ariaLabelKey: 'socialInstagram',
     href: '#',
   },
   {
     id: 'fb',
     platform: 'facebook',
-    ariaLabel: 'Abrir Facebook de Mascaritas GDL',
+    ariaLabelKey: 'socialFacebook',
     href: '#',
   },
   {
     id: 'tt',
     platform: 'tiktok',
-    ariaLabel: 'Abrir TikTok de Mascaritas GDL',
+    ariaLabelKey: 'socialTiktok',
     href: '#',
   },
   {
     id: 'wa',
     platform: 'whatsapp',
-    ariaLabel: 'Chatear por WhatsApp con Mascaritas GDL',
+    ariaLabelKey: 'socialWhatsapp',
     href: '#',
   },
 ] as const;

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { resolveLocale } from '@/i18n/routing';
 import { findProductBySlug, listRelatedProducts } from '@/server/catalogRepository';
 
 interface RouteContext {
@@ -6,17 +7,18 @@ interface RouteContext {
 }
 
 export async function GET(
-  _request: Request,
+  request: Request,
   context: RouteContext,
 ): Promise<NextResponse> {
   const { slug } = await context.params;
-  const product = await findProductBySlug(slug);
+  const locale = resolveLocale(new URL(request.url).searchParams.get('lang'));
+  const product = await findProductBySlug(slug, locale);
 
   if (!product) {
     return NextResponse.json({ message: 'Producto no encontrado' }, { status: 404 });
   }
 
-  const related = await listRelatedProducts(product);
+  const related = await listRelatedProducts(product, locale);
 
   return NextResponse.json(
     { product, related },

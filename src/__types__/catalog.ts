@@ -14,7 +14,8 @@ export type ProductSortId =
 
 export interface ProductSortOption {
   readonly id: ProductSortId;
-  readonly label: string;
+  /** Clave del catálogo de mensajes (namespace `search.sort`) con la etiqueta visible. */
+  readonly labelKey: string;
 }
 
 export interface PriceBucket {

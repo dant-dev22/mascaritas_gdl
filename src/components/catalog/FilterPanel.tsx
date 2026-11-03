@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { RotateCcw } from 'lucide-react';
 import { cn } from '@/__lib__/utils';
 import { isFacetActive } from '@/__lib__/catalogUrl';
@@ -52,10 +53,12 @@ export function FilterPanel({
   onClearAll,
   className,
 }: FilterPanelProps) {
+  const t = useTranslations('filters');
+
   return (
     <div className={cn('w-full flex flex-col gap-5', className)}>
       <div className="flex items-center justify-between gap-3">
-        <h2 className="font-display text-2xl text-white leading-none">Filtros</h2>
+        <h2 className="font-display text-2xl text-white leading-none">{t('title')}</h2>
         {activeFilterCount > 0 ? (
           <Button
             variant="ghost"
@@ -63,12 +66,12 @@ export function FilterPanel({
             onClick={onClearAll}
             leftIcon={<RotateCcw {...BUTTON_ICON_PROPS} aria-hidden="true" />}
           >
-            Limpiar
+            {t('clear')}
           </Button>
         ) : null}
       </div>
 
-      <FilterSection title="Categoría">
+      <FilterSection title={t('sectionCategory')}>
         {(facets?.categories ?? []).map((bucket) => (
           <Checkbox
             key={bucket.id}
@@ -81,7 +84,7 @@ export function FilterPanel({
         ))}
       </FilterSection>
 
-      <FilterSection title="Talla">
+      <FilterSection title={t('sectionSize')}>
         {(facets?.sizes ?? [])
           .filter((bucket) => VISIBLE_SIZE_IDS.includes(bucket.id as ProductSizeId))
           .map((bucket) => (
@@ -96,7 +99,7 @@ export function FilterPanel({
           ))}
       </FilterSection>
 
-      <FilterSection title="Color principal">
+      <FilterSection title={t('sectionColor')}>
         {(facets?.colors ?? []).map((bucket) => (
           <Checkbox
             key={bucket.id}
@@ -110,7 +113,7 @@ export function FilterPanel({
         ))}
       </FilterSection>
 
-      <FilterSection title="Precio">
+      <FilterSection title={t('sectionPrice')}>
         {(facets?.priceBuckets ?? []).map((bucket) => (
           <Checkbox
             key={bucket.id}
@@ -123,11 +126,11 @@ export function FilterPanel({
         ))}
       </FilterSection>
 
-      <FilterSection title="Disponibilidad">
+      <FilterSection title={t('sectionAvailability')}>
         <Checkbox
           name="stock"
-          label="Solo piezas disponibles"
-          hint="Oculta las máscaras agotadas"
+          label={t('onlyAvailable')}
+          hint={t('onlyAvailableHint')}
           checked={query.onlyInStock}
           onChange={(event) => onToggleStock(event.target.checked)}
         />

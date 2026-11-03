@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { PRODUCT_IMAGE_ASPECT_RATIO } from '@/__data__/products';
 import { cn } from '@/__lib__/utils';
@@ -12,14 +13,15 @@ interface ProductGalleryProps {
 }
 
 const VIEWS = [
-  { id: 'frontal', label: 'Frontal', transform: 'scale(1)' },
-  { id: 'perfil', label: 'Perfil', transform: 'scale(1.18) translateX(-6%)' },
-  { id: 'detalle', label: 'Detalle', transform: 'scale(1.75) translateY(-6%)' },
+  { id: 'frontal', labelKey: 'frontal', transform: 'scale(1)' },
+  { id: 'perfil', labelKey: 'profile', transform: 'scale(1.18) translateX(-6%)' },
+  { id: 'detalle', labelKey: 'detail', transform: 'scale(1.75) translateY(-6%)' },
 ] as const;
 
 type ViewId = (typeof VIEWS)[number]['id'];
 
 export function ProductGallery({ product, className }: ProductGalleryProps) {
+  const t = useTranslations('product');
   const [activeView, setActiveView] = useState<ViewId>('frontal');
 
   const currentView = VIEWS.find((view) => view.id === activeView) ?? VIEWS[0];
@@ -33,13 +35,17 @@ export function ProductGallery({ product, className }: ProductGalleryProps) {
         <MaskArt
           maskStyle={product.maskStyle}
           accentColor={product.accentColor}
-          label={`${product.title} ${product.subtitle} — vista ${currentView.label.toLowerCase()}`}
+          label={t('imageAlt', {
+            title: product.title,
+            subtitle: product.subtitle,
+            view: t(`views.${currentView.labelKey}`).toLowerCase(),
+          })}
           className="w-[78%] h-[78%] transition-transform duration-500 ease-out"
           key={currentView.id}
         />
       </div>
 
-      <div role="group" aria-label="Vistas del producto" className="flex items-center gap-3">
+      <div role="group" aria-label={t('galleryAria')} className="flex items-center gap-3">
         {VIEWS.map((view) => {
           const isActive = view.id === activeView;
 
@@ -76,7 +82,7 @@ export function ProductGallery({ product, className }: ProductGalleryProps) {
                   isActive ? 'text-accent-green' : 'text-text-muted',
                 )}
               >
-                {view.label}
+                {t(`views.${view.labelKey}`)}
               </span>
             </button>
           );

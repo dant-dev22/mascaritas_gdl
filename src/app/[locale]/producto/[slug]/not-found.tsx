@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { ArrowLeft, Store } from 'lucide-react';
 import { CATALOG_PATH } from '@/__lib__/catalogUrl';
 import { AnnouncementBar } from '@/components/layout/AnnouncementBar';
@@ -6,7 +7,9 @@ import { Footer } from '@/components/layout/Footer';
 import { Button, BUTTON_ICON_PROPS } from '@/components/ui/Button';
 import { EmptyState } from '@/components/ui/EmptyState';
 
-export default function ProductNotFound() {
+export default async function ProductNotFound() {
+  const t = await getTranslations('product');
+
   return (
     <>
       <AnnouncementBar />
@@ -17,8 +20,8 @@ export default function ProductNotFound() {
       >
         <EmptyState
           className="max-w-2xl"
-          title="Esa máscara no está en el ring"
-          description="El producto que buscas no existe o ya no está disponible. Vuelve al catálogo para ver las piezas de esta temporada."
+          title={t('notFound.title')}
+          description={t('notFound.description')}
           action={
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
               <Button
@@ -28,7 +31,7 @@ export default function ProductNotFound() {
                 size="lg"
                 leftIcon={<Store {...BUTTON_ICON_PROPS} aria-hidden="true" />}
               >
-                Ver catálogo completo
+                {t('notFound.ctaCatalog')}
               </Button>
               <Button
                 as="link"
@@ -37,7 +40,7 @@ export default function ProductNotFound() {
                 size="lg"
                 leftIcon={<ArrowLeft {...BUTTON_ICON_PROPS} aria-hidden="true" />}
               >
-                Volver al inicio
+                {t('notFound.ctaHome')}
               </Button>
             </div>
           }

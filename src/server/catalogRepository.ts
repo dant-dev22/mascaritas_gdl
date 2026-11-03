@@ -1,4 +1,5 @@
 import { buildCatalogParams } from '@/__lib__/catalogUrl';
+import type { Locale } from '@/i18n/routing';
 import type { CatalogFacets, CatalogListResponse, Product, ProductQuery } from '@/__types__';
 
 /**
@@ -26,27 +27,32 @@ async function request<TData>(path: string): Promise<TData | null> {
   return (await response.json()) as TData;
 }
 
-export async function listProducts(query: ProductQuery): Promise<CatalogListResponse> {
+export async function listProducts(
+  query: ProductQuery,
+  locale: Locale,
+): Promise<CatalogListResponse> {
   const params = buildCatalogParams(query);
+  params.set('lang', locale);
   const data = await request<CatalogListResponse>(`/api/productos?${params.toString()}`);
 
   if (data === null) throw new Error('No pudimos cargar el catálogo.');
   return data;
 }
 
-export async function findProductBySlug(slug: string): Promise<Product | null> {
+export async function findProductBySlug(slug: string, locale: Locale): Promise<Product | null> {
   const data = await request<CatalogProductPayload>(
-    `/api/productos/${encodeURIComponent(slug)}`,
+    `/api/productos/${encodeURIComponent(slug)}?lang=${locale}`,
   );
   return data?.product ?? null;
 }
 
 export async function listRelatedProducts(
   product: Product,
+  locale: Locale,
   limit: number = RELATED_LIMIT,
 ): Promise<ReadonlyArray<Product>> {
   const data = await request<CatalogProductPayload>(
-    `/api/productos/${encodeURIComponent(product.slug)}`,
+    `/api/productos/${encodeURIComponent(product.slug)}?lang=${locale}`,
   );
   return (data?.related ?? []).slice(0, limit);
 }
@@ -57,8 +63,12 @@ export async function listAllSlugs(): Promise<ReadonlyArray<string>> {
   return data?.result.items.map((item) => item.slug) ?? [];
 }
 
-export async function getCatalogFacets(query: ProductQuery): Promise<CatalogFacets> {
+export async function getCatalogFacets(
+  query: ProductQuery,
+  locale: Locale,
+): Promise<CatalogFacets> {
   const params = buildCatalogParams(query);
+  params.set('lang', locale);
   const data = await request<{ facets: CatalogFacets }>(
     `/api/productos/facetas?${params.toString()}`,
   );

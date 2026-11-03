@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { FEATURED_PRODUCTS } from '@/__data__/products';
 import { useScrollReveal } from '@/__hooks__/useScrollReveal';
 import { CATALOG_PATH } from '@/__lib__/catalogUrl';
@@ -12,6 +13,8 @@ interface ProductGridProps {
 }
 
 export function ProductGrid({ className }: ProductGridProps) {
+  const t = useTranslations('featured');
+  const tA11y = useTranslations('a11y');
   const { ref, isVisible } = useScrollReveal({ threshold: 0.1 });
 
   return (
@@ -22,17 +25,17 @@ export function ProductGrid({ className }: ProductGridProps) {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <SectionHeading
-          eyebrow="Catálogo estrella"
+          eyebrow={t('eyebrow')}
           eyebrowColor="green"
-          title="Máscaras listas para la batalla"
-          description="Tres piezas destacadas de esta temporada. Entra al catálogo completo para filtrar por categoría, talla, color y precio."
-          ctaLabel="Ver todo el catálogo"
+          title={t('heading')}
+          description={t('description')}
+          ctaLabel={t('ctaLabel')}
           ctaHref={CATALOG_PATH}
         />
 
         <div
           role="list"
-          aria-label="Máscaras destacadas"
+          aria-label={tA11y('featuredMasks')}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
         >
           {FEATURED_PRODUCTS.map((product, index) => (

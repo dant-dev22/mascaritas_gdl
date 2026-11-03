@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
 import { buildCatalogParams } from '@/__lib__/catalogUrl';
 import type {
   CatalogFacets,
@@ -61,7 +62,13 @@ export function useCatalogProducts(
   query: ProductQuery,
   reloadToken: number = 0,
 ): UseCatalogProductsReturn {
-  const params = useMemo(() => buildCatalogParams(query).toString(), [query]);
+  const t = useTranslations('catalog');
+  const locale = useLocale();
+  const params = useMemo(() => {
+    const next = buildCatalogParams(query);
+    next.set('lang', locale);
+    return next.toString();
+  }, [query, locale]);
   const key = useMemo(() => `${params}#${reloadToken}`, [params, reloadToken]);
   const [loaded, setLoaded] = useState<LoadedCatalog | null>(null);
   const [failed, setFailed] = useState<FailedCatalog | null>(null);
@@ -74,12 +81,12 @@ export function useCatalogProducts(
       headers: { accept: 'application/json' },
     })
       .then(async (response) => {
-        if (!response.ok) throw new Error('No pudimos cargar el catálogo.');
+        if (!response.ok) throw new Error(t('errorLoad'));
         return response.json() as Promise<unknown>;
       })
       .then((payload: unknown) => {
         const parsed = parseListResponse(payload);
-        if (parsed === null) throw new Error('La respuesta del catálogo es inválida.');
+        if (parsed === null) throw new Error(t('errorInvalid'));
         setLoaded({ key, result: parsed.result, facets: parsed.facets });
         setFailed(null);
       })
@@ -87,12 +94,12 @@ export function useCatalogProducts(
         if (controller.signal.aborted) return;
         setFailed({
           key,
-          message: cause instanceof Error ? cause.message : 'Error inesperado.',
+          message: cause instanceof Error ? cause.message : t('errorUnexpected'),
         });
       });
 
     return () => controller.abort();
-  }, [key, params]);
+  }, [key, params, t]);
 
 
   const isFetching = loaded?.key !== key && failed?.key !== key;

@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { RefreshCcw } from 'lucide-react';
 import { cn } from '@/__lib__/utils';
 import { Button, BUTTON_ICON_PROPS } from '@/components/ui/Button';
@@ -29,12 +30,14 @@ export function CatalogResults({
   onRetry,
   className,
 }: CatalogResultsProps) {
+  const t = useTranslations('catalog');
+
   if (isLoading) {
     return (
       <div
         className={cn(GRID_CLASS, className)}
         role="status"
-        aria-label="Cargando catálogo"
+        aria-label={t('loading')}
       >
         {SKELETON_KEYS.map((key) => (
           <ProductCardSkeleton key={key} />
@@ -47,7 +50,7 @@ export function CatalogResults({
     return (
       <EmptyState
         className={className}
-        title="Se nos cayó la lona"
+        title={t('errorTitle')}
         description={error}
         action={
           <Button
@@ -56,7 +59,7 @@ export function CatalogResults({
             onClick={onRetry}
             leftIcon={<RefreshCcw {...BUTTON_ICON_PROPS} aria-hidden="true" />}
           >
-            Reintentar
+            {t('retry')}
           </Button>
         }
       />
@@ -67,11 +70,11 @@ export function CatalogResults({
     return (
       <EmptyState
         className={className}
-        title="Ninguna máscara coincide"
-        description="Prueba con otro estilo, quita un filtro o busca por una palabra más corta. También puedes escribirnos por WhatsApp y te ayudamos a elegir."
+        title={t('emptyTitle')}
+        description={t('emptyDescription')}
         action={
           <Button variant="secondary" size="md" onClick={onClearFilters}>
-            Limpiar filtros
+            {t('clearFiltersAction')}
           </Button>
         }
       />
@@ -79,7 +82,7 @@ export function CatalogResults({
   }
 
   return (
-    <div role="list" aria-label="Resultados del catálogo" className={cn(GRID_CLASS, className)}>
+    <div role="list" aria-label={t('resultsRegion')} className={cn(GRID_CLASS, className)}>
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}

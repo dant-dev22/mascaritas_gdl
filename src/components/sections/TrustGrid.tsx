@@ -2,6 +2,7 @@
 
 import { Truck, Hand, ShieldCheck } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { TRUST_PROPS } from '@/__data__/trustProps';
 import type { TrustProp } from '@/__types__';
 import { useScrollReveal } from '@/__hooks__/useScrollReveal';
@@ -21,6 +22,8 @@ const TRUST_ICON_PROPS = {
 } as const;
 
 export function TrustGrid() {
+  const t = useTranslations('trust');
+  const tA11y = useTranslations('a11y');
   const { ref, isVisible } = useScrollReveal({ threshold: 0.12 });
 
   return (
@@ -31,20 +34,22 @@ export function TrustGrid() {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <SectionHeading
-          eyebrow="Mascaritas GDL"
+          eyebrow={t('eyebrow')}
           eyebrowColor="red"
-          title="Envíos el mismo día"
+          title={t('heading')}
           align="center"
           className="!max-w-2xl !mx-auto"
         />
 
         <div
           role="list"
-          aria-label="Beneficios de compra"
+          aria-label={tA11y('benefitsList')}
           className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8"
         >
           {TRUST_PROPS.map((prop, idx) => {
             const Icon = ICON_MAP[prop.icon];
+            const description = t(prop.descriptionKey);
+            const highlight = t(prop.highlightKey);
             return (
               <div
                 key={prop.id}
@@ -61,17 +66,17 @@ export function TrustGrid() {
                   <Icon {...TRUST_ICON_PROPS} aria-hidden="true" />
                 </div>
                 <h3 className="font-semibold text-xl text-white mb-2">
-                  {prop.title}
+                  {t(prop.titleKey)}
                 </h3>
                 <p className="text-text-muted leading-relaxed">
-                  {prop.description
-                    .split(prop.highlight)
+                  {description
+                    .split(highlight)
                     .map((segment, i, arr) => (
                       <span key={i}>
                         {segment}
                         {i < arr.length - 1 ? (
                           <span className="font-semibold text-white">
-                            {prop.highlight}
+                            {highlight}
                           </span>
                         ) : null}
                       </span>

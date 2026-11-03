@@ -1,4 +1,5 @@
-import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/navigation';
 import { ArrowRight } from 'lucide-react';
 import { CATALOG_PATH } from '@/__lib__/catalogUrl';
 import { cn } from '@/__lib__/utils';
@@ -10,21 +11,23 @@ interface RelatedProductsProps {
   readonly className?: string;
 }
 
-export function RelatedProducts({ products, className }: RelatedProductsProps) {
+export async function RelatedProducts({ products, className }: RelatedProductsProps) {
   if (products.length === 0) return null;
+
+  const t = await getTranslations('product');
 
   return (
     <section aria-labelledby="relacionados" className={cn('w-full', className)}>
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-8">
         <h2 id="relacionados" className="font-display text-display-md text-white">
-          También te puede servir
+          {t('relatedTitle')}
         </h2>
 
         <Link
           href={CATALOG_PATH}
           className="group inline-flex items-center gap-1.5 min-h-[48px] text-sm font-semibold text-text-muted hover:text-white transition-colors"
         >
-          Ver todo el catálogo
+          {t('relatedCta')}
           <ArrowRight
             width={18}
             height={18}
@@ -37,7 +40,7 @@ export function RelatedProducts({ products, className }: RelatedProductsProps) {
 
       <div
         role="list"
-        aria-label="Productos relacionados"
+        aria-label={t('relatedAria')}
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
       >
         {products.map((product) => (

@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import {
   CameraIcon,
   Share2Icon,
@@ -6,6 +6,7 @@ import {
   MessageSquareIcon,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 import {
   BRAND,
   FOOTER_STORE_LINKS,
@@ -26,7 +27,11 @@ const SOCIAL_ICON_MAP: Record<SocialLink['platform'], LucideIcon> = {
 
 const WHATSAPP_ICON = MessageSquareIcon;
 
-export function Footer() {
+export async function Footer() {
+  const t = await getTranslations('nav');
+  const tCommon = await getTranslations('common');
+  const tA11y = await getTranslations('a11y');
+
   return (
     <footer
       id="contacto"
@@ -40,19 +45,19 @@ export function Footer() {
             <div className="flex items-center gap-2 mb-4">
               <span className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-canvas border border-border-subtle">
                 <span className="font-display text-2xl text-accent-green leading-none">
-                  {BRAND.shortCode}
+                  {tCommon(BRAND.shortCodeKey)}
                 </span>
               </span>
               <span className="font-display text-2xl sm:text-3xl tracking-wide leading-none text-white">
-                {BRAND.name}
+                {tCommon(BRAND.nameKey)}
               </span>
             </div>
             <p className="text-text-muted max-w-sm leading-relaxed mb-6">
-              {BRAND.description}
+              {tCommon(BRAND.descriptionKey)}
             </p>
 
             <div
-              aria-label="Redes sociales"
+              aria-label={tA11y('socialLinks')}
               className="flex items-center gap-3"
             >
               {SOCIAL_LINKS.map((social) => {
@@ -61,7 +66,7 @@ export function Footer() {
                   <a
                     key={social.id}
                     href={social.href}
-                    aria-label={social.ariaLabel}
+                    aria-label={tA11y(social.ariaLabelKey)}
                     rel="noreferrer noopener"
                     target={social.platform === 'whatsapp' ? '_blank' : undefined}
                     className={cn(
@@ -87,7 +92,7 @@ export function Footer() {
             <div className="grid grid-cols-2 gap-6">
               <div>
                 <h4 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
-                  Tienda
+                  {t('storeHeading')}
                 </h4>
                 <ul className="space-y-3 text-sm text-text-muted">
                   {FOOTER_STORE_LINKS.map((l) => (
@@ -96,7 +101,7 @@ export function Footer() {
                         href={l.href}
                         className="touch-target inline-flex items-center py-1 hover:text-white transition-colors"
                       >
-                        {l.label}
+                        {t(l.labelKey)}
                       </Link>
                     </li>
                   ))}
@@ -104,7 +109,7 @@ export function Footer() {
               </div>
               <div>
                 <h4 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
-                  Soporte
+                  {t('supportHeading')}
                 </h4>
                 <ul className="space-y-3 text-sm text-text-muted">
                   {FOOTER_SUPPORT_LINKS.map((l) => (
@@ -113,7 +118,7 @@ export function Footer() {
                         href={l.href}
                         className="touch-target inline-flex items-center py-1 hover:text-white transition-colors"
                       >
-                        {l.label}
+                        {t(l.labelKey)}
                       </Link>
                     </li>
                   ))}
@@ -125,7 +130,7 @@ export function Footer() {
           {/* WhatsApp CTA */}
           <div className="md:col-span-3 lg:col-span-3">
             <h4 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
-              ¿Dudas?
+              {t('questionsHeading')}
             </h4>
             <Button
               as="link"
@@ -136,22 +141,22 @@ export function Footer() {
               leftIcon={
                 <WHATSAPP_ICON {...BUTTON_LARGE_ICON_PROPS} aria-hidden="true" />
               }
-              aria-label="Chatear por WhatsApp"
+              aria-label={tA11y('whatsappChat')}
             >
-              WhatsApp
+              {t('whatsappButton')}
             </Button>
             <p className="text-xs text-text-faint leading-relaxed mt-3">
               <span className="font-semibold text-text-muted block mb-1">
-                {BRAND.whatsappScheduleTitle}:
+                {tCommon(BRAND.whatsappScheduleTitleKey)}:
               </span>
-              {BRAND.whatsappSchedule}
+              {tCommon(BRAND.whatsappScheduleKey)}
             </p>
           </div>
         </div>
 
         {/* Divider + legal */}
         <div className="mt-12 pt-8 border-t border-border-subtle flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-text-faint">
-          <p>{BRAND.copyright}</p>
+          <p>{tCommon(BRAND.copyrightKey)}</p>
           <div className="flex items-center gap-5">
             {LEGAL_LINKS.map((l) => (
               <Link
@@ -159,7 +164,7 @@ export function Footer() {
                 href={l.href}
                 className="touch-target inline-flex items-center py-1 hover:text-text-muted transition-colors"
               >
-                {l.label}
+                {t(l.labelKey)}
               </Link>
             ))}
           </div>

@@ -7,11 +7,11 @@ import type {
 export const CATALOG_PER_PAGE = 9 as const;
 
 export const PRODUCT_SORT_OPTIONS: ReadonlyArray<ProductSortOption> = [
-  { id: 'featured', label: 'Destacados' },
-  { id: 'price-asc', label: 'Precio: menor a mayor' },
-  { id: 'price-desc', label: 'Precio: mayor a menor' },
-  { id: 'newest', label: 'Más recientes' },
-  { id: 'rating', label: 'Mejor calificadas' },
+  { id: 'featured', labelKey: 'featured' },
+  { id: 'price-asc', labelKey: 'priceAsc' },
+  { id: 'price-desc', labelKey: 'priceDesc' },
+  { id: 'newest', labelKey: 'newest' },
+  { id: 'rating', labelKey: 'rating' },
 ] as const;
 
 export const PRICE_BUCKETS: ReadonlyArray<PriceBucket> = [
