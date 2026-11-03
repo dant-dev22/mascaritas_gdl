@@ -27,7 +27,7 @@ export function Hero() {
                 className="w-1.5 h-1.5 rounded-full bg-accent-red animate-pulse"
                 aria-hidden="true"
               />
-              Hechas a mano en&nbsp;Guadalajara
+              Excelente calidad, gran precio
             </span>
 
             <h1 className="font-display text-display-xl text-white text-balance mb-6 drop-shadow-[0_2px_12px_rgba(0,168,107,0.15)]">
@@ -37,9 +37,8 @@ export function Hero() {
             </h1>
 
             <p className="text-lg sm:text-[19px] leading-relaxed text-text-muted mb-10 max-w-xl">
-              Máscaras semi-profesionales con doble forro, cosidas a mano por
-              maestros tapiceros tapatíos. Resisten el ring y se ven legendarias
-              en la grada.
+              Máscaras semi-profesionales y profesionales de la mejor calidad,
+              hechas 100% a mano.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">

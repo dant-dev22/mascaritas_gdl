@@ -91,8 +91,8 @@ export function CatalogView() {
           Catálogo completo
         </h1>
         <p className="text-text-muted text-base sm:text-lg leading-relaxed">
-          Filtra por categoría, talla, color y precio. Cada pieza se cose a mano en
-          Guadalajara y resiste entrenamiento real.
+          Filtra por categoría, talla, color y precio. Cada pieza está hecha 100%
+          a mano y resiste entrenamiento real.
         </p>
       </header>
 

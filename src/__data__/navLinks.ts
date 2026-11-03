@@ -57,7 +57,7 @@ export const BRAND = {
   name: 'Mascaritas GDL',
   shortCode: 'MG',
   description:
-    'Taller familiar de máscaras de lucha libre. Diseñamos y cosemos cada pieza en Guadalajara, Jalisco, desde 2015.',
+    'Máscaras de lucha libre de excelente calidad al mejor precio. Enviamos a todo México desde Guadalajara, Jalisco.',
   copyright: '© 2026 Mascaritas GDL · Todos los derechos reservados.',
   whatsappSchedule: 'Lun–Sáb · 10am – 7pm CST',
   whatsappScheduleTitle: 'Respuesta inmediata en horario comercial',

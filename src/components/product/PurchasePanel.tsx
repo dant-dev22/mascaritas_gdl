@@ -78,7 +78,7 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
               Disponible
             </span>
             <span className="text-text-muted">
-              · {product.stockCount} {product.stockCount === 1 ? 'pieza' : 'piezas'} en taller
+              · {product.stockCount} {product.stockCount === 1 ? 'pieza' : 'piezas'} disponibles
             </span>
           </>
         ) : (

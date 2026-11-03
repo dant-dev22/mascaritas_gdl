@@ -31,9 +31,9 @@ export function TrustGrid() {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <SectionHeading
-          eyebrow="¿Por qué Mascaritas GDL?"
+          eyebrow="Mascaritas GDL"
           eyebrowColor="red"
-          title="Hechas con alma de luchador"
+          title="Envíos el mismo día"
           align="center"
           className="!max-w-2xl !mx-auto"
         />

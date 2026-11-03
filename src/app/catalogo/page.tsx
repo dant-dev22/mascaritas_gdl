@@ -9,7 +9,7 @@ import { CatalogSkeleton } from '@/components/catalog/CatalogSkeleton';
 export const metadata: Metadata = {
   title: 'Catálogo de máscaras',
   description:
-    'Explora máscaras de lucha libre semi-profesionales hechas a mano en Guadalajara. Filtra por categoría, talla, color y precio.',
+    'Explora máscaras de lucha libre semi-profesionales y profesionales, hechas 100% a mano. Filtra por categoría, talla, color y precio.',
 };
 
 export default function CatalogoPage() {

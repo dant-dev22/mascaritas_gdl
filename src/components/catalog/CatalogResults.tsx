@@ -68,7 +68,7 @@ export function CatalogResults({
       <EmptyState
         className={className}
         title="Ninguna máscara coincide"
-        description="Prueba con otro estilo, quita un filtro o busca por una palabra más corta. También puedes escribirnos por WhatsApp y la cosemos a tu medida."
+        description="Prueba con otro estilo, quita un filtro o busca por una palabra más corta. También puedes escribirnos por WhatsApp y te ayudamos a elegir."
         action={
           <Button variant="secondary" size="md" onClick={onClearFilters}>
             Limpiar filtros

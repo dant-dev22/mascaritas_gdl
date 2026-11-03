@@ -5,7 +5,7 @@ import './globals.css';
 
 const siteName = BRAND.name;
 const description =
-  'Máscaras semi-profesionales de lucha libre con doble forro hechas a mano en Guadalajara. Envíos gratis a todo México.';
+  'Máscaras semi-profesionales y profesionales de lucha libre, hechas 100% a mano. Excelente calidad al mejor precio. Envíos gratis a todo México.';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://mascaritas-gdl.example.com'),

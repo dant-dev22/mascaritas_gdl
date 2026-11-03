@@ -14,7 +14,7 @@ export const PRODUCT_CATALOG: ReadonlyArray<Product> = [
     description:
       'Máscara inspirada en el clásico estilo Mil Máscaras, con detalles en lámina dorada y aleta dorsal en relieve.',
     longDescription:
-      'La pieza insignia del taller. Partimos de un molde de 24 piezas y trabajamos el relieve de la aleta dorsal a mano, hilo por hilo. El dorado se aplica en tres capas con secado lento para que no se agriete con el sudor ni con las lavadas. Incluye cordón de ajuste reforzado y apertura nasal cosida, no pegada.',
+      'La pieza insignia del catálogo. El relieve de la aleta dorsal se trabaja a mano, hilo por hilo, sobre un molde de 24 piezas. El dorado se aplica en tres capas con secado lento para que no se agriete con el sudor ni con las lavadas. Incluye cordón de ajuste reforzado y apertura nasal cosida, no pegada.',
     priceMXN: 1299,
     oldPriceMXN: 1599,
     badge: { variant: 'last-units', label: 'Últimas piezas' },
@@ -67,7 +67,7 @@ export const PRODUCT_CATALOG: ReadonlyArray<Product> = [
     description:
       'Homenaje a la leyenda. Estrella central en relieve y acabado satinado premium con microtextura estelar.',
     longDescription:
-      'Edición de homenaje limitada a 100 piezas numeradas. La estrella central se monta en relieve de 3 mm y el fondo lleva una microtextura de puntos plateados aplicada a soplado. Cada pieza incluye certificado firmado por el taller y estuche rígido de colección.',
+      'Edición de homenaje limitada a 100 piezas numeradas. La estrella central se monta en relieve de 3 mm y el fondo lleva una microtextura de puntos plateados aplicada a soplado. Cada pieza incluye certificado de autenticidad y estuche rígido de colección.',
     priceMXN: 1149,
     badge: { variant: 'last-units', label: 'Últimas piezas' },
     accentColor: 'red',
@@ -93,7 +93,7 @@ export const PRODUCT_CATALOG: ReadonlyArray<Product> = [
     description:
       'Perfil de águila en plata pulida con pico articulado y alas que enmarcan el rostro.',
     longDescription:
-      'Un clásico de gala para funciones de aniversario. El pico se cose en tres piezas para que conserve ángulo y las alas se bordan con hilo plateado real en 14 pasadas. Es la máscara más fotografiada del taller.',
+      'Un clásico de gala para funciones de aniversario. El pico se cose en tres piezas para que conserve ángulo y las alas se bordan con hilo plateado real en 14 pasadas. Es la máscara más fotografiada del catálogo.',
     priceMXN: 1099,
     accentColor: 'silver',
     categoryId: 'semi-pro',
@@ -142,7 +142,7 @@ export const PRODUCT_CATALOG: ReadonlyArray<Product> = [
     title: 'Serpiente Azteca',
     subtitle: 'Serie Tenochtitlan',
     description:
-      'Escamas en relieve continuo y colmillos dorados. La pieza más artesanal de la serie.',
+      'Escamas en relieve continuo y colmillos dorados. La pieza más detallada de la serie.',
     longDescription:
       'La Serie Tenochtitlan se inspira en la piedra del sol. Cada escama se marca en caliente sobre el cuero y después se pinta a mano, lo que hace que ninguna pieza sea idéntica a otra. Los colmillos se tallan en resina dorada y se fijan con remaches internos.',
     priceMXN: 1449,
@@ -423,7 +423,7 @@ export const PRODUCT_CATALOG: ReadonlyArray<Product> = [
     description:
       'Carmesí intenso con aleta dorsal rígida y branquias doradas.',
     longDescription:
-      'La versión más agresiva de la familia Tiburón, en talla XL. La aleta dorsal va montada sobre base rígida y las branquias se bordan en hilo dorado. Reposición agotada: el taller está retomando el lote, vuelve en lista de espera.',
+      'La versión más agresiva de la familia Tiburón, en talla XL. La aleta dorsal va montada sobre base rígida y las branquias se bordan en hilo dorado. Reposición agotada: estamos retomando el lote, vuelve a la lista de espera.',
     priceMXN: 1289,
     accentColor: 'red',
     categoryId: 'semi-pro',
