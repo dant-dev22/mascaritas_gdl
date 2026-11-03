@@ -1,10 +1,6 @@
 import type { IconName } from './ui';
 
-export type ProductCategoryId =
-  | 'clasicas'
-  | 'semi-pro'
-  | 'coleccion'
-  | 'personalizadas';
+export type ProductCategoryId = 'semi-pro' | 'profesional';
 
 export type ProductSizeId = 'infantil' | 'adulto' | 'adulto-xl';
 

@@ -15,14 +15,17 @@ export const PRODUCT_SORT_OPTIONS: ReadonlyArray<ProductSortOption> = [
 ] as const;
 
 export const PRICE_BUCKETS: ReadonlyArray<PriceBucket> = [
+  { id: 'under-500', label: 'Menos de $500', minMXN: 0, maxMXN: 499 },
   { id: 'under-1000', label: 'Menos de $1,000', minMXN: 0, maxMXN: 999 },
-  { id: '1000-1299', label: '$1,000 – $1,299', minMXN: 1000, maxMXN: 1299 },
-  { id: 'over-1300', label: '$1,300 o más', minMXN: 1300, maxMXN: null },
+  { id: 'over-1000', label: 'Más de $1,000', minMXN: 1000, maxMXN: null },
 ] as const;
 
 export const DEFAULT_CATALOG_SORT = 'featured' as const satisfies string;
 
 export const DEFAULT_SIZE_IDS: ReadonlyArray<ProductSizeId> = [] as const;
+
+/** Tallas visibles en el panel de filtros (por ahora solo Adulto). */
+export const VISIBLE_SIZE_IDS: ReadonlyArray<ProductSizeId> = ['adulto'] as const;
 
 export const SEARCH_DEBOUNCE_MS = 320 as const;
 

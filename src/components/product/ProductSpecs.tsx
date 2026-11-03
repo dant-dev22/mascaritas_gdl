@@ -21,7 +21,7 @@ export function ProductSpecs({ product, className }: ProductSpecsProps) {
       value: size ? `${size.label} · ${size.hint}` : product.sizeId,
     },
     { id: 'style', label: 'Estilo', value: product.maskStyle },
-    { id: 'color', label: 'Color de acento', value: palette.label },
+    { id: 'color', label: 'Color principal', value: palette.label },
     { id: 'finish', label: 'Acabado', value: product.finish },
     { id: 'material', label: 'Material', value: product.material },
     { id: 'lining', label: 'Forro', value: product.lining },

@@ -16,7 +16,7 @@ export const FOOTER_STORE_LINKS: ReadonlyArray<NavLink> = [
   { id: 'catalog', label: 'Catálogo', href: '/catalogo' },
   { id: 'best', label: 'Más vendidas', href: '/catalogo?orden=rating' },
   { id: 'offers', label: 'Ofertas', href: '/catalogo?precio=under-1000' },
-  { id: 'custom', label: 'Personalizadas', href: '/catalogo?cat=personalizadas' },
+  { id: 'professional', label: 'Profesional', href: '/catalogo?cat=profesional' },
 ] as const;
 
 export const FOOTER_SUPPORT_LINKS: ReadonlyArray<NavLink> = [

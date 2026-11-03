@@ -3,12 +3,14 @@
 import { RotateCcw } from 'lucide-react';
 import { cn } from '@/__lib__/utils';
 import { isFacetActive } from '@/__lib__/catalogUrl';
+import { VISIBLE_SIZE_IDS } from '@/__data__/catalogOptions';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Button, BUTTON_ICON_PROPS } from '@/components/ui/Button';
 import type {
   CatalogFacets,
   FacetDimension,
   ProductQuery,
+  ProductSizeId,
 } from '@/__types__';
 
 interface FilterPanelProps {
@@ -80,19 +82,21 @@ export function FilterPanel({
       </FilterSection>
 
       <FilterSection title="Talla">
-        {(facets?.sizes ?? []).map((bucket) => (
-          <Checkbox
-            key={bucket.id}
-            name="talla"
-            label={bucket.label}
-            count={bucket.count}
-            checked={isFacetActive(query, 'sizeIds', bucket.id)}
-            onChange={() => onToggleFacet('sizeIds', bucket.id)}
-          />
-        ))}
+        {(facets?.sizes ?? [])
+          .filter((bucket) => VISIBLE_SIZE_IDS.includes(bucket.id as ProductSizeId))
+          .map((bucket) => (
+            <Checkbox
+              key={bucket.id}
+              name="talla"
+              label={bucket.label}
+              count={bucket.count}
+              checked={isFacetActive(query, 'sizeIds', bucket.id)}
+              onChange={() => onToggleFacet('sizeIds', bucket.id)}
+            />
+          ))}
       </FilterSection>
 
-      <FilterSection title="Color de acento">
+      <FilterSection title="Color principal">
         {(facets?.colors ?? []).map((bucket) => (
           <Checkbox
             key={bucket.id}

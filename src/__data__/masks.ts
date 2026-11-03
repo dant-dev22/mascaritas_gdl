@@ -70,24 +70,14 @@ export const MASK_PALETTES: Record<AccentColor, MaskPalette> = {
 
 export const PRODUCT_CATEGORIES: ReadonlyArray<ProductCategory> = [
   {
-    id: 'clasicas',
-    label: 'Clásicas',
-    description: 'Diseños tradicionales de la lucha libre mexicana.',
-  },
-  {
     id: 'semi-pro',
     label: 'Semi-Pro',
     description: 'Reforzadas para entrenamiento y funciones locales.',
   },
   {
-    id: 'coleccion',
-    label: 'Colección',
-    description: 'Ediciones limitadas y homenajes a leyendas.',
-  },
-  {
-    id: 'personalizadas',
-    label: 'Personalizadas',
-    description: 'Base lista para tu diseño, nombre o escudo.',
+    id: 'profesional',
+    label: 'Profesional',
+    description: 'Ediciones de colección y acabados premium.',
   },
 ] as const;
 
