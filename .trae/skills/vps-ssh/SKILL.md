@@ -31,7 +31,7 @@ If the connection fails, report the error text verbatim instead of retrying the 
 - `/etc/nginx/sites-available` and `sites-enabled` — site configs (`eldojo-public`, `eldojo-admin`, `eldojo-student`, `liberenalos7`)
 - Ports 80/443 host the eldojo production site; port 8081 hosts liberenalos7
 
-> `mascaritas_gdl` still has no directory/port assigned on the VPS. Confirm the target path and port before deploying it.
+> `mascaritas_gdl` is not created on the server yet. Planned target: `/var/www/mascaritas_gdl` (Next.js, pm2 `mascaritas-gdl`, port 18080) with its API at `/var/www/mascaritas_gdl-api` (pm2 `mascaritas-gdl-api`, port 18081). Confirm before deploying.
 
 ## Guardrails
 
