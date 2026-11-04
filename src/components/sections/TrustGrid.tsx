@@ -1,12 +1,14 @@
 'use client';
 
-import { Truck, Hand, ShieldCheck } from 'lucide-react';
+import { Truck, Hand, ShieldCheck, MessageSquare } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { TRUST_PROPS } from '@/__data__/trustProps';
 import type { TrustProp } from '@/__types__';
 import { useScrollReveal } from '@/__hooks__/useScrollReveal';
 import { cn } from '@/__lib__/utils';
+import { buildWhatsAppHref } from '@/__lib__/whatsapp';
+import { Button, BUTTON_ICON_PROPS } from '@/components/ui/Button';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 
 const ICON_MAP: Record<TrustProp['icon'], LucideIcon> = {
@@ -82,6 +84,23 @@ export function TrustGrid() {
                       </span>
                     ))}
                 </p>
+
+                {prop.ctaLabelKey && prop.ctaMessageKey ? (
+                  <Button
+                    as="link"
+                    href={buildWhatsAppHref(t(prop.ctaMessageKey))}
+                    variant="secondary"
+                    size="sm"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="mt-5"
+                    leftIcon={
+                      <MessageSquare {...BUTTON_ICON_PROPS} aria-hidden="true" />
+                    }
+                  >
+                    {t(prop.ctaLabelKey)}
+                  </Button>
+                ) : null}
               </div>
             );
           })}

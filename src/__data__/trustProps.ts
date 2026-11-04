@@ -21,5 +21,7 @@ export const TRUST_PROPS: ReadonlyArray<TrustProp> = [
     titleKey: 'materialsTitle',
     descriptionKey: 'materialsDescription',
     highlightKey: 'materialsHighlight',
+    ctaLabelKey: 'expertCtaLabel',
+    ctaMessageKey: 'expertCtaMessage',
   },
 ] as const;

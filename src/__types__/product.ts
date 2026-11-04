@@ -88,4 +88,8 @@ export interface TrustProp {
   readonly descriptionKey: string;
   /** Clave del catálogo de mensajes (namespace `trust`) con el fragmento a destacar. */
   readonly highlightKey: string;
+  /** Clave opcional del catálogo de mensajes con el texto del botón de CTA. */
+  readonly ctaLabelKey?: string;
+  /** Clave opcional del catálogo de mensajes con el mensaje de WhatsApp del CTA. */
+  readonly ctaMessageKey?: string;
 }
