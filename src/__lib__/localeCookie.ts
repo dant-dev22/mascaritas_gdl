@@ -5,6 +5,9 @@ import {
   type Locale,
 } from '@/i18n/routing';
 
+/** Evento que se emite al persistir la elección de idioma (para reaccionar sin recargar). */
+export const LOCALE_CHANGE_EVENT = 'mascaritas:locale-change';
+
 /** Lee la cookie de idioma. Devuelve `null` si no existe o no es válida. */
 export function readLocaleCookie(): Locale | null {
   if (typeof document === 'undefined') return null;
@@ -19,9 +22,19 @@ export function readLocaleCookie(): Locale | null {
     : null;
 }
 
-/** Persiste la elección de idioma durante un año. */
+/** Persiste la elección de idioma durante un año y avisa a quien escuche el cambio. */
 export function writeLocaleCookie(locale: Locale): void {
   if (typeof document === 'undefined') return;
 
   document.cookie = `${LOCALE_COOKIE_NAME}=${locale}; path=/; max-age=${LOCALE_COOKIE_MAX_AGE}; SameSite=Lax`;
+  window.dispatchEvent(new CustomEvent(LOCALE_CHANGE_EVENT));
+}
+
+/** Suscripción a los cambios de idioma, apta para `useSyncExternalStore`. */
+export function subscribeLocaleCookie(listener: () => void): () => void {
+  window.addEventListener(LOCALE_CHANGE_EVENT, listener);
+
+  return () => {
+    window.removeEventListener(LOCALE_CHANGE_EVENT, listener);
+  };
 }

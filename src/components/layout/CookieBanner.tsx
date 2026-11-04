@@ -1,10 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import { Cookie, ShieldCheck } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
+import type { Locale } from '@/i18n/routing';
 import { cn } from '@/__lib__/utils';
+import { readLocaleCookie, subscribeLocaleCookie } from '@/__lib__/localeCookie';
 import { Button } from '@/components/ui/Button';
 import { Switch } from '@/components/ui/Switch';
 import { useConsent } from '@/__hooks__/useConsent';
@@ -17,6 +19,11 @@ import {
 } from '@/__data__/consent';
 import type { ConsentCategories, ConsentCategoryId } from '@/__types__';
 
+/** En servidor no hay cookies accesibles: sin idioma elegido (evita desajustes). */
+function getServerLocale(): Locale | null {
+  return null;
+}
+
 /**
  * Aviso de cookies conforme a GDPR/ePrivacy: aceptar y rechazar con el mismo
  * peso visual, preferencias granulares por categoría (sin casillas premarcadas)
@@ -25,17 +32,25 @@ import type { ConsentCategories, ConsentCategoryId } from '@/__types__';
 export function CookieBanner() {
   const t = useTranslations('CookieBanner');
   const consent = useConsent();
+  const locale = useSyncExternalStore(
+    subscribeLocaleCookie,
+    readLocaleCookie,
+    getServerLocale,
+  );
 
   const [ready, setReady] = useState(false);
   const [reopened, setReopened] = useState(false);
   const [showPreferences, setShowPreferences] = useState(false);
   const [draft, setDraft] = useState<ConsentCategories>(DEFAULT_CONSENT_CATEGORIES);
 
-  // Aparición con retraso para no competir con la carga inicial de la página.
+  // El banner espera a que se elija el idioma y luego aplica el retraso habitual,
+  // para no competir con el popup de idioma ni con la carga inicial de la página.
   useEffect(() => {
+    if (locale === null) return;
+
     const timer = window.setTimeout(() => setReady(true), CONSENT_BANNER_DELAY_MS);
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [locale]);
 
   // Permite reabrir el panel (retirar o revisar la decisión) desde cualquier punto.
   useEffect(() => {
