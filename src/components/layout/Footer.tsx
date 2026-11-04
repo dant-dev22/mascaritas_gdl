@@ -17,6 +17,7 @@ import { SOCIAL_LINKS } from '@/__data__/socials';
 import type { SocialLink } from '@/__types__';
 import { cn } from '@/__lib__/utils';
 import { Button, BUTTON_LARGE_ICON_PROPS } from '@/components/ui/Button';
+import { CookiePreferencesLink } from './CookiePreferencesLink';
 
 const SOCIAL_ICON_MAP: Record<SocialLink['platform'], LucideIcon> = {
   instagram: CameraIcon,
@@ -167,6 +168,7 @@ export async function Footer() {
                 {t(l.labelKey)}
               </Link>
             ))}
+            <CookiePreferencesLink />
           </div>
         </div>
       </div>

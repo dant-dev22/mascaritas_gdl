@@ -23,6 +23,7 @@
     "supportSizes": "Guía de tallas",
     "legalTerms": "Términos y condiciones",
     "legalPrivacy": "Aviso de privacidad",
+    "legalCookies": "Política de cookies",
     "viewCatalog": "Ver catálogo",
     "catalogShort": "Catálogo",
     "storeHeading": "Tienda",
@@ -240,5 +241,43 @@
     "optionEs": "Español",
     "optionEn": "English",
     "continue": "Continuar"
+  },
+  "CookieBanner": {
+    "title": "Tu privacidad, tu decisión",
+    "description": "Usamos cookies propias y de terceros para que la tienda funcione, medir visitas y mostrarte ofertas que sí te interesan. Elige qué permites: puedes cambiar tu decisión cuando quieras.",
+    "privacyLink": "Aviso de privacidad",
+    "acceptAll": "Aceptar todas",
+    "rejectAll": "Rechazar todas",
+    "customize": "Personalizar",
+    "savePreferences": "Guardar preferencias",
+    "back": "Volver",
+    "preferencesLink": "Preferencias de cookies",
+    "alwaysActive": "Siempre activas",
+    "categories": {
+      "necessary": {
+        "label": "Necesarias",
+        "description": "Imprescindibles para navegar y completar tu compra. Siempre activas."
+      },
+      "analytics": {
+        "label": "Analítica",
+        "description": "Nos ayudan a entender qué máscaras y páginas funcionan mejor, sin identificarte."
+      },
+      "marketing": {
+        "label": "Marketing",
+        "description": "Permiten mostrarte anuncios y ofertas relevantes en otras plataformas."
+      }
+    }
+  },
+  "Legal": {
+    "breadcrumbHome": "Inicio",
+    "updatedAt": "Última actualización: {date}",
+    "meta": {
+      "privacyTitle": "Aviso de Privacidad",
+      "privacyDescription": "Conoce cómo Mascaritas GDL recaba, usa y protege tus datos personales conforme a la LFPDPPP.",
+      "cookiesTitle": "Política de Cookies",
+      "cookiesDescription": "Qué cookies usa Mascaritas GDL, para qué sirven y cómo puedes aceptarlas, rechazarlas o cambiarlas cuando quieras.",
+      "termsTitle": "Términos y Condiciones",
+      "termsDescription": "Condiciones de compra, envíos, devoluciones y garantía de las máscaras de Mascaritas GDL."
+    }
   }
 }

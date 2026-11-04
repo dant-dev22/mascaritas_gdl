@@ -30,6 +30,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticEntries: MetadataRoute.Sitemap = [
     buildEntry('', 'weekly', 1),
     buildEntry('/catalogo', 'daily', 0.9),
+    buildEntry('/aviso-de-privacidad', 'yearly', 0.3),
+    buildEntry('/politica-de-cookies', 'yearly', 0.3),
+    buildEntry('/terminos-y-condiciones', 'yearly', 0.3),
   ];
 
   // Los slugs salen siempre del backend; ante un fallo no interrumpimos el build.

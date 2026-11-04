@@ -27,8 +27,9 @@ export const FOOTER_SUPPORT_LINKS: ReadonlyArray<NavLink> = [
 ] as const;
 
 export const LEGAL_LINKS: ReadonlyArray<NavLink> = [
-  { id: 'terms', labelKey: 'legalTerms', href: '#' },
-  { id: 'privacy', labelKey: 'legalPrivacy', href: '#' },
+  { id: 'privacy', labelKey: 'legalPrivacy', href: '/aviso-de-privacidad' },
+  { id: 'cookies', labelKey: 'legalCookies', href: '/politica-de-cookies' },
+  { id: 'terms', labelKey: 'legalTerms', href: '/terminos-y-condiciones' },
 ] as const;
 
 export const HERO_CTAS: ReadonlyArray<HeroCta> = [

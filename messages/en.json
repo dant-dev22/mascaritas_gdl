@@ -23,6 +23,7 @@
     "supportSizes": "Size guide",
     "legalTerms": "Terms & conditions",
     "legalPrivacy": "Privacy policy",
+    "legalCookies": "Cookie policy",
     "viewCatalog": "Shop catalog",
     "catalogShort": "Catalog",
     "storeHeading": "Shop",
@@ -240,5 +241,43 @@
     "optionEs": "Español",
     "optionEn": "English",
     "continue": "Continue"
+  },
+  "CookieBanner": {
+    "title": "Your privacy, your call",
+    "description": "We use first- and third-party cookies to run the store, measure traffic and show you deals that actually matter. Choose what you allow: you can change your mind anytime.",
+    "privacyLink": "Privacy policy",
+    "acceptAll": "Accept all",
+    "rejectAll": "Reject all",
+    "customize": "Customize",
+    "savePreferences": "Save preferences",
+    "back": "Back",
+    "preferencesLink": "Cookie preferences",
+    "alwaysActive": "Always on",
+    "categories": {
+      "necessary": {
+        "label": "Strictly necessary",
+        "description": "Essential to browse and complete your order. Always on."
+      },
+      "analytics": {
+        "label": "Analytics",
+        "description": "They help us understand which masks and pages perform best, without identifying you."
+      },
+      "marketing": {
+        "label": "Marketing",
+        "description": "They let us show you relevant ads and deals on other platforms."
+      }
+    }
+  },
+  "Legal": {
+    "breadcrumbHome": "Home",
+    "updatedAt": "Last updated: {date}",
+    "meta": {
+      "privacyTitle": "Privacy Policy",
+      "privacyDescription": "Learn how Mascaritas GDL collects, uses and protects your personal data under Mexican data protection law (LFPDPPP).",
+      "cookiesTitle": "Cookie Policy",
+      "cookiesDescription": "Which cookies Mascaritas GDL uses, what they are for, and how you can accept, reject or change them anytime.",
+      "termsTitle": "Terms & Conditions",
+      "termsDescription": "Purchase, shipping, returns and warranty terms for Mascaritas GDL masks."
+    }
   }
 }
