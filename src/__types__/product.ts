@@ -77,6 +77,17 @@ export interface Product {
   readonly reviewsCount: number;
   readonly tags: ReadonlyArray<string>;
   readonly createdAt: string;
+  /**
+   * Traducciones al inglés. Solo llegan en el detalle del panel admin
+   * (`AdminProductOut`); en el catálogo público el backend ya sustituye el texto.
+   */
+  readonly subtitleEn?: string | null;
+  readonly descriptionEn?: string | null;
+  readonly longDescriptionEn?: string | null;
+  readonly badgeLabelEn?: string | null;
+  readonly finishEn?: string | null;
+  readonly materialEn?: string | null;
+  readonly liningEn?: string | null;
 }
 
 export interface TrustProp {

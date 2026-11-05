@@ -3,8 +3,7 @@ import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { CartProvider } from '@/components/providers/CartProvider';
-import { LanguageGate } from '@/components/layout/LanguageGate';
-import { CookieBanner } from '@/components/layout/CookieBanner';
+import { SiteOverlays } from '@/components/layout/SiteOverlays';
 import { HTML_LANG, routing, type Locale } from '@/i18n/routing';
 import { OG_LOCALE, SITE_URL } from '@/__data__/site';
 import '../globals.css';
@@ -95,8 +94,7 @@ export default async function LocaleLayout({
         </a>
         <NextIntlClientProvider>
           <CartProvider>{children}</CartProvider>
-          <LanguageGate />
-          <CookieBanner />
+          <SiteOverlays />
         </NextIntlClientProvider>
       </body>
     </html>
