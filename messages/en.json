@@ -19,6 +19,7 @@
     "offers": "Deals",
     "professional": "Pro",
     "supportShipping": "Shipping",
+    "supportTracking": "Track order",
     "supportReturns": "Returns",
     "supportSizes": "Size guide",
     "legalTerms": "Terms & conditions",
@@ -77,6 +78,8 @@
     ],
     "catalogTitle": "Mask catalog",
     "catalogDescription": "Explore semi-professional and professional lucha libre masks, 100% handmade. Filter by category, size, color and price.",
+    "trackingTitle": "Track your order",
+    "trackingDescription": "Check your order status and history with your tracking code. Shipping anywhere in Mexico from Guadalajara.",
     "productNotFound": "Mask not found"
   },
   "a11y": {
@@ -233,6 +236,63 @@
       "silver": "Silver"
     }
   },
+  "tracking": {
+    "breadcrumbHome": "Home",
+    "breadcrumbCurrent": "Order tracking",
+    "hero": {
+      "eyebrow": "Tracking",
+      "title": "Track your order",
+      "description": "Enter the code we sent you when you confirmed your purchase and see how your shipment is doing."
+    },
+    "form": {
+      "label": "Order code",
+      "placeholder": "MG-XXXXXX",
+      "hint": "You'll find it in your confirmation message or email.",
+      "submit": "Track order",
+      "submitting": "Searching…",
+      "reset": "Track another order"
+    },
+    "result": {
+      "regionLabel": "Tracking result",
+      "codeLabel": "Code",
+      "customerLabel": "Ordered by",
+      "carrierLabel": "Carrier",
+      "trackingNumberLabel": "Tracking number",
+      "timelineTitle": "Order history",
+      "errorTitle": "We couldn't find that order"
+    },
+    "empty": {
+      "title": "Your order will show up here",
+      "description": "Enter your order code above to check its status and history."
+    },
+    "errors": {
+      "notFound": "We couldn't find an order with that code. Check it and try again.",
+      "throttled": "Too many attempts in a row. Wait a few minutes and try again.",
+      "network": "We couldn't check your order. Check your connection and try again later."
+    },
+    "status": {
+      "recibido": "Received",
+      "recibidoHint": "We logged your order and confirmed your payment.",
+      "en_preparacion": "In preparation",
+      "en_preparacionHint": "We're getting your mask ready and packed.",
+      "enviado": "Shipped",
+      "enviadoHint": "Your package just left our workshop.",
+      "en_transito": "In transit",
+      "en_transitoHint": "Your package is on its way to your address.",
+      "entregado": "Delivered",
+      "entregadoHint": "Your package reached its destination. Enjoy it!",
+      "cancelado": "Cancelled",
+      "canceladoHint": "This order was cancelled. Message us if you have any questions."
+    },
+    "carriers": {
+      "correosDeMexico": "Correos de México",
+      "estafeta": "Estafeta",
+      "dhl": "DHL",
+      "fedex": "FedEx",
+      "paqueteriaPrivada": "Private courier",
+      "otro": "Other"
+    }
+  },
   "LanguageSwitcher": {
     "label": "Language",
     "aria": "Change the site language"
@@ -289,6 +349,7 @@
     "nav": {
       "ariaLabel": "Panel navigation",
       "products": "Products",
+      "orders": "Orders",
       "viewSite": "View site",
       "logout": "Sign out",
       "logoutAria": "Sign out of the panel"
@@ -351,6 +412,86 @@
       "success": "Product deleted.",
       "error": "We could not delete the product.",
       "unauthorized": "Your session expired. Please sign in again."
+    },
+    "orders": {
+      "title": "Orders",
+      "subtitle": "Track orders: update their status, carrier and tracking number.",
+      "create": "New order",
+      "searchPlaceholder": "Search by code, name or tracking number…",
+      "searchAria": "Search orders",
+      "regionLabel": "Order results",
+      "columnCode": "Code",
+      "columnCustomer": "Customer",
+      "columnStatus": "Status",
+      "columnShipping": "Shipping",
+      "columnActions": "Actions",
+      "noCarrier": "No carrier",
+      "edit": "Update",
+      "delete": "Delete",
+      "editAria": "Update order {code}",
+      "deleteAria": "Delete order {code}",
+      "showingRange": "Showing <b>{start}-{end}</b> of <b>{total}</b>",
+      "emptyTitle": "No orders yet",
+      "emptyDescription": "Create an order to track it and share its status with the customer.",
+      "noResultsTitle": "No results",
+      "noResultsDescription": "We found no orders for “{term}”. Try another term.",
+      "clearSearch": "Clear search",
+      "errorLoad": "We could not load the orders.",
+      "errorUnauthorized": "Your session expired. Please sign in again.",
+      "retry": "Retry"
+    },
+    "orderDelete": {
+      "title": "Delete order",
+      "description": "Order {code} and its full history will be deleted. This action cannot be undone.",
+      "confirm": "Yes, delete",
+      "deleting": "Deleting…",
+      "cancel": "Cancel",
+      "success": "Order deleted.",
+      "error": "We could not delete the order.",
+      "unauthorized": "Your session expired. Please sign in again."
+    },
+    "orderForm": {
+      "createTitle": "New order",
+      "editTitle": "Update order",
+      "createSubtitle": "Register an order to generate its tracking code and first milestone.",
+      "editSubtitle": "Update the order details. Every status change adds a milestone to the history.",
+      "codeLabel": "Tracking code",
+      "backToList": "Back to the list",
+      "errorLoad": "We could not load the order.",
+      "errorLoadDescription": "Check your connection and try again.",
+      "notFound": "This order no longer exists.",
+      "notFoundDescription": "It may have been deleted. Go back to the list to see the current orders.",
+      "statusHint": "A milestone is added to the history only when the status changes.",
+      "timelineHint": "This is the history the customer sees when tracking their order.",
+      "sections": {
+        "customer": "Customer",
+        "shipping": "Shipping",
+        "status": "Status",
+        "notes": "Internal notes",
+        "timeline": "Order history"
+      },
+      "fields": {
+        "customerName": "Customer name",
+        "customerContact": "Contact",
+        "carrier": "Carrier",
+        "carrierNone": "No carrier",
+        "trackingNumber": "Tracking number",
+        "status": "Order status",
+        "note": "Milestone note",
+        "internalNotes": "Internal notes"
+      },
+      "submitCreate": "Create order",
+      "submitEdit": "Save changes",
+      "submitting": "Saving…",
+      "cancel": "Cancel",
+      "errors": {
+        "required": "This field is required",
+        "tooLong": "The text is too long"
+      },
+      "successCreate": "Order created.",
+      "successEdit": "Changes saved.",
+      "errorSave": "We could not save the order.",
+      "errorUnauthorized": "Your session expired. Please sign in again."
     },
     "form": {
       "createTitle": "New product",

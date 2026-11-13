@@ -5,6 +5,7 @@ import type {
   ProductCategoryId,
   ProductSizeId,
 } from './product';
+import type { OrderStatus } from './order';
 
 /** Cuenta que puede entrar al panel admin. */
 export interface AdminUser {
@@ -32,7 +33,7 @@ export interface AdminProductListParams {
 export type AdminSessionStatus = 'loading' | 'authenticated' | 'anonymous';
 
 /** Icono disponible para los enlaces de la barra lateral del panel. */
-export type AdminNavIcon = 'products' | 'site';
+export type AdminNavIcon = 'products' | 'orders' | 'site';
 
 export interface AdminNavItem {
   readonly id: string;
@@ -147,4 +148,42 @@ export interface AdminProductInput {
   finishEn?: string | null;
   materialEn?: string | null;
   liningEn?: string | null;
+}
+
+export interface AdminOrderListParams {
+  readonly search?: string;
+  readonly page?: number;
+  readonly perPage?: number;
+}
+
+/**
+ * Valores del formulario de pedidos. `note` no es una columna: es el
+ * comentario que acompaña al hito cuando cambia el estado.
+ */
+export interface AdminOrderFormValues {
+  customerName: string;
+  customerContact: string;
+  carrier: string;
+  trackingNumber: string;
+  status: OrderStatus;
+  note: string;
+  internalNotes: string;
+}
+
+/** Códigos de error del formulario de pedidos; el componente los traduce. */
+export type AdminOrderFormErrorCode = 'required' | 'tooLong';
+
+export type AdminOrderFormErrors = Partial<
+  Record<keyof AdminOrderFormValues, AdminOrderFormErrorCode>
+>;
+
+/** Cuerpo de entrada para crear o editar un pedido. */
+export interface AdminOrderInput {
+  customerName: string;
+  customerContact?: string | null;
+  carrier?: string | null;
+  trackingNumber?: string | null;
+  status: OrderStatus;
+  note?: string | null;
+  internalNotes?: string | null;
 }

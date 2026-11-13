@@ -11,5 +11,6 @@ export const ADMIN_TOAST_DURATION_MS = 4200 as const;
 
 export const ADMIN_NAV_ITEMS: ReadonlyArray<AdminNavItem> = [
   { id: 'products', labelKey: 'nav.products', href: '/admin', icon: 'products' },
+  { id: 'orders', labelKey: 'nav.orders', href: '/admin/pedidos', icon: 'orders' },
   { id: 'site', labelKey: 'nav.viewSite', href: '/', icon: 'site' },
 ] as const;

@@ -6,9 +6,9 @@ export function unauthorizedResponse(): NextResponse {
   return NextResponse.json({ message: 'Sesión no válida o expirada' }, { status: 401 });
 }
 
-/** Respuesta estándar cuando el producto no existe. */
-export function notFoundResponse(): NextResponse {
-  return NextResponse.json({ message: 'Producto no encontrado' }, { status: 404 });
+/** Respuesta estándar cuando el recurso no existe. */
+export function notFoundResponse(message = 'Producto no encontrado'): NextResponse {
+  return NextResponse.json({ message }, { status: 404 });
 }
 
 /** Convierte un error del backend en respuesta HTTP; el resto es 502. */

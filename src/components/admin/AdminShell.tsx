@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
-import { ExternalLink, LogOut, Package } from 'lucide-react';
+import { ClipboardList, ExternalLink, LogOut, Package } from 'lucide-react';
 import { Link, usePathname, useRouter } from '@/i18n/navigation';
 import { ADMIN_NAV_ITEMS } from '@/__data__/adminNav';
 import { useAdminSession } from '@/__hooks__/useAdminSession';
@@ -12,6 +12,7 @@ import type { AdminNavIcon } from '@/__types__';
 
 const NAV_ICONS: Record<AdminNavIcon, ReactNode> = {
   products: <Package width={20} height={20} strokeWidth={2} aria-hidden="true" />,
+  orders: <ClipboardList width={20} height={20} strokeWidth={2} aria-hidden="true" />,
   site: <ExternalLink width={20} height={20} strokeWidth={2} aria-hidden="true" />,
 };
 
@@ -40,9 +41,17 @@ function Tooltip({ label }: { readonly label: string }) {
   );
 }
 
+/** `/admin` es la raíz del catálogo: solo cuenta como activa en sus propias rutas. */
 function isActiveItem(href: string, pathname: string): boolean {
-  if (href === '/admin') return pathname === '/admin' || pathname.startsWith('/admin/');
-  return pathname === href;
+  if (href === '/admin') {
+    return (
+      pathname === '/admin' ||
+      pathname === '/admin/nuevo' ||
+      /^\/admin\/[^/]+\/editar$/.test(pathname)
+    );
+  }
+
+  return pathname === href || pathname.startsWith(`${href}/`);
 }
 
 /** Marco del panel: barra lateral estrecha de solo iconos + área de contenido. */

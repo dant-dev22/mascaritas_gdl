@@ -1,5 +1,12 @@
-import type { PaginatedResult, Product } from '@/__types__';
-import type { AdminLoginResponse, AdminProductInput, AdminProductListParams, AdminUser } from '@/__types__/admin';
+import type { AdminOrder, PaginatedResult, Product } from '@/__types__';
+import type {
+  AdminLoginResponse,
+  AdminOrderInput,
+  AdminOrderListParams,
+  AdminProductInput,
+  AdminProductListParams,
+  AdminUser,
+} from '@/__types__/admin';
 
 /**
  * Cliente server-only del panel admin: habla con el backend FastAPI
@@ -121,6 +128,63 @@ export async function updateAdminProduct(
 /** Borra un producto. Devuelve `false` si no existía. */
 export async function deleteAdminProduct(token: string, id: string): Promise<boolean> {
   const response = await fetch(`${BACKEND_URL}/api/admin/productos/${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+    headers: { accept: 'application/json', authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+
+  if (response.status === 204) return true;
+  if (response.status === 404) return false;
+  throw new AdminApiError(response.status, await readDetail(response));
+}
+
+export async function listAdminOrders(
+  token: string,
+  params: AdminOrderListParams = {},
+): Promise<PaginatedResult<AdminOrder>> {
+  const search = new URLSearchParams();
+  if (params.search) search.set('search', params.search);
+  if (params.page) search.set('page', String(params.page));
+  if (params.perPage) search.set('perPage', String(params.perPage));
+
+  const data = await request<PaginatedResult<AdminOrder>>(
+    `/api/admin/pedidos?${search.toString()}`,
+    { token },
+  );
+
+  if (data === null) throw new AdminApiError(502, 'No pudimos cargar los pedidos');
+  return data;
+}
+
+export async function getAdminOrder(token: string, id: string): Promise<AdminOrder | null> {
+  return request<AdminOrder>(`/api/admin/pedidos/${encodeURIComponent(id)}`, { token });
+}
+
+export async function createAdminOrder(token: string, input: AdminOrderInput): Promise<AdminOrder> {
+  const data = await request<AdminOrder>('/api/admin/pedidos', {
+    method: 'POST',
+    token,
+    body: input,
+  });
+  if (data === null) throw new AdminApiError(502, 'No pudimos crear el pedido');
+  return data;
+}
+
+export async function updateAdminOrder(
+  token: string,
+  id: string,
+  input: AdminOrderInput,
+): Promise<AdminOrder | null> {
+  return request<AdminOrder>(`/api/admin/pedidos/${encodeURIComponent(id)}`, {
+    method: 'PUT',
+    token,
+    body: input,
+  });
+}
+
+/** Borra un pedido. Devuelve `false` si no existía. */
+export async function deleteAdminOrder(token: string, id: string): Promise<boolean> {
+  const response = await fetch(`${BACKEND_URL}/api/admin/pedidos/${encodeURIComponent(id)}`, {
     method: 'DELETE',
     headers: { accept: 'application/json', authorization: `Bearer ${token}` },
     cache: 'no-store',

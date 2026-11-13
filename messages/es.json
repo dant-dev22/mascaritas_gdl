@@ -19,6 +19,7 @@
     "offers": "Ofertas",
     "professional": "Profesional",
     "supportShipping": "Envíos",
+    "supportTracking": "Rastrear pedido",
     "supportReturns": "Devoluciones",
     "supportSizes": "Guía de tallas",
     "legalTerms": "Términos y condiciones",
@@ -77,6 +78,8 @@
     ],
     "catalogTitle": "Catálogo de máscaras",
     "catalogDescription": "Explora máscaras de lucha libre semi-profesionales y profesionales, hechas 100% a mano. Filtra por categoría, talla, color y precio.",
+    "trackingTitle": "Rastrea tu pedido",
+    "trackingDescription": "Consulta el estado y el historial de tu pedido con tu código de rastreo. Envíos a todo México desde Guadalajara.",
     "productNotFound": "Máscara no encontrada"
   },
   "a11y": {
@@ -233,6 +236,63 @@
       "silver": "Plata"
     }
   },
+  "tracking": {
+    "breadcrumbHome": "Inicio",
+    "breadcrumbCurrent": "Rastreo de pedido",
+    "hero": {
+      "eyebrow": "Seguimiento",
+      "title": "Rastrea tu pedido",
+      "description": "Escribe el código que te enviamos al confirmar tu compra y consulta en qué va tu envío."
+    },
+    "form": {
+      "label": "Código de pedido",
+      "placeholder": "MG-XXXXXX",
+      "hint": "Lo encuentras en el mensaje o correo de confirmación.",
+      "submit": "Rastrear pedido",
+      "submitting": "Buscando…",
+      "reset": "Buscar otro pedido"
+    },
+    "result": {
+      "regionLabel": "Resultado del rastreo",
+      "codeLabel": "Código",
+      "customerLabel": "A nombre de",
+      "carrierLabel": "Paquetería",
+      "trackingNumberLabel": "Número de guía",
+      "timelineTitle": "Historial del pedido",
+      "errorTitle": "No encontramos ese pedido"
+    },
+    "empty": {
+      "title": "Aquí verás tu pedido",
+      "description": "Escribe tu código de pedido arriba para consultar su estado y su historial."
+    },
+    "errors": {
+      "notFound": "No encontramos un pedido con ese código. Revísalo e inténtalo de nuevo.",
+      "throttled": "Demasiados intentos seguidos. Espera unos minutos y vuelve a intentarlo.",
+      "network": "No pudimos consultar tu pedido. Revisa tu conexión e inténtalo más tarde."
+    },
+    "status": {
+      "recibido": "Recibido",
+      "recibidoHint": "Registramos tu pedido y confirmamos tu pago.",
+      "en_preparacion": "En preparación",
+      "en_preparacionHint": "Estamos alistando y empacando tu máscara.",
+      "enviado": "Enviado",
+      "enviadoHint": "Tu paquete ya salió de nuestro taller.",
+      "en_transito": "En tránsito",
+      "en_transitoHint": "Tu paquete va en camino hacia tu dirección.",
+      "entregado": "Entregado",
+      "entregadoHint": "Tu paquete llegó a su destino. ¡Que lo disfrutes!",
+      "cancelado": "Cancelado",
+      "canceladoHint": "Este pedido fue cancelado. Escríbenos si tienes dudas."
+    },
+    "carriers": {
+      "correosDeMexico": "Correos de México",
+      "estafeta": "Estafeta",
+      "dhl": "DHL",
+      "fedex": "FedEx",
+      "paqueteriaPrivada": "Paquetería privada",
+      "otro": "Otro"
+    }
+  },
   "LanguageSwitcher": {
     "label": "Idioma",
     "aria": "Cambiar el idioma del sitio"
@@ -289,6 +349,7 @@
     "nav": {
       "ariaLabel": "Navegación del panel",
       "products": "Productos",
+      "orders": "Pedidos",
       "viewSite": "Ver sitio",
       "logout": "Cerrar sesión",
       "logoutAria": "Cerrar sesión del panel"
@@ -351,6 +412,86 @@
       "success": "Producto eliminado.",
       "error": "No pudimos eliminar el producto.",
       "unauthorized": "Tu sesión expiró. Vuelve a entrar."
+    },
+    "orders": {
+      "title": "Pedidos",
+      "subtitle": "Da seguimiento a los pedidos: actualiza su estado, su paquetería y su guía.",
+      "create": "Nuevo pedido",
+      "searchPlaceholder": "Buscar por código, nombre o guía…",
+      "searchAria": "Buscar pedidos",
+      "regionLabel": "Resultados de pedidos",
+      "columnCode": "Código",
+      "columnCustomer": "Cliente",
+      "columnStatus": "Estado",
+      "columnShipping": "Envío",
+      "columnActions": "Acciones",
+      "noCarrier": "Sin paquetería",
+      "edit": "Actualizar",
+      "delete": "Eliminar",
+      "editAria": "Actualizar pedido {code}",
+      "deleteAria": "Eliminar pedido {code}",
+      "showingRange": "Mostrando <b>{start}-{end}</b> de <b>{total}</b>",
+      "emptyTitle": "Aún no hay pedidos",
+      "emptyDescription": "Crea un pedido para darle seguimiento y compartir su estado con el cliente.",
+      "noResultsTitle": "Sin resultados",
+      "noResultsDescription": "No encontramos pedidos para «{term}». Prueba con otro término.",
+      "clearSearch": "Limpiar búsqueda",
+      "errorLoad": "No pudimos cargar los pedidos.",
+      "errorUnauthorized": "Tu sesión expiró. Vuelve a entrar.",
+      "retry": "Reintentar"
+    },
+    "orderDelete": {
+      "title": "Eliminar pedido",
+      "description": "Se eliminará el pedido {code} y todo su historial. Esta acción no se puede deshacer.",
+      "confirm": "Sí, eliminar",
+      "deleting": "Eliminando…",
+      "cancel": "Cancelar",
+      "success": "Pedido eliminado.",
+      "error": "No pudimos eliminar el pedido.",
+      "unauthorized": "Tu sesión expiró. Vuelve a entrar."
+    },
+    "orderForm": {
+      "createTitle": "Nuevo pedido",
+      "editTitle": "Actualizar pedido",
+      "createSubtitle": "Registra un pedido para generar su código de rastreo y su primer hito.",
+      "editSubtitle": "Actualiza los datos del pedido. Cada cambio de estado añade un hito al historial.",
+      "codeLabel": "Código de rastreo",
+      "backToList": "Volver a la lista",
+      "errorLoad": "No pudimos cargar el pedido.",
+      "errorLoadDescription": "Revisa tu conexión e inténtalo de nuevo.",
+      "notFound": "Este pedido ya no existe.",
+      "notFoundDescription": "Puede que lo hayan eliminado. Vuelve a la lista para ver los pedidos actuales.",
+      "statusHint": "Solo se añade un hito al historial cuando el estado cambia.",
+      "timelineHint": "Este historial es lo que verá el cliente al rastrear su pedido.",
+      "sections": {
+        "customer": "Cliente",
+        "shipping": "Envío",
+        "status": "Estado",
+        "notes": "Notas internas",
+        "timeline": "Historial del pedido"
+      },
+      "fields": {
+        "customerName": "Nombre del cliente",
+        "customerContact": "Contacto",
+        "carrier": "Paquetería",
+        "carrierNone": "Sin paquetería",
+        "trackingNumber": "Número de guía",
+        "status": "Estado del pedido",
+        "note": "Comentario del hito",
+        "internalNotes": "Notas internas"
+      },
+      "submitCreate": "Crear pedido",
+      "submitEdit": "Guardar cambios",
+      "submitting": "Guardando…",
+      "cancel": "Cancelar",
+      "errors": {
+        "required": "Este campo es obligatorio",
+        "tooLong": "El texto es demasiado largo"
+      },
+      "successCreate": "Pedido creado.",
+      "successEdit": "Cambios guardados.",
+      "errorSave": "No pudimos guardar el pedido.",
+      "errorUnauthorized": "Tu sesión expiró. Vuelve a entrar."
     },
     "form": {
       "createTitle": "Nuevo producto",

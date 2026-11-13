@@ -20,6 +20,7 @@ export const FOOTER_STORE_LINKS: ReadonlyArray<NavLink> = [
 ] as const;
 
 export const FOOTER_SUPPORT_LINKS: ReadonlyArray<NavLink> = [
+  { id: 'tracking', labelKey: 'supportTracking', href: '/rastreo' },
   { id: 'shipping', labelKey: 'supportShipping', href: '#' },
   { id: 'returns', labelKey: 'supportReturns', href: '#' },
   { id: 'sizes', labelKey: 'supportSizes', href: '#' },
