@@ -85,6 +85,8 @@
     "cartDescription": "Review the masks you picked, adjust quantities and check out. Shipping anywhere in Mexico from Guadalajara.",
     "checkoutTitle": "Checkout",
     "checkoutDescription": "Confirm your contact and shipping details to close your order. We reach out on WhatsApp to arrange payment.",
+    "paymentResultTitle": "Payment result",
+    "paymentResultDescription": "Check whether your order payment is confirmed and what comes next. Shipping anywhere in Mexico from Guadalajara.",
     "productNotFound": "Mask not found"
   },
   "a11y": {
@@ -198,6 +200,7 @@
     "pageTitle": "Checkout",
     "pageDescription": "Fill in your details and choose how you want to receive your masks. Once you confirm, we reach out on WhatsApp to arrange payment and shipping.",
     "deliverySectionTitle": "Delivery method",
+    "paymentSectionTitle": "Payment method",
     "contactSectionTitle": "Your details",
     "shippingSectionTitle": "Shipping address",
     "fields": {
@@ -221,6 +224,12 @@
       "paqueteria": "Private courier",
       "paqueteriaDescription": "We quote the shipping over WhatsApp based on your destination.",
       "pricePendingQuote": "To be quoted"
+    },
+    "payments": {
+      "mercadoPago": "Mercado Pago",
+      "mercadoPagoDescription": "Pay online with card, bank transfer or cash at OXXO.",
+      "contraEntrega": "Cash on delivery",
+      "contraEntregaDescription": "Pay in cash when you receive your masks. We arrange the delivery over WhatsApp."
     },
     "summary": {
       "title": "Summary",
@@ -251,7 +260,48 @@
       "codeLabel": "Your order code",
       "trackingCta": "Track my order",
       "whatsappCta": "Confirm on WhatsApp",
-      "whatsappMessage": "Hi, I just placed order {code} at Mascaritas GDL. I would like to confirm it."
+      "whatsappMessage": "Hi, I just placed order {code} at Mascaritas GDL. I would like to confirm it.",
+      "onlineTitle": "Your payment is still pending",
+      "onlineDescription": "We saved your order. We are taking you to Mercado Pago to pay by card, bank transfer or cash at OXXO; when you finish you come back here to see your payment status.",
+      "payCta": "Pay now with Mercado Pago",
+      "payHint": "You can pay again anytime from order tracking, using your order code."
+    }
+  },
+  "paymentResult": {
+    "breadcrumbHome": "Home",
+    "breadcrumbCurrent": "Payment result",
+    "title": "Payment result",
+    "description": "We checked your payment status with Mercado Pago. If you just paid, it may take a few seconds to reflect.",
+    "codeLabel": "Your order code",
+    "refresh": "Refresh status",
+    "trackingCta": "Track my order",
+    "whatsappCta": "Message us on WhatsApp",
+    "whatsappMessage": "Hi, I would like to check the payment of order {code} at Mascaritas GDL.",
+    "errorTitle": "We could not check your order",
+    "missing": {
+      "title": "The order code is missing",
+      "description": "This page opened without a code. Enter it in order tracking to check your order status."
+    },
+    "paid": {
+      "title": "Payment confirmed!",
+      "description": "We received your payment and we are already preparing your order. We will message you as soon as it leaves the workshop."
+    },
+    "pending": {
+      "title": "We are confirming your payment",
+      "description": "Mercado Pago has not confirmed the charge yet. If you already paid, wait a moment and refresh the status; cash at OXXO takes up to 24 hours to clear.",
+      "contraEntrega": "This is a cash-on-delivery order: you pay in cash when you receive it. We will message you on WhatsApp to arrange delivery."
+    },
+    "failed": {
+      "title": "The payment was not completed",
+      "description": "Mercado Pago rejected or cancelled the charge. Your order is still saved: message us on WhatsApp and we will sort it out together."
+    },
+    "expired": {
+      "title": "Your order reservation expired",
+      "description": "More than 24 hours passed without a confirmed payment, so the pieces went back to the catalog. Message us on WhatsApp if you want to pick it up again."
+    },
+    "refunded": {
+      "title": "Your payment was refunded",
+      "description": "We refunded this order. Message us on WhatsApp if you have any questions."
     }
   },
   "product": {
@@ -570,6 +620,8 @@
         "customerEmail": "Customer email",
         "origin": "Origin",
         "deliveryMethod": "Delivery method",
+        "paymentMethod": "Payment method",
+        "paymentStatus": "Payment status",
         "shippingAddress": "Shipping address",
         "shippingReferences": "References",
         "subtotal": "Subtotal",
@@ -585,6 +637,14 @@
       "origin": {
         "manual": "Captured in the panel",
         "tienda": "Online store"
+      },
+      "paymentStatuses": {
+        "pendiente": "Payment pending",
+        "pagado": "Paid",
+        "fallido": "Payment failed",
+        "expirado": "Expired",
+        "reembolsado": "Refunded",
+        "no_aplica": "Not applicable"
       },
       "submitCreate": "Create order",
       "submitEdit": "Save changes",

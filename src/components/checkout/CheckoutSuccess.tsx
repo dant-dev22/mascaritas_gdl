@@ -1,6 +1,7 @@
 'use client';
 
-import { CheckCircle2, MessageSquare, PackageSearch } from 'lucide-react';
+import { useEffect } from 'react';
+import { CheckCircle2, CreditCard, MessageSquare, PackageSearch } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { buildWhatsAppHref } from '@/__lib__/whatsapp';
 import { formatMXN } from '@/__lib__/utils';
@@ -11,6 +12,9 @@ import {
 } from '@/components/ui/Button';
 import type { CheckoutResult } from '@/__types__';
 
+/** Margen para que se alcance a leer el código antes de salir a Mercado Pago. */
+const REDIRECT_DELAY_MS = 1500;
+
 interface CheckoutSuccessProps {
   readonly order: CheckoutResult;
 }
@@ -18,6 +22,10 @@ interface CheckoutSuccessProps {
 /**
  * Pantalla de cierre: muestra el código del pedido, el detalle enviado al
  * servidor y los accesos para rastrearlo o confirmarlo por WhatsApp.
+ *
+ * Con pago en línea el pedido nace sin cobrar, así que la pantalla lleva
+ * directo al enlace de Mercado Pago; el código queda a la vista por si la
+ * redirección no ocurre y hay que retomar el pago a mano.
  */
 export function CheckoutSuccess({ order }: CheckoutSuccessProps) {
   const t = useTranslations('checkout');
@@ -26,6 +34,21 @@ export function CheckoutSuccess({ order }: CheckoutSuccessProps) {
     t('success.whatsappMessage', { code: order.code }),
   );
 
+  const paymentUrl = order.paymentUrl;
+
+  useEffect(() => {
+    if (!paymentUrl) return;
+
+    const timer = window.setTimeout(() => {
+      window.location.assign(paymentUrl);
+    }, REDIRECT_DELAY_MS);
+
+    return () => window.clearTimeout(timer);
+  }, [paymentUrl]);
+
+  const heading = paymentUrl ? t('success.onlineTitle') : t('success.title');
+  const description = paymentUrl ? t('success.onlineDescription') : t('success.description');
+
   return (
     <article className="flex flex-col gap-6 rounded-[1.5rem] border border-border-subtle bg-surface p-6 sm:p-8">
       <header className="flex flex-col items-start gap-3">
@@ -33,12 +56,14 @@ export function CheckoutSuccess({ order }: CheckoutSuccessProps) {
           aria-hidden="true"
           className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-accent-green/15 border border-accent-green/40 text-accent-green"
         >
-          <CheckCircle2 {...BUTTON_LARGE_ICON_PROPS} />
+          {paymentUrl ? (
+            <CreditCard {...BUTTON_LARGE_ICON_PROPS} />
+          ) : (
+            <CheckCircle2 {...BUTTON_LARGE_ICON_PROPS} />
+          )}
         </span>
-        <h2 className="font-display text-2xl text-white">{t('success.title')}</h2>
-        <p className="max-w-prose text-sm leading-relaxed text-text-muted">
-          {t('success.description')}
-        </p>
+        <h2 className="font-display text-2xl text-white">{heading}</h2>
+        <p className="max-w-prose text-sm leading-relaxed text-text-muted">{description}</p>
       </header>
 
       <div className="rounded-2xl border border-border-subtle bg-canvas px-5 py-4">
@@ -69,13 +94,26 @@ export function CheckoutSuccess({ order }: CheckoutSuccessProps) {
         ))}
       </ul>
 
+      {paymentUrl ? (
+        <Button
+          as="link"
+          href={paymentUrl}
+          variant="primary"
+          size="lg"
+          fullWidth
+          leftIcon={<CreditCard {...BUTTON_LARGE_ICON_PROPS} aria-hidden="true" />}
+        >
+          {t('success.payCta')}
+        </Button>
+      ) : null}
+
       <div className="flex flex-col gap-3 sm:flex-row">
         <Button
           as="link"
           href={whatsappHref}
           target="_blank"
           rel="noreferrer noopener"
-          variant="primary"
+          variant={paymentUrl ? 'ghost' : 'primary'}
           size="lg"
           leftIcon={<MessageSquare {...BUTTON_LARGE_ICON_PROPS} aria-hidden="true" />}
           className="sm:flex-1"
@@ -94,6 +132,10 @@ export function CheckoutSuccess({ order }: CheckoutSuccessProps) {
           {t('success.trackingCta')}
         </Button>
       </div>
+
+      {paymentUrl ? (
+        <p className="text-xs leading-relaxed text-text-faint">{t('success.payHint')}</p>
+      ) : null}
     </article>
   );
 }

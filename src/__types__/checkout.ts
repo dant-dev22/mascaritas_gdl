@@ -1,4 +1,5 @@
 import type { OrderStatus, OrderTimelineEvent } from './order';
+import type { PaymentMethod, PaymentStatus } from './payment';
 
 /**
  * Modalidades de entrega del checkout. Espejo de `order_data.py` en el backend:
@@ -41,6 +42,7 @@ export interface CheckoutRequestInput {
   readonly customerContact: string;
   readonly customerEmail: string | null;
   readonly deliveryMethod: DeliveryMethod;
+  readonly paymentMethod: PaymentMethod;
   readonly shippingStreet: string;
   readonly shippingCity: string;
   readonly shippingState: string;
@@ -66,6 +68,9 @@ export interface CheckoutResult {
   readonly status: OrderStatus;
   /** Slug de la modalidad elegida; `null` en pedidos capturados a mano. */
   readonly deliveryMethod: string | null;
+  /** Método de pago elegido; `null` en pedidos capturados a mano. */
+  readonly paymentMethod: PaymentMethod | null;
+  readonly paymentStatus: PaymentStatus;
   readonly customerName: string;
   readonly items: ReadonlyArray<CheckoutResultItem>;
   readonly subtotalMXN: number;
@@ -74,5 +79,7 @@ export interface CheckoutResult {
   readonly totalMXN: number | null;
   readonly freeShipping: boolean;
   readonly shippingPendingQuote: boolean;
+  /** Enlace de cobro de Mercado Pago. `null` con pago contra entrega o si la pasarela falló. */
+  readonly paymentUrl: string | null;
   readonly timeline: ReadonlyArray<OrderTimelineEvent>;
 }

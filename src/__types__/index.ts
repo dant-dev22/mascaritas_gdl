@@ -3,6 +3,7 @@ export type * from './product';
 export type * from './catalog';
 export type * from './cart';
 export type * from './checkout';
+export type * from './payment';
 export type * from './consent';
 export type * from './legal';
 export type * from './order';

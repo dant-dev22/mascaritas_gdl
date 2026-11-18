@@ -6,6 +6,7 @@ import type {
   CheckoutFormValues,
   CheckoutRequestInput,
   DeliveryMethod,
+  PaymentMethod,
 } from '@/__types__';
 
 /** Forma mínima de correo que acepta el backend. */
@@ -33,12 +34,15 @@ export function toCheckoutRequest(
   values: CheckoutFormValues,
   lines: ReadonlyArray<CartLine>,
   deliveryMethod: DeliveryMethod,
+  paymentMethod: PaymentMethod,
 ): CheckoutRequestInput {
   return {
     customerName: values.customerName.trim(),
     customerContact: values.customerContact.trim(),
     customerEmail: toOptional(values.customerEmail),
     deliveryMethod,
+    // La pareja modalidad/método la valida el formulario antes de llegar aquí.
+    paymentMethod,
     shippingStreet: values.shippingStreet.trim(),
     shippingCity: values.shippingCity.trim(),
     shippingState: values.shippingState.trim(),

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
 import { useTranslations } from 'next-intl';
-import { Mail, MapPin, Package, Phone, Truck, User } from 'lucide-react';
+import { Banknote, CreditCard, Mail, MapPin, Package, Phone, Truck, User } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { CART_PATH } from '@/__data__/cart';
 import { CHECKOUT_FIELD_LIMITS, EMPTY_CHECKOUT_FORM } from '@/__data__/checkoutForm';
@@ -14,7 +14,11 @@ import {
   isDeliveryMethod,
   resolveShippingMXN,
 } from '@/__data__/shipping';
-import type { ShippingMethodOption } from '@/__data__/shipping';
+import {
+  PAYMENT_METHOD_OPTIONS,
+  defaultPaymentMethod,
+  isPaymentMethodAllowed,
+} from '@/__data__/payment';
 import { clearFieldError, toCheckoutRequest, validateCheckoutForm } from '@/__lib__/checkoutForm';
 import { trackInitiateCheckout, trackPurchase } from '@/__lib__/analytics';
 import { cn, formatMXN } from '@/__lib__/utils';
@@ -33,15 +37,22 @@ import type {
   CheckoutFormErrors,
   CheckoutFormValues,
   DeliveryMethod,
+  PaymentIcon,
+  PaymentMethod,
   ShippingIcon,
 } from '@/__types__';
 
 const FIELD_ICON_PROPS = { width: 18, height: 18, strokeWidth: 2 } as const;
 
-const METHOD_ICONS: Record<ShippingIcon, LucideIcon> = {
+const SHIPPING_ICONS: Record<ShippingIcon, LucideIcon> = {
   'map-pin': MapPin,
   truck: Truck,
   package: Package,
+};
+
+const PAYMENT_ICONS: Record<PaymentIcon, LucideIcon> = {
+  'credit-card': CreditCard,
+  banknote: Banknote,
 };
 
 const CARD_CLASS = 'rounded-[1.5rem] border border-border-subtle bg-surface p-5 sm:p-6';
@@ -63,6 +74,27 @@ export function CheckoutForm() {
   const [values, setValues] = useState<CheckoutFormValues>(EMPTY_CHECKOUT_FORM);
   const [errors, setErrors] = useState<CheckoutFormErrors>({});
   const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>(DEFAULT_DELIVERY_METHOD);
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(() =>
+    defaultPaymentMethod(DEFAULT_DELIVERY_METHOD),
+  );
+
+  // Cambiar de modalidad puede invalidar el método de pago elegido: en ese caso
+  // se salta al primero que sí sea compatible.
+  const handleDeliverySelect = useCallback((method: DeliveryMethod): void => {
+    setDeliveryMethod(method);
+    setPaymentMethod((current) =>
+      isPaymentMethodAllowed(method, current) ? current : defaultPaymentMethod(method),
+    );
+  }, []);
+
+  // Solo se ofrecen los métodos compatibles con la modalidad de entrega.
+  const paymentOptions = useMemo(
+    () =>
+      PAYMENT_METHOD_OPTIONS.filter((option) =>
+        isPaymentMethodAllowed(deliveryMethod, option.id),
+      ),
+    [deliveryMethod],
+  );
 
   const shippingMXN = useMemo(
     () => resolveShippingMXN(deliveryMethod, state.subtotalMXN),
@@ -112,7 +144,7 @@ export function CheckoutForm() {
       if (Object.keys(nextErrors).length > 0) return;
 
       const order = await submit(
-        toCheckoutRequest(values, state.lines, deliveryMethod),
+        toCheckoutRequest(values, state.lines, deliveryMethod, paymentMethod),
         state.subtotalMXN,
       );
 
@@ -130,7 +162,7 @@ export function CheckoutForm() {
         clear();
       }
     },
-    [clear, deliveryMethod, state.lines, state.subtotalMXN, submit, values],
+    [clear, deliveryMethod, paymentMethod, state.lines, state.subtotalMXN, submit, values],
   );
 
   const fieldError = useCallback(
@@ -185,11 +217,45 @@ export function CheckoutForm() {
             className="flex flex-col gap-3"
           >
             {SHIPPING_METHOD_OPTIONS.map((option) => (
-              <MethodOption
+              <OptionCard
                 key={option.id}
-                option={option}
+                name="deliveryMethod"
+                value={option.id}
                 selected={deliveryMethod === option.id}
-                onSelect={setDeliveryMethod}
+                onSelect={handleDeliverySelect}
+                icon={SHIPPING_ICONS[option.icon]}
+                label={t(`methods.${option.labelKey}`)}
+                description={t(`methods.${option.descriptionKey}`)}
+                trailing={
+                  option.id === 'paqueteria'
+                    ? t('methods.pricePendingQuote')
+                    : formatMXN(SHIPPING_RATE_MXN[option.id] ?? 0)
+                }
+              />
+            ))}
+          </div>
+        </section>
+
+        <section className={CARD_CLASS}>
+          <h2 id={`${groupId}-payment`} className={SECTION_TITLE_CLASS}>
+            {t('paymentSectionTitle')}
+          </h2>
+
+          <div
+            role="radiogroup"
+            aria-labelledby={`${groupId}-payment`}
+            className="flex flex-col gap-3"
+          >
+            {paymentOptions.map((option) => (
+              <OptionCard
+                key={option.id}
+                name="paymentMethod"
+                value={option.id}
+                selected={paymentMethod === option.id}
+                onSelect={setPaymentMethod}
+                icon={PAYMENT_ICONS[option.icon]}
+                label={t(`payments.${option.labelKey}`)}
+                description={t(`payments.${option.descriptionKey}`)}
               />
             ))}
           </div>
@@ -337,21 +403,29 @@ export function CheckoutForm() {
   );
 }
 
-interface MethodOptionProps {
-  readonly option: ShippingMethodOption;
+interface OptionCardProps<TValue extends string> {
+  readonly name: string;
+  readonly value: TValue;
   readonly selected: boolean;
-  readonly onSelect: (method: DeliveryMethod) => void;
+  readonly onSelect: (value: TValue) => void;
+  readonly icon: LucideIcon;
+  readonly label: string;
+  readonly description: string;
+  /** Texto opcional a la derecha del nombre (ej. la tarifa de envío). */
+  readonly trailing?: string;
 }
 
-/** Tarjeta seleccionable de modalidad de entrega; el radio real queda oculto. */
-function MethodOption({ option, selected, onSelect }: MethodOptionProps) {
-  const t = useTranslations('checkout.methods');
-  const Icon = METHOD_ICONS[option.icon];
-  const priceLabel =
-    option.id === 'paqueteria'
-      ? t('pricePendingQuote')
-      : formatMXN(SHIPPING_RATE_MXN[option.id] ?? 0);
-
+/** Tarjeta seleccionable; el radio real queda oculto tras la etiqueta. */
+function OptionCard<TValue extends string>({
+  name,
+  value,
+  selected,
+  onSelect,
+  icon: Icon,
+  label,
+  description,
+  trailing,
+}: OptionCardProps<TValue>) {
   return (
     <label
       className={cn(
@@ -364,10 +438,10 @@ function MethodOption({ option, selected, onSelect }: MethodOptionProps) {
     >
       <input
         type="radio"
-        name="deliveryMethod"
-        value={option.id}
+        name={name}
+        value={value}
         checked={selected}
-        onChange={() => onSelect(option.id)}
+        onChange={() => onSelect(value)}
         className="sr-only"
       />
 
@@ -383,17 +457,19 @@ function MethodOption({ option, selected, onSelect }: MethodOptionProps) {
 
       <span className="flex-1 min-w-0 flex flex-col gap-1">
         <span className="flex items-center justify-between gap-2">
-          <span className="text-sm font-semibold text-white">{t(option.labelKey)}</span>
-          <span
-            className={cn(
-              'shrink-0 text-xs font-semibold',
-              selected ? 'text-accent-green' : 'text-text-muted',
-            )}
-          >
-            {priceLabel}
-          </span>
+          <span className="text-sm font-semibold text-white">{label}</span>
+          {trailing === undefined ? null : (
+            <span
+              className={cn(
+                'shrink-0 text-xs font-semibold',
+                selected ? 'text-accent-green' : 'text-text-muted',
+              )}
+            >
+              {trailing}
+            </span>
+          )}
         </span>
-        <span className="text-xs leading-relaxed text-text-muted">{t(option.descriptionKey)}</span>
+        <span className="text-xs leading-relaxed text-text-muted">{description}</span>
       </span>
     </label>
   );

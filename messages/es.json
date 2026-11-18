@@ -85,6 +85,8 @@
     "cartDescription": "Revisa las máscaras que llevas, ajusta cantidades y finaliza tu compra. Envíos a todo México desde Guadalajara.",
     "checkoutTitle": "Finalizar compra",
     "checkoutDescription": "Confirma tus datos de contacto y envío para cerrar tu pedido. Te contactamos por WhatsApp para acordar el pago.",
+    "paymentResultTitle": "Resultado del pago",
+    "paymentResultDescription": "Consulta si el pago de tu pedido ya se confirmó y qué sigue. Envíos a todo México desde Guadalajara.",
     "productNotFound": "Máscara no encontrada"
   },
   "a11y": {
@@ -198,6 +200,7 @@
     "pageTitle": "Finalizar compra",
     "pageDescription": "Completa tus datos y elige cómo quieres recibir tus máscaras. Al confirmar te contactamos por WhatsApp para acordar el pago y el envío.",
     "deliverySectionTitle": "Modalidad de entrega",
+    "paymentSectionTitle": "Método de pago",
     "contactSectionTitle": "Tus datos",
     "shippingSectionTitle": "Dirección de envío",
     "fields": {
@@ -221,6 +224,12 @@
       "paqueteria": "Paquetería privada",
       "paqueteriaDescription": "Cotizamos el envío por WhatsApp según tu destino.",
       "pricePendingQuote": "Por cotizar"
+    },
+    "payments": {
+      "mercadoPago": "Mercado Pago",
+      "mercadoPagoDescription": "Paga en línea con tarjeta, transferencia o efectivo en OXXO.",
+      "contraEntrega": "Contra entrega (efectivo)",
+      "contraEntregaDescription": "Pagas en efectivo al recibir tus máscaras. Coordinamos la entrega por WhatsApp."
     },
     "summary": {
       "title": "Resumen",
@@ -251,7 +260,48 @@
       "codeLabel": "Tu código de pedido",
       "trackingCta": "Rastrear mi pedido",
       "whatsappCta": "Confirmar por WhatsApp",
-      "whatsappMessage": "Hola, acabo de hacer el pedido {code} en Mascaritas GDL. Quiero confirmarlo."
+      "whatsappMessage": "Hola, acabo de hacer el pedido {code} en Mascaritas GDL. Quiero confirmarlo.",
+      "onlineTitle": "Falta completar tu pago",
+      "onlineDescription": "Guardamos tu pedido. Te llevamos a Mercado Pago para pagar con tarjeta, transferencia o efectivo en OXXO; al terminar vuelves aquí con el estado de tu pago.",
+      "payCta": "Pagar ahora con Mercado Pago",
+      "payHint": "Puedes volver a pagar cuando quieras desde el rastreo, con tu código de pedido."
+    }
+  },
+  "paymentResult": {
+    "breadcrumbHome": "Inicio",
+    "breadcrumbCurrent": "Resultado del pago",
+    "title": "Resultado del pago",
+    "description": "Consultamos el estado de tu cobro con Mercado Pago. Si acabas de pagar, puede tardar unos segundos en reflejarse.",
+    "codeLabel": "Tu código de pedido",
+    "refresh": "Actualizar estado",
+    "trackingCta": "Rastrear mi pedido",
+    "whatsappCta": "Escribir por WhatsApp",
+    "whatsappMessage": "Hola, quiero consultar el pago del pedido {code} en Mascaritas GDL.",
+    "errorTitle": "No pudimos consultar tu pedido",
+    "missing": {
+      "title": "Falta el código del pedido",
+      "description": "Abrimos esta página sin el código. Escríbelo en el rastreo para consultar el estado de tu pedido."
+    },
+    "paid": {
+      "title": "¡Pago confirmado!",
+      "description": "Recibimos tu pago y ya estamos preparando tu pedido. Te escribimos en cuanto salga del taller."
+    },
+    "pending": {
+      "title": "Estamos confirmando tu pago",
+      "description": "Mercado Pago todavía no nos confirma el cobro. Si ya pagaste, espera un momento y actualiza el estado; el efectivo en OXXO tarda hasta 24 horas en acreditarse.",
+      "contraEntrega": "Tu pedido es contra entrega: pagas en efectivo al recibirlo. Te escribimos por WhatsApp para coordinar la entrega."
+    },
+    "failed": {
+      "title": "El pago no se completó",
+      "description": "Mercado Pago rechazó o canceló el cobro. Tu pedido sigue guardado: escríbenos por WhatsApp y lo resolvemos juntos."
+    },
+    "expired": {
+      "title": "La reserva de tu pedido expiró",
+      "description": "Pasaron más de 24 horas sin confirmar el pago, así que las piezas volvieron al catálogo. Escríbenos por WhatsApp si quieres retomarlo."
+    },
+    "refunded": {
+      "title": "Tu pago fue reembolsado",
+      "description": "Devolvimos el cobro de este pedido. Escríbenos por WhatsApp si tienes dudas."
     }
   },
   "product": {
@@ -570,6 +620,8 @@
         "customerEmail": "Correo del cliente",
         "origin": "Origen",
         "deliveryMethod": "Modalidad de entrega",
+        "paymentMethod": "Método de pago",
+        "paymentStatus": "Estado del cobro",
         "shippingAddress": "Dirección de envío",
         "shippingReferences": "Referencias",
         "subtotal": "Subtotal",
@@ -585,6 +637,14 @@
       "origin": {
         "manual": "Capturado en el panel",
         "tienda": "Tienda en línea"
+      },
+      "paymentStatuses": {
+        "pendiente": "Pendiente de cobro",
+        "pagado": "Pagado",
+        "fallido": "Pago fallido",
+        "expirado": "Expirado",
+        "reembolsado": "Reembolsado",
+        "no_aplica": "No aplica"
       },
       "submitCreate": "Crear pedido",
       "submitEdit": "Guardar cambios",

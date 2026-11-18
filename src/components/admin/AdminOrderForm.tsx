@@ -13,6 +13,7 @@ import { Textarea } from '@/components/ui/Textarea';
 import { OrderStatusTimeline } from '@/components/order/OrderStatusTimeline';
 import { Link, useRouter } from '@/i18n/navigation';
 import { SHIPPING_METHOD_OPTIONS } from '@/__data__/shipping';
+import { PAYMENT_METHOD_OPTIONS, PAYMENT_STATUS_LABEL_KEYS } from '@/__data__/payment';
 import {
   ORDER_CARRIER_IDS,
   ORDER_CARRIER_LABEL_KEYS,
@@ -33,6 +34,7 @@ import type {
   AdminOrderFormErrors,
   AdminOrderFormValues,
   DeliveryMethod,
+  PaymentMethod,
 } from '@/__types__';
 
 interface AdminOrderFormProps {
@@ -94,6 +96,11 @@ function deliveryMethodLabelKey(method: DeliveryMethod): string {
   return SHIPPING_METHOD_OPTIONS.find((option) => option.id === method)?.labelKey ?? method;
 }
 
+/** Clave i18n (`checkout.payments`) con el nombre del método de pago. */
+function paymentMethodLabelKey(method: PaymentMethod): string {
+  return PAYMENT_METHOD_OPTIONS.find((option) => option.id === method)?.labelKey ?? method;
+}
+
 /** Dirección de envío en una línea, omitiendo las partes vacías. */
 function formatAddress(order: AdminOrder): string {
   const cityLine = [order.shippingZip, order.shippingCity].filter(Boolean).join(' ');
@@ -105,6 +112,7 @@ export function AdminOrderForm({ orderId }: AdminOrderFormProps) {
   const t = useTranslations('Admin');
   const tTracking = useTranslations('tracking');
   const tMethods = useTranslations('checkout.methods');
+  const tPayments = useTranslations('checkout.payments');
   const tSummary = useTranslations('checkout.summary');
   const router = useRouter();
   const { pushToast } = useToastContext();
@@ -294,6 +302,18 @@ export function AdminOrderForm({ orderId }: AdminOrderFormProps) {
                 <Detail
                   label={t('orderForm.fields.deliveryMethod')}
                   value={tMethods(deliveryMethodLabelKey(order.deliveryMethod))}
+                />
+              ) : null}
+              {order.paymentMethod !== null ? (
+                <Detail
+                  label={t('orderForm.fields.paymentMethod')}
+                  value={tPayments(paymentMethodLabelKey(order.paymentMethod))}
+                />
+              ) : null}
+              {order.paymentMethod !== null ? (
+                <Detail
+                  label={t('orderForm.fields.paymentStatus')}
+                  value={t(PAYMENT_STATUS_LABEL_KEYS[order.paymentStatus])}
                 />
               ) : null}
               {order.customerEmail !== null ? (

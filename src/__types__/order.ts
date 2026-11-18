@@ -1,4 +1,5 @@
 import type { DeliveryMethod } from './checkout';
+import type { PaymentMethod, PaymentStatus } from './payment';
 
 /**
  * Estados por los que pasa un pedido. Espejo del backend (`OrderStatus` en
@@ -48,6 +49,9 @@ export interface TrackedOrder {
   readonly customerName: string;
   readonly carrier: string | null;
   readonly trackingNumber: string | null;
+  /** Método de pago elegido; `null` en pedidos capturados a mano. */
+  readonly paymentMethod: PaymentMethod | null;
+  readonly paymentStatus: PaymentStatus;
   readonly timeline: ReadonlyArray<OrderTimelineEvent>;
 }
 
@@ -74,6 +78,10 @@ export interface AdminOrder {
   readonly totalMXN: number | null;
   readonly carrier: string | null;
   readonly trackingNumber: string | null;
+  readonly paymentMethod: PaymentMethod | null;
+  readonly paymentStatus: PaymentStatus;
+  readonly paymentReference: string | null;
+  readonly paidAt: string | null;
   readonly status: OrderStatus;
   readonly internalNotes: string | null;
   readonly createdAt: string;
