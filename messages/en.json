@@ -9,7 +9,7 @@
   },
   "announcement": {
     "ariaLabel": "Promotional announcement",
-    "message": "Free shipping anywhere in Mexico on orders +$999 MXN"
+    "message": "Free Correos de México shipping on orders +$999 MXN"
   },
   "nav": {
     "catalog": "Catalog",
@@ -27,6 +27,7 @@
     "legalCookies": "Cookie policy",
     "viewCatalog": "Shop catalog",
     "catalogShort": "Catalog",
+    "cartButton": "Cart",
     "storeHeading": "Shop",
     "supportHeading": "Support",
     "questionsHeading": "Questions?",
@@ -68,7 +69,7 @@
   "meta": {
     "titleDefault": "Mascaritas GDL — Semi-Professional Lucha Libre Masks",
     "titleTemplate": "%s · Mascaritas GDL",
-    "description": "Semi-professional lucha libre masks with double lining, handmade in Guadalajara. Free shipping anywhere in Mexico.",
+    "description": "Semi-professional lucha libre masks with double lining, handmade in Guadalajara. Free Correos de México shipping from $999 MXN.",
     "keywords": [
       "lucha libre masks",
       "semi professional masks",
@@ -80,6 +81,10 @@
     "catalogDescription": "Explore semi-professional and professional lucha libre masks, 100% handmade. Filter by category, size, color and price.",
     "trackingTitle": "Track your order",
     "trackingDescription": "Check your order status and history with your tracking code. Shipping anywhere in Mexico from Guadalajara.",
+    "cartTitle": "Your cart",
+    "cartDescription": "Review the masks you picked, adjust quantities and check out. Shipping anywhere in Mexico from Guadalajara.",
+    "checkoutTitle": "Checkout",
+    "checkoutDescription": "Confirm your contact and shipping details to close your order. We reach out on WhatsApp to arrange payment.",
     "productNotFound": "Mask not found"
   },
   "a11y": {
@@ -87,7 +92,8 @@
     "mainNav": "Main navigation",
     "homeLink": "{brand} — Home",
     "catalogLink": "Go to the catalog",
-    "catalogLinkWithCount": "Go to the catalog, {count} items in your cart",
+    "openCart": "Open cart",
+    "openCartWithCount": "Open cart, {count} items",
     "socialLinks": "Social media",
     "socialInstagram": "Open Mascaritas GDL on Instagram",
     "socialFacebook": "Open Mascaritas GDL on Facebook",
@@ -165,6 +171,89 @@
       "rating": "Top rated"
     }
   },
+  "cart": {
+    "breadcrumbHome": "Home",
+    "breadcrumbCurrent": "Cart",
+    "pageTitle": "Your cart",
+    "pageDescription": "Review the pieces you picked, adjust quantities and check out when you are ready.",
+    "drawerTitle": "Your cart",
+    "closeDrawer": "Close cart",
+    "emptyTitle": "Your cart is empty",
+    "emptyDescription": "Browse the catalog and add your favorite masks. When everything is ready, check out.",
+    "emptyCta": "View catalog",
+    "viewProduct": "View details for {title}",
+    "unitPrice": "{price} each",
+    "decrease": "Remove one piece of {title}",
+    "increase": "Add one piece of {title}",
+    "removeLine": "Remove {title} from cart",
+    "subtotal": "Subtotal",
+    "shippingNote": "Shipping is calculated at checkout.",
+    "checkout": "Check out",
+    "viewCart": "View cart",
+    "continueShopping": "Keep shopping"
+  },
+  "checkout": {
+    "breadcrumbHome": "Home",
+    "breadcrumbCurrent": "Checkout",
+    "pageTitle": "Checkout",
+    "pageDescription": "Fill in your details and choose how you want to receive your masks. Once you confirm, we reach out on WhatsApp to arrange payment and shipping.",
+    "deliverySectionTitle": "Delivery method",
+    "contactSectionTitle": "Your details",
+    "shippingSectionTitle": "Shipping address",
+    "fields": {
+      "customerName": "Full name",
+      "customerContact": "WhatsApp or phone",
+      "customerContactHint": "This is how we reach you to confirm your order.",
+      "customerEmail": "Email (optional)",
+      "shippingStreet": "Street and number",
+      "shippingCity": "City or municipality",
+      "shippingState": "State",
+      "shippingZip": "Zip code",
+      "shippingReferences": "Landmarks (optional)",
+      "note": "Note for the workshop (optional)",
+      "noteHint": "Tell us if you want anything customized on your mask."
+    },
+    "methods": {
+      "zmg": "Guadalajara Metropolitan Area",
+      "zmgDescription": "Home delivery within the ZMG or arranged over WhatsApp.",
+      "correos": "Correos de México",
+      "correosDescription": "Shipping outside the state. Free from $999 MXN.",
+      "paqueteria": "Private courier",
+      "paqueteriaDescription": "We quote the shipping over WhatsApp based on your destination.",
+      "pricePendingQuote": "To be quoted"
+    },
+    "summary": {
+      "title": "Summary",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "shippingFree": "Free",
+      "shippingPending": "To be quoted",
+      "total": "Total",
+      "priceChanged": "Some prices were updated since you filled your cart. Review the total before confirming.",
+      "pendingQuoteHint": "Shipping is quoted over WhatsApp and added to the total.",
+      "freeShippingHint": "Free shipping with Correos de México from {amount} MXN.",
+      "freeShippingApplied": "Your Correos de México shipping is free."
+    },
+    "submit": "Confirm order",
+    "submitting": "Sending…",
+    "backToCart": "Back to cart",
+    "errors": {
+      "required": "This field is required.",
+      "email": "Enter a valid email address.",
+      "conflict": "One of the pieces sold out while you were shopping. Adjust your cart and try again.",
+      "invalid": "Check the form details and try again.",
+      "throttled": "Too many attempts in a row. Wait a few minutes and try again.",
+      "network": "We could not send your order. Check your connection and try again later."
+    },
+    "success": {
+      "title": "Order received!",
+      "description": "We saved your order with these details. We will message you on WhatsApp to confirm payment and arrange shipping.",
+      "codeLabel": "Your order code",
+      "trackingCta": "Track my order",
+      "whatsappCta": "Confirm on WhatsApp",
+      "whatsappMessage": "Hi, I just placed order {code} at Mascaritas GDL. I would like to confirm it."
+    }
+  },
   "product": {
     "loading": "Loading product",
     "reviewsVerified": "{count} verified reviews",
@@ -190,7 +279,7 @@
     "askWhatsapp": "Ask on WhatsApp",
     "whatsappMessage": "Hi, I'm interested in the {title} {subtitle} mask (SKU {sku}).",
     "benefits": {
-      "shipping": "Free shipping on orders over $999 MXN",
+      "shipping": "Free Correos de México shipping on orders over $999 MXN",
       "handmade": "Hand-sewn, with a 12-month stitching warranty"
     },
     "notFound": {
@@ -463,22 +552,39 @@
       "notFoundDescription": "It may have been deleted. Go back to the list to see the current orders.",
       "statusHint": "A milestone is added to the history only when the status changes.",
       "timelineHint": "This is the history the customer sees when tracking their order.",
+      "detailsHint": "Data generated by the store when the purchase is confirmed. It cannot be edited here.",
+      "shippingPendingQuote": "To be quoted",
+      "itemEach": "{price} each",
       "sections": {
         "customer": "Customer",
         "shipping": "Shipping",
         "status": "Status",
         "notes": "Internal notes",
-        "timeline": "Order history"
+        "timeline": "Order history",
+        "details": "Order details",
+        "items": "Products and totals"
       },
       "fields": {
         "customerName": "Customer name",
         "customerContact": "Contact",
+        "customerEmail": "Customer email",
+        "origin": "Origin",
+        "deliveryMethod": "Delivery method",
+        "shippingAddress": "Shipping address",
+        "shippingReferences": "References",
+        "subtotal": "Subtotal",
+        "shippingCost": "Shipping",
+        "total": "Total",
         "carrier": "Carrier",
         "carrierNone": "No carrier",
         "trackingNumber": "Tracking number",
         "status": "Order status",
         "note": "Milestone note",
         "internalNotes": "Internal notes"
+      },
+      "origin": {
+        "manual": "Captured in the panel",
+        "tienda": "Online store"
       },
       "submitCreate": "Create order",
       "submitEdit": "Save changes",

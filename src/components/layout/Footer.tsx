@@ -17,6 +17,7 @@ import { SOCIAL_LINKS } from '@/__data__/socials';
 import type { SocialLink } from '@/__types__';
 import { cn } from '@/__lib__/utils';
 import { Button, BUTTON_LARGE_ICON_PROPS } from '@/components/ui/Button';
+import { BrandLogo } from '@/components/graphics/BrandLogo';
 import { CookiePreferencesLink } from './CookiePreferencesLink';
 
 const SOCIAL_ICON_MAP: Record<SocialLink['platform'], LucideIcon> = {
@@ -44,10 +45,8 @@ export async function Footer() {
           {/* Brand + social */}
           <div className="md:col-span-5 lg:col-span-4">
             <div className="flex items-center gap-2 mb-4">
-              <span className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-canvas border border-border-subtle">
-                <span className="font-display text-2xl text-accent-green leading-none">
-                  {tCommon(BRAND.shortCodeKey)}
-                </span>
+              <span className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-canvas border border-border-subtle overflow-hidden">
+                <BrandLogo className="w-full h-full" />
               </span>
               <span className="font-display text-2xl sm:text-3xl tracking-wide leading-none text-white">
                 {tCommon(BRAND.nameKey)}

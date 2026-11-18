@@ -9,7 +9,7 @@
   },
   "announcement": {
     "ariaLabel": "Anuncio promocional",
-    "message": "Envíos gratis a todo México en pedidos +$999 MXN"
+    "message": "Envío gratis por Correos de México en pedidos +$999 MXN"
   },
   "nav": {
     "catalog": "Catálogo",
@@ -27,6 +27,7 @@
     "legalCookies": "Política de cookies",
     "viewCatalog": "Ver catálogo",
     "catalogShort": "Catálogo",
+    "cartButton": "Carrito",
     "storeHeading": "Tienda",
     "supportHeading": "Soporte",
     "questionsHeading": "¿Dudas?",
@@ -68,7 +69,7 @@
   "meta": {
     "titleDefault": "Mascaritas GDL — Máscaras Semi-Profesionales de Lucha Libre",
     "titleTemplate": "%s · Mascaritas GDL",
-    "description": "Máscaras semi-profesionales de lucha libre con doble forro hechas a mano en Guadalajara. Envíos gratis a todo México.",
+    "description": "Máscaras semi-profesionales de lucha libre con doble forro hechas a mano en Guadalajara. Envío gratis por Correos de México desde $999 MXN.",
     "keywords": [
       "mascaras lucha libre",
       "mascaras semi profesionales",
@@ -80,6 +81,10 @@
     "catalogDescription": "Explora máscaras de lucha libre semi-profesionales y profesionales, hechas 100% a mano. Filtra por categoría, talla, color y precio.",
     "trackingTitle": "Rastrea tu pedido",
     "trackingDescription": "Consulta el estado y el historial de tu pedido con tu código de rastreo. Envíos a todo México desde Guadalajara.",
+    "cartTitle": "Tu carrito",
+    "cartDescription": "Revisa las máscaras que llevas, ajusta cantidades y finaliza tu compra. Envíos a todo México desde Guadalajara.",
+    "checkoutTitle": "Finalizar compra",
+    "checkoutDescription": "Confirma tus datos de contacto y envío para cerrar tu pedido. Te contactamos por WhatsApp para acordar el pago.",
     "productNotFound": "Máscara no encontrada"
   },
   "a11y": {
@@ -87,7 +92,8 @@
     "mainNav": "Navegación principal",
     "homeLink": "{brand} — Inicio",
     "catalogLink": "Ir al catálogo",
-    "catalogLinkWithCount": "Ir al catálogo, {count} productos en el carrito",
+    "openCart": "Abrir carrito",
+    "openCartWithCount": "Abrir carrito, {count} productos",
     "socialLinks": "Redes sociales",
     "socialInstagram": "Abrir Instagram de Mascaritas GDL",
     "socialFacebook": "Abrir Facebook de Mascaritas GDL",
@@ -165,6 +171,89 @@
       "rating": "Mejor calificadas"
     }
   },
+  "cart": {
+    "breadcrumbHome": "Inicio",
+    "breadcrumbCurrent": "Carrito",
+    "pageTitle": "Tu carrito",
+    "pageDescription": "Revisa las piezas que llevas, ajusta cantidades y finaliza tu compra cuando estés listo.",
+    "drawerTitle": "Tu carrito",
+    "closeDrawer": "Cerrar carrito",
+    "emptyTitle": "Tu carrito está vacío",
+    "emptyDescription": "Explora el catálogo y agrega tus máscaras favoritas. Cuando tengas todo listo, finaliza tu compra.",
+    "emptyCta": "Ver catálogo",
+    "viewProduct": "Ver detalle de {title}",
+    "unitPrice": "{price} c/u",
+    "decrease": "Quitar una pieza de {title}",
+    "increase": "Agregar una pieza de {title}",
+    "removeLine": "Quitar {title} del carrito",
+    "subtotal": "Subtotal",
+    "shippingNote": "El costo de envío se calcula al finalizar la compra.",
+    "checkout": "Finalizar compra",
+    "viewCart": "Ver carrito",
+    "continueShopping": "Seguir comprando"
+  },
+  "checkout": {
+    "breadcrumbHome": "Inicio",
+    "breadcrumbCurrent": "Finalizar compra",
+    "pageTitle": "Finalizar compra",
+    "pageDescription": "Completa tus datos y elige cómo quieres recibir tus máscaras. Al confirmar te contactamos por WhatsApp para acordar el pago y el envío.",
+    "deliverySectionTitle": "Modalidad de entrega",
+    "contactSectionTitle": "Tus datos",
+    "shippingSectionTitle": "Dirección de envío",
+    "fields": {
+      "customerName": "Nombre completo",
+      "customerContact": "WhatsApp o teléfono",
+      "customerContactHint": "Te contactamos por aquí para confirmar tu pedido.",
+      "customerEmail": "Correo electrónico (opcional)",
+      "shippingStreet": "Calle y número",
+      "shippingCity": "Ciudad o municipio",
+      "shippingState": "Estado",
+      "shippingZip": "Código postal",
+      "shippingReferences": "Referencias (opcional)",
+      "note": "Nota para el taller (opcional)",
+      "noteHint": "Cuéntanos si quieres personalizar algo de tu máscara."
+    },
+    "methods": {
+      "zmg": "Zona Metropolitana de Guadalajara",
+      "zmgDescription": "Entrega a domicilio en la ZMG o a acordar por WhatsApp.",
+      "correos": "Correos de México",
+      "correosDescription": "Envío fuera del estado. Gratis a partir de $999 MXN.",
+      "paqueteria": "Paquetería privada",
+      "paqueteriaDescription": "Cotizamos el envío por WhatsApp según tu destino.",
+      "pricePendingQuote": "Por cotizar"
+    },
+    "summary": {
+      "title": "Resumen",
+      "subtotal": "Subtotal",
+      "shipping": "Envío",
+      "shippingFree": "Gratis",
+      "shippingPending": "Por cotizar",
+      "total": "Total",
+      "priceChanged": "Algunos precios se actualizaron desde que armaste tu carrito. Revisa el total antes de confirmar.",
+      "pendingQuoteHint": "El costo de envío se cotiza por WhatsApp y se suma al total.",
+      "freeShippingHint": "Envío gratis en Correos de México a partir de {amount} MXN.",
+      "freeShippingApplied": "Tu envío por Correos de México va gratis."
+    },
+    "submit": "Confirmar pedido",
+    "submitting": "Enviando…",
+    "backToCart": "Volver al carrito",
+    "errors": {
+      "required": "Este campo es obligatorio.",
+      "email": "Escribe un correo electrónico válido.",
+      "conflict": "Una de las piezas se agotó mientras comprabas. Ajusta tu carrito e inténtalo de nuevo.",
+      "invalid": "Revisa los datos del formulario e inténtalo de nuevo.",
+      "throttled": "Demasiados intentos seguidos. Espera unos minutos y vuelve a intentarlo.",
+      "network": "No pudimos enviar tu pedido. Revisa tu conexión e inténtalo más tarde."
+    },
+    "success": {
+      "title": "¡Pedido recibido!",
+      "description": "Guardamos tu pedido con estos datos. Te escribimos por WhatsApp para confirmar el pago y coordinar el envío.",
+      "codeLabel": "Tu código de pedido",
+      "trackingCta": "Rastrear mi pedido",
+      "whatsappCta": "Confirmar por WhatsApp",
+      "whatsappMessage": "Hola, acabo de hacer el pedido {code} en Mascaritas GDL. Quiero confirmarlo."
+    }
+  },
   "product": {
     "loading": "Cargando producto",
     "reviewsVerified": "{count} reseñas verificadas",
@@ -190,7 +279,7 @@
     "askWhatsapp": "Preguntar por WhatsApp",
     "whatsappMessage": "Hola, me interesa la máscara {title} {subtitle} (SKU {sku}).",
     "benefits": {
-      "shipping": "Envío gratis en pedidos mayores a $999 MXN",
+      "shipping": "Envío gratis por Correos de México en pedidos mayores a $999 MXN",
       "handmade": "Cocida a mano, con garantía de costura por 12 meses"
     },
     "notFound": {
@@ -463,22 +552,39 @@
       "notFoundDescription": "Puede que lo hayan eliminado. Vuelve a la lista para ver los pedidos actuales.",
       "statusHint": "Solo se añade un hito al historial cuando el estado cambia.",
       "timelineHint": "Este historial es lo que verá el cliente al rastrear su pedido.",
+      "detailsHint": "Datos generados por la tienda al confirmar la compra. No se editan desde aquí.",
+      "shippingPendingQuote": "Por cotizar",
+      "itemEach": "{price} c/u",
       "sections": {
         "customer": "Cliente",
         "shipping": "Envío",
         "status": "Estado",
         "notes": "Notas internas",
-        "timeline": "Historial del pedido"
+        "timeline": "Historial del pedido",
+        "details": "Detalle del pedido",
+        "items": "Productos y totales"
       },
       "fields": {
         "customerName": "Nombre del cliente",
         "customerContact": "Contacto",
+        "customerEmail": "Correo del cliente",
+        "origin": "Origen",
+        "deliveryMethod": "Modalidad de entrega",
+        "shippingAddress": "Dirección de envío",
+        "shippingReferences": "Referencias",
+        "subtotal": "Subtotal",
+        "shippingCost": "Envío",
+        "total": "Total",
         "carrier": "Paquetería",
         "carrierNone": "Sin paquetería",
         "trackingNumber": "Número de guía",
         "status": "Estado del pedido",
         "note": "Comentario del hito",
         "internalNotes": "Notas internas"
+      },
+      "origin": {
+        "manual": "Capturado en el panel",
+        "tienda": "Tienda en línea"
       },
       "submitCreate": "Crear pedido",
       "submitEdit": "Guardar cambios",

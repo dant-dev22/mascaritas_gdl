@@ -9,7 +9,7 @@ export const PRIVACY_DOCUMENT: LocalizedLegalDocument = {
     title: 'Aviso de Privacidad',
     intro:
       'En Mascaritas GDL cuidamos la información que nos compartes. Este aviso explica qué datos personales recabamos, con qué finalidades los usamos, con quién los compartimos y cómo puedes ejercer tus derechos conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP) y su Reglamento.',
-    updatedAt: '2026-11-04',
+    updatedAt: '2026-11-18',
     sections: [
       {
         heading: '1. Responsable del tratamiento de tus datos',
@@ -63,13 +63,14 @@ export const PRIVACY_DOCUMENT: LocalizedLegalDocument = {
         bullets: [
           'Paqueterías y servicios de mensajería, para entregar tus pedidos.',
           'Proveedores de servicios tecnológicos (por ejemplo, hosting, plataforma de tienda y correo), que nos ayudan a operar el sitio.',
+          'Proveedores de medición y publicidad (por ejemplo, Meta Platforms, Inc., para el píxel de Facebook e Instagram), que nos ayudan a medir la eficacia de nuestras campañas. Solo se activan cuando aceptas la categoría de marketing.',
           'Autoridades competentes, cuando exista un requerimiento legal debidamente fundado.',
         ],
       },
       {
         heading: '6. Uso de cookies y tecnologías de rastreo',
         paragraphs: [
-          'El sitio utiliza cookies y tecnologías similares para recordar tus preferencias, mantener tu carrito, medir el uso del sitio y, cuando lo autorizas, mostrar contenido y promociones relevantes.',
+          'El sitio utiliza cookies y tecnologías similares para recordar tus preferencias, mantener tu carrito, medir el uso del sitio y, cuando lo autorizas, mostrar contenido y promociones relevantes y medir la eficacia de nuestras campañas mediante el píxel de Meta.',
           'Puedes conocer el detalle de las cookies que usamos en nuestra Política de Cookies, disponible en la ruta /politica-de-cookies. En cualquier momento puedes aceptar, rechazar o cambiar tus preferencias desde el enlace "Preferencias de cookies" del sitio.',
         ],
       },
@@ -121,7 +122,7 @@ export const PRIVACY_DOCUMENT: LocalizedLegalDocument = {
     title: 'Privacy Notice',
     intro:
       'At Mascaritas GDL we take care of the information you share with us. This notice explains what personal data we collect, the purposes for which we use it, whom we share it with, and how you can exercise your rights under Mexico\u2019s Federal Law on the Protection of Personal Data Held by Private Parties (LFPDPPP) and its Regulations.',
-    updatedAt: '2026-11-04',
+    updatedAt: '2026-11-18',
     sections: [
       {
         heading: '1. Data controller and address',
@@ -175,13 +176,14 @@ export const PRIVACY_DOCUMENT: LocalizedLegalDocument = {
         bullets: [
           'Courier and delivery services, to deliver your orders.',
           'Technology service providers (for example, hosting, store platform, and email), which help us operate the site.',
+          'Measurement and advertising providers (for example, Meta Platforms, Inc., for the Facebook and Instagram pixel), which help us measure the effectiveness of our campaigns. They are activated only when you accept the marketing category.',
           'Competent authorities, when there is a duly grounded legal requirement.',
         ],
       },
       {
         heading: '6. Use of cookies and tracking technologies',
         paragraphs: [
-          'The site uses cookies and similar technologies to remember your preferences, keep your cart, measure how the site is used, and, when you authorize it, show relevant content and promotions.',
+          'The site uses cookies and similar technologies to remember your preferences, keep your cart, measure how the site is used, and, when you authorize it, show relevant content and promotions and measure the effectiveness of our campaigns through the Meta pixel.',
           'You can learn about the cookies we use in our Cookies Policy, available at the path /politica-de-cookies. At any time you can accept, reject, or change your preferences from the "Cookie preferences" link on the site.',
         ],
       },

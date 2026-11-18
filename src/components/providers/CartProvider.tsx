@@ -16,11 +16,24 @@ export function CartProvider({ children }: CartProviderProps) {
   const value = useMemo<CartContextValue>(
     () => ({
       state: cart.state,
+      isDrawerOpen: cart.isDrawerOpen,
       addItem: cart.addItem,
+      setQuantity: cart.setQuantity,
       removeItem: cart.removeItem,
       clear: cart.clear,
+      openCart: cart.openCart,
+      closeCart: cart.closeCart,
     }),
-    [cart.addItem, cart.clear, cart.removeItem, cart.state],
+    [
+      cart.addItem,
+      cart.clear,
+      cart.closeCart,
+      cart.isDrawerOpen,
+      cart.openCart,
+      cart.removeItem,
+      cart.setQuantity,
+      cart.state,
+    ],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

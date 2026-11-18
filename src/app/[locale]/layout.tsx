@@ -4,7 +4,9 @@ import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { CartProvider } from '@/components/providers/CartProvider';
 import { SiteOverlays } from '@/components/layout/SiteOverlays';
+import { Analytics } from '@/components/analytics/Analytics';
 import { HTML_LANG, routing, type Locale } from '@/i18n/routing';
+import { META_PIXEL_ID, metaBaseCode } from '@/__lib__/analytics';
 import { OG_LOCALE, SITE_URL } from '@/__data__/site';
 import '../globals.css';
 
@@ -83,6 +85,19 @@ export default async function LocaleLayout({
 
   return (
     <html lang={HTML_LANG[locale]} className="h-full antialiased">
+      {/* El base code del píxel va en el `head` del documento, que es donde Meta
+          lo exige: solo reconoce el píxel si el código viene en el HTML de
+          origen. Nace revocado —`fbq('consent','revoke')` antes de `init`—, así
+          que no recolecta nada hasta que la persona acepta la categoría de
+          marketing; la decisión la aplica `syncMetaConsent` desde `Analytics`. */}
+      {META_PIXEL_ID ? (
+        <head>
+          <script
+            id="meta-pixel"
+            dangerouslySetInnerHTML={{ __html: metaBaseCode(META_PIXEL_ID) }}
+          />
+        </head>
+      ) : null}
       <body className="min-h-full flex flex-col bg-canvas text-white font-sans">
         <a
           href="#contenido-principal"
@@ -95,6 +110,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider>
           <CartProvider>{children}</CartProvider>
           <SiteOverlays />
+          <Analytics />
         </NextIntlClientProvider>
       </body>
     </html>

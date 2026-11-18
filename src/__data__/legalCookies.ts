@@ -9,7 +9,7 @@ export const COOKIES_DOCUMENT: LocalizedLegalDocument = {
     title: 'Política de Cookies',
     intro:
       'Esta política explica qué cookies y tecnologías similares usamos en mascaritasgdl.com, para qué sirven y cómo puedes gestionar tu consentimiento. En Mascaritas GDL somos una tienda en línea de máscaras de lucha libre hechas a mano en Guadalajara, Jalisco, México.',
-    updatedAt: '2026-11-04',
+    updatedAt: '2026-11-18',
     sections: [
       {
         heading: '1. Qué son las cookies y tecnologías similares',
@@ -31,12 +31,13 @@ export const COOKIES_DOCUMENT: LocalizedLegalDocument = {
       {
         heading: '3. Cookies que utilizamos actualmente',
         paragraphs: [
-          'Hoy el sitio utiliza únicamente cookies necesarias y de preferencias. No tenemos instaladas cookies analíticas ni de marketing. Estas son las cookies reales que usamos:',
+          'El sitio utiliza cookies necesarias, de preferencias y, cuando lo autorizas, de marketing. Estas son las cookies que usamos:',
         ],
         bullets: [
           'mascaritas_lang. Finalidad: guardar tu idioma preferido (español o inglés) para mostrarte el sitio en el idioma que elegiste. Duración: 1 año. Categoría: Necesaria / de preferencias.',
           'mascaritas_consent. Finalidad: guardar el registro de tu consentimiento, es decir la decisión que tomaste, las categorías aceptadas, la versión del aviso y la fecha. Duración: aproximadamente 6 meses. Categoría: Necesaria.',
-          'Las categorías Analítica y Marketing aparecen en el panel de preferencias, pero hoy permanecen reservadas y desactivadas. Solo se activarán si en el futuro incorporamos esas herramientas y tú las aceptas de forma expresa.',
+          '_fbp. Finalidad: identificar tu navegador para medir la eficacia de nuestras campañas en Meta (Facebook e Instagram) y construir audiencias. La crea el píxel de Meta y solo se genera si aceptas la categoría de marketing. Duración: aproximadamente 90 días. Categoría: Marketing.',
+          'La categoría Analítica aparece en el panel de preferencias, pero hoy permanece reservada y desactivada. La categoría de Marketing corresponde al píxel de Meta descrito arriba y se activa solo si la aceptas de forma expresa.',
         ],
       },
       {
@@ -52,8 +53,9 @@ export const COOKIES_DOCUMENT: LocalizedLegalDocument = {
       {
         heading: '5. Cookies de terceros',
         paragraphs: [
-          'Actualmente el sitio no utiliza cookies de terceros ni servicios externos de analítica, publicidad o redes sociales.',
-          'Si en el futuro habilitamos herramientas de analítica o de marketing, por ejemplo píxeles o servicios de medición, solo se activarán cuando aceptes esas categorías en el banner de consentimiento. Mientras no las aceptes, permanecerán desactivadas. Cualquier cambio se reflejará en esta política.',
+          'El sitio utiliza el píxel de Meta (Meta Platforms, Inc.) para medir visitas y conversiones de nuestras campañas en Facebook e Instagram. Es el único servicio de terceros con fines de medición que usamos hoy.',
+          'El píxel solo se activa cuando aceptas la categoría de marketing en el banner de consentimiento. Mientras no la aceptes, su código permanece desactivado y no envía datos ni escribe la cookie _fbp. Puedes retirar tu consentimiento cuando quieras desde el enlace Preferencias de cookies.',
+          'Si en el futuro incorporamos otras herramientas de analítica o de marketing, solo se activarán cuando aceptes esas categorías y el cambio se reflejará en esta política.',
         ],
       },
       {
@@ -69,7 +71,7 @@ export const COOKIES_DOCUMENT: LocalizedLegalDocument = {
         paragraphs: [
           'Podemos actualizar esta Política de Cookies para reflejar cambios en las cookies que usamos, en las herramientas que incorporamos o en la normativa aplicable.',
           'Cuando lo hagamos, actualizaremos la fecha de última actualización que aparece al inicio de este documento. Si el cambio es relevante, te volveremos a solicitar tu consentimiento.',
-          'Última actualización: 4 de noviembre de 2026.',
+          'Última actualización: 18 de noviembre de 2026.',
         ],
       },
       {
@@ -84,7 +86,7 @@ export const COOKIES_DOCUMENT: LocalizedLegalDocument = {
     title: 'Cookie Policy',
     intro:
       'This policy explains which cookies and similar technologies we use on mascaritasgdl.com, what they are for, and how you can manage your consent. At Mascaritas GDL we are an online store selling handmade lucha libre masks from Guadalajara, Jalisco, Mexico.',
-    updatedAt: '2026-11-04',
+    updatedAt: '2026-11-18',
     sections: [
       {
         heading: '1. What are cookies and similar technologies',
@@ -106,12 +108,13 @@ export const COOKIES_DOCUMENT: LocalizedLegalDocument = {
       {
         heading: '3. Cookies we currently use',
         paragraphs: [
-          'Today the site uses only necessary and preference cookies. We do not have analytics or marketing cookies installed. These are the actual cookies we use:',
+          'The site uses necessary and preference cookies and, when you authorize it, marketing cookies. These are the cookies we use:',
         ],
         bullets: [
           'mascaritas_lang. Purpose: to store your preferred language (Spanish or English) so we can show the site in the language you chose. Duration: 1 year. Category: Necessary / preferences.',
           'mascaritas_consent. Purpose: to store the record of your consent, meaning the decision you made, the accepted categories, the version of the notice, and the date. Duration: approximately 6 months. Category: Necessary.',
-          'The Analytics and Marketing categories appear in the preferences panel, but today they remain reserved and disabled. They will only be enabled if we add those tools in the future and you expressly accept them.',
+          '_fbp. Purpose: to identify your browser so we can measure the effectiveness of our campaigns on Meta (Facebook and Instagram) and build audiences. It is set by the Meta pixel and is created only if you accept the marketing category. Duration: approximately 90 days. Category: Marketing.',
+          'The Analytics category appears in the preferences panel, but today it remains reserved and disabled. The Marketing category corresponds to the Meta pixel described above and is enabled only if you expressly accept it.',
         ],
       },
       {
@@ -127,8 +130,9 @@ export const COOKIES_DOCUMENT: LocalizedLegalDocument = {
       {
         heading: '5. Third-party cookies',
         paragraphs: [
-          'The site currently does not use third-party cookies or external analytics, advertising, or social media services.',
-          'If we enable analytics or marketing tools in the future, for example pixels or measurement services, they will only be activated when you accept those categories in the consent banner. As long as you do not accept them, they will remain disabled. Any change will be reflected in this policy.',
+          'The site uses the Meta pixel (Meta Platforms, Inc.) to measure visits and conversions from our campaigns on Facebook and Instagram. It is the only third-party service we use for measurement today.',
+          'The pixel is activated only when you accept the marketing category in the consent banner. As long as you do not accept it, its code stays disabled and sends no data and does not set the _fbp cookie. You can withdraw your consent at any time from the Cookie preferences link.',
+          'If we add other analytics or marketing tools in the future, they will be activated only when you accept those categories, and the change will be reflected in this policy.',
         ],
       },
       {
@@ -144,7 +148,7 @@ export const COOKIES_DOCUMENT: LocalizedLegalDocument = {
         paragraphs: [
           'We may update this Cookie Policy to reflect changes in the cookies we use, the tools we add, or the applicable regulations.',
           'When we do, we will update the last updated date shown at the beginning of this document. If the change is significant, we will ask for your consent again.',
-          'Last updated: November 4, 2026.',
+          'Last updated: November 18, 2026.',
         ],
       },
       {

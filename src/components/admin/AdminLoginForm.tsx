@@ -9,13 +9,13 @@ import { Input } from '@/components/ui/Input';
 import { Link, useRouter } from '@/i18n/navigation';
 import { useAdminSession } from '@/__hooks__/useAdminSession';
 import { cn } from '@/__lib__/utils';
+import { BrandLogo } from '@/components/graphics/BrandLogo';
 
 type LoginErrorCode = 'invalid' | 'missing' | 'throttled' | 'unexpected';
 
 /** Pantalla de acceso al panel. */
 export function AdminLoginForm() {
   const t = useTranslations('Admin');
-  const tCommon = useTranslations('common');
   const router = useRouter();
   const { status, login, isSubmitting } = useAdminSession();
   const [email, setEmail] = useState('');
@@ -69,8 +69,8 @@ export function AdminLoginForm() {
             'focus-visible:outline-none focus-visible:text-white',
           )}
         >
-          <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-accent-green font-display text-lg leading-none text-white">
-            {tCommon('brandShortCode')}
+          <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-canvas border border-border-subtle overflow-hidden">
+            <BrandLogo className="w-full h-full" />
           </span>
           <span className="text-sm font-semibold">{t('login.backToSite')}</span>
         </Link>

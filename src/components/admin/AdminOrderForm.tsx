@@ -12,12 +12,15 @@ import { Skeleton } from '@/components/ui/Skeleton';
 import { Textarea } from '@/components/ui/Textarea';
 import { OrderStatusTimeline } from '@/components/order/OrderStatusTimeline';
 import { Link, useRouter } from '@/i18n/navigation';
+import { SHIPPING_METHOD_OPTIONS } from '@/__data__/shipping';
 import {
   ORDER_CARRIER_IDS,
   ORDER_CARRIER_LABEL_KEYS,
+  ORDER_ORIGIN_LABEL_KEYS,
   ORDER_STATUSES,
   ORDER_STATUS_META,
 } from '@/__data__/orderStatus';
+import { formatMXN } from '@/__lib__/utils';
 import { useToastContext } from '@/__hooks__/useToastContext';
 import {
   createEmptyOrderValues,
@@ -29,6 +32,7 @@ import type {
   AdminOrder,
   AdminOrderFormErrors,
   AdminOrderFormValues,
+  DeliveryMethod,
 } from '@/__types__';
 
 interface AdminOrderFormProps {
@@ -67,10 +71,41 @@ function FormSkeleton() {
   );
 }
 
+/** Pareja etiqueta/valor de la ficha de solo lectura del pedido. */
+function Detail({
+  label,
+  value,
+}: {
+  readonly label: string;
+  readonly value: ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-1">
+      <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-text-faint">
+        {label}
+      </span>
+      <span className="text-sm text-white">{value}</span>
+    </div>
+  );
+}
+
+/** Clave i18n (`checkout.methods`) con el nombre de la modalidad de entrega. */
+function deliveryMethodLabelKey(method: DeliveryMethod): string {
+  return SHIPPING_METHOD_OPTIONS.find((option) => option.id === method)?.labelKey ?? method;
+}
+
+/** Dirección de envío en una línea, omitiendo las partes vacías. */
+function formatAddress(order: AdminOrder): string {
+  const cityLine = [order.shippingZip, order.shippingCity].filter(Boolean).join(' ');
+  return [order.shippingStreet, cityLine, order.shippingState].filter(Boolean).join(', ');
+}
+
 /** Formulario de alta y edición de pedidos, con el historial visible al editar. */
 export function AdminOrderForm({ orderId }: AdminOrderFormProps) {
   const t = useTranslations('Admin');
   const tTracking = useTranslations('tracking');
+  const tMethods = useTranslations('checkout.methods');
+  const tSummary = useTranslations('checkout.summary');
   const router = useRouter();
   const { pushToast } = useToastContext();
   const isEdit = orderId !== undefined;
@@ -246,6 +281,91 @@ export function AdminOrderForm({ orderId }: AdminOrderFormProps) {
         </div>
       ) : (
         <form onSubmit={handleSubmit} noValidate className="mt-6 flex flex-col gap-5">
+          {isEdit && order !== null ? (
+            <Section
+              title={t('orderForm.sections.details')}
+              description={t('orderForm.detailsHint')}
+            >
+              <Detail
+                label={t('orderForm.fields.origin')}
+                value={t(ORDER_ORIGIN_LABEL_KEYS[order.origin])}
+              />
+              {order.deliveryMethod !== null ? (
+                <Detail
+                  label={t('orderForm.fields.deliveryMethod')}
+                  value={tMethods(deliveryMethodLabelKey(order.deliveryMethod))}
+                />
+              ) : null}
+              {order.customerEmail !== null ? (
+                <Detail
+                  label={t('orderForm.fields.customerEmail')}
+                  value={order.customerEmail}
+                />
+              ) : null}
+              {order.shippingStreet !== null ? (
+                <Detail
+                  label={t('orderForm.fields.shippingAddress')}
+                  value={formatAddress(order)}
+                />
+              ) : null}
+              {order.shippingReferences !== null ? (
+                <Detail
+                  label={t('orderForm.fields.shippingReferences')}
+                  value={order.shippingReferences}
+                />
+              ) : null}
+            </Section>
+          ) : null}
+
+          {isEdit && order !== null && order.items.length > 0 ? (
+            <Section title={t('orderForm.sections.items')}>
+              <div className="sm:col-span-2">
+                <ul className="divide-y divide-border-subtle border-y border-border-subtle">
+                  {order.items.map((item, index) => (
+                    <li
+                      key={`${item.sku}-${index}`}
+                      className="flex items-start justify-between gap-3 py-3"
+                    >
+                      <div className="min-w-0">
+                        <p className="line-clamp-2 text-sm text-white">{item.productName}</p>
+                        <p className="text-xs text-text-faint">
+                          {item.sku} ·{' '}
+                          {t('orderForm.itemEach', { price: formatMXN(item.unitPriceMXN) })}
+                        </p>
+                      </div>
+                      <span className="shrink-0 text-sm font-semibold text-white">
+                        {item.quantity} × {formatMXN(item.lineTotalMXN)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <Detail
+                label={t('orderForm.fields.subtotal')}
+                value={formatMXN(order.subtotalMXN ?? 0)}
+              />
+              <Detail
+                label={t('orderForm.fields.shippingCost')}
+                value={
+                  order.shippingMXN === null
+                    ? t('orderForm.shippingPendingQuote')
+                    : order.shippingMXN === 0
+                      ? tSummary('shippingFree')
+                      : formatMXN(order.shippingMXN)
+                }
+              />
+              <Detail
+                label={t('orderForm.fields.total')}
+                value={
+                  order.totalMXN === null
+                    ? t('orderForm.shippingPendingQuote')
+                    : formatMXN(order.totalMXN)
+                }
+              />
+            </Section>
+          ) : null}
+
           <Section title={t('orderForm.sections.customer')}>
             <Input
               name="customerName"

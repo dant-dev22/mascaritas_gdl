@@ -1,4 +1,4 @@
-import type { OrderStatus, OrderStatusMeta } from '@/__types__';
+import type { OrderOrigin, OrderStatus, OrderStatusMeta } from '@/__types__';
 
 /** Estados que forman la línea de progreso, en orden. */
 export const ORDER_PROGRESS_STATUSES: ReadonlyArray<OrderStatus> = [
@@ -85,3 +85,12 @@ export const ORDER_CARRIER_IDS: ReadonlyArray<string> = [
 export function getProgressIndex(status: OrderStatus): number {
   return ORDER_PROGRESS_STATUSES.indexOf(status);
 }
+
+/** Orígenes posibles de un pedido, en orden de aparición. */
+export const ORDER_ORIGINS: ReadonlyArray<OrderOrigin> = ['manual', 'tienda'] as const;
+
+/** Clave i18n (namespace `Admin.orderForm`) con el nombre del origen. */
+export const ORDER_ORIGIN_LABEL_KEYS: Record<OrderOrigin, string> = {
+  manual: 'origin.manual',
+  tienda: 'origin.tienda',
+};

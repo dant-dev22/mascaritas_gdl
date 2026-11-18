@@ -8,6 +8,7 @@ import { Link, usePathname, useRouter } from '@/i18n/navigation';
 import { ADMIN_NAV_ITEMS } from '@/__data__/adminNav';
 import { useAdminSession } from '@/__hooks__/useAdminSession';
 import { cn } from '@/__lib__/utils';
+import { BrandLogo } from '@/components/graphics/BrandLogo';
 import type { AdminNavIcon } from '@/__types__';
 
 const NAV_ICONS: Record<AdminNavIcon, ReactNode> = {
@@ -96,13 +97,13 @@ export function AdminShell({ children }: { readonly children: ReactNode }) {
           href="/admin"
           aria-label={tCommon('brandName')}
           className={cn(
-            'flex h-11 w-11 items-center justify-center rounded-2xl',
-            'bg-accent-green font-display text-lg leading-none text-white',
+            'flex h-11 w-11 items-center justify-center rounded-2xl overflow-hidden',
+            'bg-canvas border border-border-subtle',
             'transition-transform duration-200 active:scale-[0.96]',
             'focus-visible:outline-none focus-visible:shadow-glow-green',
           )}
         >
-          {tCommon('brandShortCode')}
+          <BrandLogo className="w-full h-full" />
         </Link>
 
         <nav
