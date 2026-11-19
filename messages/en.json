@@ -280,6 +280,11 @@
     "back": "Back",
     "connectingPayment": "Connecting to Mercado Pago…",
     "confirmingOrder": "Confirming your order…",
+    "redirect": {
+      "creating": "We're preparing your order…",
+      "sending": "We're sending you to the Mercado Pago platform, hang tight…",
+      "wait": "Don't close or refresh this window."
+    },
     "backToCart": "Back to cart",
     "errors": {
       "required": "This field is required.",

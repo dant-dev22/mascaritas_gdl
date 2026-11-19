@@ -47,6 +47,7 @@ import { MaskArt } from '@/components/graphics/MaskArt';
 import { Textarea } from '@/components/ui/Textarea';
 import { CartEmptyState } from '@/components/cart/CartEmptyState';
 import { CheckoutSuccess } from './CheckoutSuccess';
+import { CheckoutRedirect } from './CheckoutRedirect';
 import { CheckoutSummary } from './CheckoutSummary';
 import type {
   CheckoutFieldName,
@@ -283,6 +284,13 @@ export function CheckoutForm() {
 
   // El carrito vive en `localStorage`: hasta hidratar no sabemos si hay piezas.
   if (!state.isHydrated) return <CheckoutSkeleton />;
+
+  // Pago en línea: crear el pedido no cierra la compra. Mientras el servidor lo
+  // prepara y hasta salir a Mercado Pago se muestra la pantalla puente, y el
+  // cierre real solo aparece al volver del pago (`/checkout/resultado`).
+  if (paymentMethod === 'mercado_pago' && (isSubmitting || result?.paymentUrl)) {
+    return <CheckoutRedirect paymentUrl={result?.paymentUrl ?? null} />;
+  }
 
   if (result) {
     return (

@@ -280,6 +280,11 @@
     "back": "Volver",
     "connectingPayment": "Conectando con Mercado Pago…",
     "confirmingOrder": "Confirmando tu pedido…",
+    "redirect": {
+      "creating": "Estamos preparando tu pedido…",
+      "sending": "Te estamos enviando a la plataforma de Mercado Pago, espera un momento…",
+      "wait": "No cierres ni recargues esta ventana."
+    },
     "backToCart": "Volver al carrito",
     "errors": {
       "required": "Este campo es obligatorio.",
