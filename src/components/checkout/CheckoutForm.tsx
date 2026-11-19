@@ -6,7 +6,6 @@ import { useTranslations } from 'next-intl';
 import { Banknote, CreditCard, FileText, Mail, MapPin, MessageSquare, Package, Phone, Truck, User } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { CART_PATH } from '@/__data__/cart';
-import { ZMG_PICKUP_WHATSAPP_NUMBER } from '@/__data__/contact';
 import {
   CHECKOUT_FIELD_LIMITS,
   CONTACT_CHECKOUT_FIELDS,
@@ -143,7 +142,7 @@ export function CheckoutForm() {
   const totalMXN = shippingMXN === null ? null : state.subtotalMXN + shippingMXN;
 
   const pickupWhatsappHref = useMemo(
-    () => buildWhatsAppHref(t('pickup.whatsappMessage'), ZMG_PICKUP_WHATSAPP_NUMBER),
+    () => buildWhatsAppHref(t('pickup.whatsappMessage')),
     [t],
   );
 
