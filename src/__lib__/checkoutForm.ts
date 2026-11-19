@@ -48,7 +48,8 @@ export function toCheckoutRequest(
     shippingState: values.shippingState.trim(),
     shippingZip: values.shippingZip.trim(),
     shippingReferences: toOptional(values.shippingReferences),
-    note: toOptional(values.note),
+    // El checkout de la tienda ya no captura nota: se manda `null`.
+    note: null,
     // El precio nunca viaja desde el navegador: lo recalcula el servidor.
     items: lines.map((line) => ({ productId: line.productId, quantity: line.quantity })),
   };

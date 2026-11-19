@@ -133,6 +133,7 @@
       "viewDetailsShort": "Ver detalle de {title}",
       "soldOutOverlay": "AGOTADA",
       "soldOutButton": "Agotada",
+      "adding": "Agregando al carrito…",
       "added": "¡Agregado!",
       "addToCart": "Agregar al carrito",
       "reviewsCount": "({count} reseñas)"
@@ -199,6 +200,11 @@
     "breadcrumbCurrent": "Finalizar compra",
     "pageTitle": "Finalizar compra",
     "pageDescription": "Completa tus datos y elige cómo quieres recibir tus máscaras. Al confirmar te contactamos por WhatsApp para acordar el pago y el envío.",
+    "steps": {
+      "details": "Tus datos y entrega",
+      "payment": "Pago y confirmación"
+    },
+    "stepProgress": "Paso {current} de {total}",
     "deliverySectionTitle": "Modalidad de entrega",
     "paymentSectionTitle": "Método de pago",
     "contactSectionTitle": "Tus datos",
@@ -212,9 +218,7 @@
       "shippingCity": "Ciudad o municipio",
       "shippingState": "Estado",
       "shippingZip": "Código postal",
-      "shippingReferences": "Referencias (opcional)",
-      "note": "Nota para el taller (opcional)",
-      "noteHint": "Cuéntanos si quieres personalizar algo de tu máscara."
+      "shippingReferences": "Referencias (opcional)"
     },
     "methods": {
       "zmg": "Zona Metropolitana de Guadalajara",
@@ -244,7 +248,10 @@
       "freeShippingApplied": "Tu envío por Correos de México va gratis."
     },
     "submit": "Confirmar pedido",
-    "submitting": "Enviando…",
+    "next": "Siguiente",
+    "back": "Volver",
+    "connectingPayment": "Conectando con Mercado Pago…",
+    "confirmingOrder": "Confirmando tu pedido…",
     "backToCart": "Volver al carrito",
     "errors": {
       "required": "Este campo es obligatorio.",
@@ -324,6 +331,7 @@
     "outOfStock": "Agotada por ahora",
     "waitlist": "· Escríbenos para lista de espera",
     "addToCart": "Agregar al carrito",
+    "adding": "Agregando al carrito…",
     "added": "¡Agregado!",
     "noStock": "Sin stock",
     "askWhatsapp": "Preguntar por WhatsApp",

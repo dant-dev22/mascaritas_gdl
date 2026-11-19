@@ -20,7 +20,6 @@ export interface CheckoutFormValues {
   readonly shippingState: string;
   readonly shippingZip: string;
   readonly shippingReferences: string;
-  readonly note: string;
 }
 
 export type CheckoutFieldName = keyof CheckoutFormValues;

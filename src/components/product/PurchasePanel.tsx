@@ -1,12 +1,12 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useTransition } from 'react';
 import { Check, MessageSquare, ShieldCheck, ShoppingCart, Truck } from 'lucide-react';
-import { useAddToCart } from '@/__hooks__/useAddToCart';
+import { useAddToCartFeedback } from '@/__hooks__/useAddToCartFeedback';
 import { formatMXN } from '@/__lib__/utils';
 import { buildWhatsAppHref } from '@/__lib__/whatsapp';
 import { Button, BUTTON_ICON_PROPS, BUTTON_LARGE_ICON_PROPS } from '@/components/ui/Button';
+import { Spinner } from '@/components/ui/Spinner';
 import type { Product } from '@/__types__';
 
 interface PurchasePanelProps {
@@ -21,8 +21,9 @@ const BENEFITS = [
 export function PurchasePanel({ product }: PurchasePanelProps) {
   const t = useTranslations('product');
   const tCatalog = useTranslations('catalog');
-  const [isPending, startTransition] = useTransition();
-  const addToCart = useAddToCart();
+  const { add, status } = useAddToCartFeedback();
+  const isAdding = status === 'adding';
+  const isAdded = status === 'added';
 
   const hasDiscount =
     typeof product.oldPriceMXN === 'number' && product.oldPriceMXN > product.priceMXN;
@@ -40,9 +41,7 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
   );
 
   const handleAdd = (): void => {
-    startTransition(() => {
-      addToCart(product);
-    });
+    add(product);
   };
 
   return (
@@ -97,16 +96,24 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
           onClick={handleAdd}
           disabled={!product.inStock}
           aria-live="polite"
-          aria-busy={isPending}
+          aria-busy={isAdding}
           leftIcon={
-            isPending ? (
+            isAdding ? (
+              <Spinner size={20} />
+            ) : isAdded ? (
               <Check {...BUTTON_LARGE_ICON_PROPS} aria-hidden="true" />
             ) : (
               <ShoppingCart {...BUTTON_LARGE_ICON_PROPS} aria-hidden="true" />
             )
           }
         >
-          {!product.inStock ? t('noStock') : isPending ? t('added') : t('addToCart')}
+          {!product.inStock
+            ? t('noStock')
+            : isAdding
+              ? t('adding')
+              : isAdded
+                ? t('added')
+                : t('addToCart')}
         </Button>
 
         <Button

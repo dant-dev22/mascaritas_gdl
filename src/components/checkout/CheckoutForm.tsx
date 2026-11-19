@@ -28,6 +28,7 @@ import { useConsent } from '@/__hooks__/useConsent';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Skeleton } from '@/components/ui/Skeleton';
+import { Spinner } from '@/components/ui/Spinner';
 import { Textarea } from '@/components/ui/Textarea';
 import { CartEmptyState } from '@/components/cart/CartEmptyState';
 import { CheckoutSuccess } from './CheckoutSuccess';
@@ -60,10 +61,15 @@ const SECTION_TITLE_CLASS = 'mb-4 font-display text-lg text-white';
 const ASIDE_CLASS =
   'flex flex-col gap-4 rounded-[1.5rem] border border-border-subtle bg-surface p-5 lg:sticky lg:top-24';
 
+/** Pasos del checkout: datos de envío primero, cobro y confirmación después. */
+const CHECKOUT_STEPS = ['details', 'payment'] as const;
+type CheckoutStep = (typeof CHECKOUT_STEPS)[number];
+
 /**
- * Flujo de checkout: captura los datos de contacto y envío, calcula el envío
- * con las mismas reglas que el backend y, al confirmar, delega el pedido al
- * servidor. Al cerrarse con éxito muestra el código y el acceso a WhatsApp.
+ * Flujo de checkout en dos pasos. El primero captura los datos de contacto y
+ * envío junto con la modalidad de entrega; el segundo ofrece el método de pago
+ * y el cierre del pedido. Al confirmar, el servidor crea el pedido y, con pago
+ * en línea, devuelve el enlace de Mercado Pago al que se redirige al cliente.
  */
 export function CheckoutForm() {
   const t = useTranslations('checkout');
@@ -71,6 +77,7 @@ export function CheckoutForm() {
   const { submit, isSubmitting, errorKey, result, priceChanged } = useCheckout();
 
   const groupId = useId();
+  const [step, setStep] = useState<CheckoutStep>('details');
   const [values, setValues] = useState<CheckoutFormValues>(EMPTY_CHECKOUT_FORM);
   const [errors, setErrors] = useState<CheckoutFormErrors>({});
   const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>(DEFAULT_DELIVERY_METHOD);
@@ -134,14 +141,31 @@ export function CheckoutForm() {
     [],
   );
 
+  const goToPayment = useCallback((): void => {
+    const nextErrors = validateCheckoutForm(values);
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) return;
+
+    setStep('payment');
+  }, [values]);
+
   const handleSubmit = useCallback(
     async (event: FormEvent<HTMLFormElement>): Promise<void> => {
       event.preventDefault();
       if (state.lines.length === 0) return;
 
+      // Enter en el primer paso avanza; el pedido solo se crea en el paso de pago.
+      if (step !== 'payment') {
+        goToPayment();
+        return;
+      }
+
       const nextErrors = validateCheckoutForm(values);
       setErrors(nextErrors);
-      if (Object.keys(nextErrors).length > 0) return;
+      if (Object.keys(nextErrors).length > 0) {
+        setStep('details');
+        return;
+      }
 
       const order = await submit(
         toCheckoutRequest(values, state.lines, deliveryMethod, paymentMethod),
@@ -162,7 +186,7 @@ export function CheckoutForm() {
         clear();
       }
     },
-    [clear, deliveryMethod, paymentMethod, state.lines, state.subtotalMXN, submit, values],
+    [clear, deliveryMethod, goToPayment, paymentMethod, state.lines, state.subtotalMXN, step, submit, values],
   );
 
   const fieldError = useCallback(
@@ -199,207 +223,329 @@ export function CheckoutForm() {
     return <CartEmptyState className={cn(CARD_CLASS, 'py-8 sm:py-12')} />;
   }
 
+  // Con pago en línea el siguiente paso es salir a Mercado Pago; si el cobro es
+  // contra entrega, solo se registra el pedido.
+  const processingMessage =
+    paymentMethod === 'mercado_pago' ? t('connectingPayment') : t('confirmingOrder');
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      noValidate
-      className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start"
+    <>
+      <form
+        onSubmit={handleSubmit}
+        noValidate
+        className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start"
+      >
+        <div className="flex flex-col gap-6">
+          <StepIndicator
+            current={step}
+            detailsLabel={t('steps.details')}
+            paymentLabel={t('steps.payment')}
+            progressLabel={t('stepProgress', {
+              current: step === 'details' ? 1 : 2,
+              total: CHECKOUT_STEPS.length,
+            })}
+          />
+
+          {step === 'details' ? (
+            <>
+              <section className={CARD_CLASS}>
+                <h2 className={SECTION_TITLE_CLASS}>{t('contactSectionTitle')}</h2>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Input
+                    name="customerName"
+                    label={t('fields.customerName')}
+                    value={values.customerName}
+                    onChange={handleChange}
+                    error={fieldError('customerName')}
+                    maxLength={CHECKOUT_FIELD_LIMITS.customerName}
+                    autoComplete="name"
+                    leftIcon={<User {...FIELD_ICON_PROPS} aria-hidden="true" />}
+                    containerClassName="sm:col-span-2"
+                  />
+
+                  <Input
+                    name="customerContact"
+                    label={t('fields.customerContact')}
+                    hint={t('fields.customerContactHint')}
+                    value={values.customerContact}
+                    onChange={handleChange}
+                    error={fieldError('customerContact')}
+                    maxLength={CHECKOUT_FIELD_LIMITS.customerContact}
+                    autoComplete="tel"
+                    inputMode="tel"
+                    leftIcon={<Phone {...FIELD_ICON_PROPS} aria-hidden="true" />}
+                  />
+
+                  <Input
+                    name="customerEmail"
+                    type="email"
+                    label={t('fields.customerEmail')}
+                    value={values.customerEmail}
+                    onChange={handleChange}
+                    error={fieldError('customerEmail')}
+                    maxLength={CHECKOUT_FIELD_LIMITS.customerEmail}
+                    autoComplete="email"
+                    leftIcon={<Mail {...FIELD_ICON_PROPS} aria-hidden="true" />}
+                  />
+                </div>
+              </section>
+
+              <section className={CARD_CLASS}>
+                <h2 className={SECTION_TITLE_CLASS}>{t('shippingSectionTitle')}</h2>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Input
+                    name="shippingStreet"
+                    label={t('fields.shippingStreet')}
+                    value={values.shippingStreet}
+                    onChange={handleChange}
+                    error={fieldError('shippingStreet')}
+                    maxLength={CHECKOUT_FIELD_LIMITS.shippingStreet}
+                    autoComplete="street-address"
+                    containerClassName="sm:col-span-2"
+                  />
+
+                  <Input
+                    name="shippingCity"
+                    label={t('fields.shippingCity')}
+                    value={values.shippingCity}
+                    onChange={handleChange}
+                    error={fieldError('shippingCity')}
+                    maxLength={CHECKOUT_FIELD_LIMITS.shippingCity}
+                    autoComplete="address-level2"
+                  />
+
+                  <Input
+                    name="shippingState"
+                    label={t('fields.shippingState')}
+                    value={values.shippingState}
+                    onChange={handleChange}
+                    error={fieldError('shippingState')}
+                    maxLength={CHECKOUT_FIELD_LIMITS.shippingState}
+                    autoComplete="address-level1"
+                  />
+
+                  <Input
+                    name="shippingZip"
+                    label={t('fields.shippingZip')}
+                    value={values.shippingZip}
+                    onChange={handleChange}
+                    error={fieldError('shippingZip')}
+                    maxLength={CHECKOUT_FIELD_LIMITS.shippingZip}
+                    autoComplete="postal-code"
+                    inputMode="numeric"
+                  />
+
+                  <Textarea
+                    name="shippingReferences"
+                    label={t('fields.shippingReferences')}
+                    value={values.shippingReferences}
+                    onChange={handleChange}
+                    maxLength={CHECKOUT_FIELD_LIMITS.shippingReferences}
+                    rows={2}
+                    containerClassName="sm:col-span-2"
+                  />
+                </div>
+              </section>
+
+              <section className={CARD_CLASS}>
+                <h2 id={`${groupId}-delivery`} className={SECTION_TITLE_CLASS}>
+                  {t('deliverySectionTitle')}
+                </h2>
+
+                <div
+                  role="radiogroup"
+                  aria-labelledby={`${groupId}-delivery`}
+                  className="flex flex-col gap-3"
+                >
+                  {SHIPPING_METHOD_OPTIONS.map((option) => (
+                    <OptionCard
+                      key={option.id}
+                      name="deliveryMethod"
+                      value={option.id}
+                      selected={deliveryMethod === option.id}
+                      onSelect={handleDeliverySelect}
+                      icon={SHIPPING_ICONS[option.icon]}
+                      label={t(`methods.${option.labelKey}`)}
+                      description={t(`methods.${option.descriptionKey}`)}
+                      trailing={
+                        option.id === 'paqueteria'
+                          ? t('methods.pricePendingQuote')
+                          : formatMXN(SHIPPING_RATE_MXN[option.id] ?? 0)
+                      }
+                    />
+                  ))}
+                </div>
+              </section>
+            </>
+          ) : (
+            <section className={CARD_CLASS}>
+              <h2 id={`${groupId}-payment`} className={SECTION_TITLE_CLASS}>
+                {t('paymentSectionTitle')}
+              </h2>
+
+              <div
+                role="radiogroup"
+                aria-labelledby={`${groupId}-payment`}
+                className="flex flex-col gap-3"
+              >
+                {paymentOptions.map((option) => (
+                  <OptionCard
+                    key={option.id}
+                    name="paymentMethod"
+                    value={option.id}
+                    selected={paymentMethod === option.id}
+                    onSelect={setPaymentMethod}
+                    icon={PAYMENT_ICONS[option.icon]}
+                    label={t(`payments.${option.labelKey}`)}
+                    description={t(`payments.${option.descriptionKey}`)}
+                  />
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+
+        <aside className={ASIDE_CLASS}>
+          <CheckoutSummary
+            subtotalMXN={state.subtotalMXN}
+            shippingMXN={shippingMXN}
+            totalMXN={totalMXN}
+            deliveryMethod={deliveryMethod}
+          />
+
+          {errorKey ? (
+            <p
+              role="alert"
+              className="rounded-2xl border border-accent-red/40 bg-accent-red/10 px-4 py-3 text-xs leading-relaxed text-white"
+            >
+              {t(`errors.${errorKey}`)}
+            </p>
+          ) : null}
+
+          {step === 'details' ? (
+            <>
+              <Button type="button" variant="primary" size="lg" fullWidth onClick={goToPayment}>
+                {t('next')}
+              </Button>
+
+              <Button as="link" href={CART_PATH} variant="secondary" size="md" fullWidth>
+                {t('backToCart')}
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button type="submit" variant="primary" size="lg" fullWidth disabled={isSubmitting}>
+                {isSubmitting ? processingMessage : t('submit')}
+              </Button>
+
+              <Button as="link" href={CART_PATH} variant="secondary" size="md" fullWidth>
+                {t('backToCart')}
+              </Button>
+
+              <Button
+                type="button"
+                variant="ghost"
+                size="md"
+                fullWidth
+                onClick={() => setStep('details')}
+              >
+                {t('back')}
+              </Button>
+            </>
+          )}
+        </aside>
+      </form>
+
+      {isSubmitting ? <CheckoutProcessing message={processingMessage} /> : null}
+    </>
+  );
+}
+
+interface StepIndicatorProps {
+  /** Paso activo. */
+  readonly current: CheckoutStep;
+  readonly detailsLabel: string;
+  readonly paymentLabel: string;
+  readonly progressLabel: string;
+}
+
+/** Rastro del avance del checkout: qué paso se ve y cuántos faltan. */
+function StepIndicator({
+  current,
+  detailsLabel,
+  paymentLabel,
+  progressLabel,
+}: StepIndicatorProps) {
+  const steps = [
+    { id: 'details', index: 1, label: detailsLabel },
+    { id: 'payment', index: 2, label: paymentLabel },
+  ] as const;
+  const currentIndex = current === 'details' ? 1 : 2;
+
+  return (
+    <div>
+      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-text-faint">
+        {progressLabel}
+      </p>
+
+      <ol className="flex flex-wrap items-center gap-x-3 gap-y-2">
+        {steps.map((item, position) => {
+          const isActive = item.index === currentIndex;
+          const isDone = item.index < currentIndex;
+
+          return (
+            <li key={item.id} className="flex items-center gap-3">
+              {position > 0 ? (
+                <span aria-hidden="true" className="h-px w-6 bg-border-subtle sm:w-10" />
+              ) : null}
+
+              <span
+                className={cn(
+                  'inline-flex items-center gap-2 text-sm',
+                  isActive ? 'text-white' : 'text-text-muted',
+                )}
+              >
+                <span
+                  aria-hidden="true"
+                  className={cn(
+                    'inline-flex h-6 w-6 items-center justify-center rounded-full border text-xs font-semibold',
+                    isActive || isDone
+                      ? 'border-accent-green text-accent-green'
+                      : 'border-border-subtle text-text-muted',
+                    isActive ? 'bg-accent-green/15' : null,
+                  )}
+                >
+                  {item.index}
+                </span>
+                <span className="font-medium">{item.label}</span>
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  );
+}
+
+interface CheckoutProcessingProps {
+  readonly message: string;
+}
+
+/** Bloqueo con indicador mientras el pedido viaja al servidor. */
+function CheckoutProcessing({ message }: CheckoutProcessingProps) {
+  return (
+    <div
+      role="status"
+      aria-live="assertive"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-canvas/85 px-4 backdrop-blur-sm"
     >
-      <div className="flex flex-col gap-6">
-        <section className={CARD_CLASS}>
-          <h2 id={`${groupId}-delivery`} className={SECTION_TITLE_CLASS}>
-            {t('deliverySectionTitle')}
-          </h2>
-
-          <div
-            role="radiogroup"
-            aria-labelledby={`${groupId}-delivery`}
-            className="flex flex-col gap-3"
-          >
-            {SHIPPING_METHOD_OPTIONS.map((option) => (
-              <OptionCard
-                key={option.id}
-                name="deliveryMethod"
-                value={option.id}
-                selected={deliveryMethod === option.id}
-                onSelect={handleDeliverySelect}
-                icon={SHIPPING_ICONS[option.icon]}
-                label={t(`methods.${option.labelKey}`)}
-                description={t(`methods.${option.descriptionKey}`)}
-                trailing={
-                  option.id === 'paqueteria'
-                    ? t('methods.pricePendingQuote')
-                    : formatMXN(SHIPPING_RATE_MXN[option.id] ?? 0)
-                }
-              />
-            ))}
-          </div>
-        </section>
-
-        <section className={CARD_CLASS}>
-          <h2 id={`${groupId}-payment`} className={SECTION_TITLE_CLASS}>
-            {t('paymentSectionTitle')}
-          </h2>
-
-          <div
-            role="radiogroup"
-            aria-labelledby={`${groupId}-payment`}
-            className="flex flex-col gap-3"
-          >
-            {paymentOptions.map((option) => (
-              <OptionCard
-                key={option.id}
-                name="paymentMethod"
-                value={option.id}
-                selected={paymentMethod === option.id}
-                onSelect={setPaymentMethod}
-                icon={PAYMENT_ICONS[option.icon]}
-                label={t(`payments.${option.labelKey}`)}
-                description={t(`payments.${option.descriptionKey}`)}
-              />
-            ))}
-          </div>
-        </section>
-
-        <section className={CARD_CLASS}>
-          <h2 className={SECTION_TITLE_CLASS}>{t('contactSectionTitle')}</h2>
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Input
-              name="customerName"
-              label={t('fields.customerName')}
-              value={values.customerName}
-              onChange={handleChange}
-              error={fieldError('customerName')}
-              maxLength={CHECKOUT_FIELD_LIMITS.customerName}
-              autoComplete="name"
-              leftIcon={<User {...FIELD_ICON_PROPS} aria-hidden="true" />}
-              containerClassName="sm:col-span-2"
-            />
-
-            <Input
-              name="customerContact"
-              label={t('fields.customerContact')}
-              hint={t('fields.customerContactHint')}
-              value={values.customerContact}
-              onChange={handleChange}
-              error={fieldError('customerContact')}
-              maxLength={CHECKOUT_FIELD_LIMITS.customerContact}
-              autoComplete="tel"
-              inputMode="tel"
-              leftIcon={<Phone {...FIELD_ICON_PROPS} aria-hidden="true" />}
-            />
-
-            <Input
-              name="customerEmail"
-              type="email"
-              label={t('fields.customerEmail')}
-              value={values.customerEmail}
-              onChange={handleChange}
-              error={fieldError('customerEmail')}
-              maxLength={CHECKOUT_FIELD_LIMITS.customerEmail}
-              autoComplete="email"
-              leftIcon={<Mail {...FIELD_ICON_PROPS} aria-hidden="true" />}
-            />
-          </div>
-        </section>
-
-        <section className={CARD_CLASS}>
-          <h2 className={SECTION_TITLE_CLASS}>{t('shippingSectionTitle')}</h2>
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Input
-              name="shippingStreet"
-              label={t('fields.shippingStreet')}
-              value={values.shippingStreet}
-              onChange={handleChange}
-              error={fieldError('shippingStreet')}
-              maxLength={CHECKOUT_FIELD_LIMITS.shippingStreet}
-              autoComplete="street-address"
-              containerClassName="sm:col-span-2"
-            />
-
-            <Input
-              name="shippingCity"
-              label={t('fields.shippingCity')}
-              value={values.shippingCity}
-              onChange={handleChange}
-              error={fieldError('shippingCity')}
-              maxLength={CHECKOUT_FIELD_LIMITS.shippingCity}
-              autoComplete="address-level2"
-            />
-
-            <Input
-              name="shippingState"
-              label={t('fields.shippingState')}
-              value={values.shippingState}
-              onChange={handleChange}
-              error={fieldError('shippingState')}
-              maxLength={CHECKOUT_FIELD_LIMITS.shippingState}
-              autoComplete="address-level1"
-            />
-
-            <Input
-              name="shippingZip"
-              label={t('fields.shippingZip')}
-              value={values.shippingZip}
-              onChange={handleChange}
-              error={fieldError('shippingZip')}
-              maxLength={CHECKOUT_FIELD_LIMITS.shippingZip}
-              autoComplete="postal-code"
-              inputMode="numeric"
-            />
-
-            <Textarea
-              name="shippingReferences"
-              label={t('fields.shippingReferences')}
-              value={values.shippingReferences}
-              onChange={handleChange}
-              maxLength={CHECKOUT_FIELD_LIMITS.shippingReferences}
-              rows={2}
-              containerClassName="sm:col-span-2"
-            />
-
-            <Textarea
-              name="note"
-              label={t('fields.note')}
-              hint={t('fields.noteHint')}
-              value={values.note}
-              onChange={handleChange}
-              maxLength={CHECKOUT_FIELD_LIMITS.note}
-              rows={3}
-              containerClassName="sm:col-span-2"
-            />
-          </div>
-        </section>
+      <div className="flex flex-col items-center gap-4 rounded-[1.5rem] border border-border-subtle bg-surface px-10 py-12 text-center shadow-card">
+        <Spinner size={40} className="text-accent-green" />
+        <p className="font-display text-lg text-white">{message}</p>
       </div>
-
-      <aside className={ASIDE_CLASS}>
-        <CheckoutSummary
-          subtotalMXN={state.subtotalMXN}
-          shippingMXN={shippingMXN}
-          totalMXN={totalMXN}
-          deliveryMethod={deliveryMethod}
-        />
-
-        {errorKey ? (
-          <p
-            role="alert"
-            className="rounded-2xl border border-accent-red/40 bg-accent-red/10 px-4 py-3 text-xs leading-relaxed text-white"
-          >
-            {t(`errors.${errorKey}`)}
-          </p>
-        ) : null}
-
-        <Button type="submit" variant="primary" size="lg" fullWidth disabled={isSubmitting}>
-          {isSubmitting ? t('submitting') : t('submit')}
-        </Button>
-
-        <Button as="link" href={CART_PATH} variant="secondary" size="md" fullWidth>
-          {t('backToCart')}
-        </Button>
-      </aside>
-    </form>
+    </div>
   );
 }
 

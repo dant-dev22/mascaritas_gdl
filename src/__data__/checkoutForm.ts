@@ -10,7 +10,6 @@ export const EMPTY_CHECKOUT_FORM: CheckoutFormValues = {
   shippingState: '',
   shippingZip: '',
   shippingReferences: '',
-  note: '',
 };
 
 /** Campos obligatorios, en el orden en que aparecen en el formulario. */
@@ -33,5 +32,4 @@ export const CHECKOUT_FIELD_LIMITS: Record<CheckoutFieldName, number> = {
   shippingState: 96,
   shippingZip: 12,
   shippingReferences: 255,
-  note: 255,
 };

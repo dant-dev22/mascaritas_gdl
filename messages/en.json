@@ -133,6 +133,7 @@
       "viewDetailsShort": "View details for {title}",
       "soldOutOverlay": "SOLD OUT",
       "soldOutButton": "Sold out",
+      "adding": "Adding to cart…",
       "added": "Added!",
       "addToCart": "Add to cart",
       "reviewsCount": "({count} reviews)"
@@ -199,6 +200,11 @@
     "breadcrumbCurrent": "Checkout",
     "pageTitle": "Checkout",
     "pageDescription": "Fill in your details and choose how you want to receive your masks. Once you confirm, we reach out on WhatsApp to arrange payment and shipping.",
+    "steps": {
+      "details": "Your details and delivery",
+      "payment": "Payment and confirmation"
+    },
+    "stepProgress": "Step {current} of {total}",
     "deliverySectionTitle": "Delivery method",
     "paymentSectionTitle": "Payment method",
     "contactSectionTitle": "Your details",
@@ -212,9 +218,7 @@
       "shippingCity": "City or municipality",
       "shippingState": "State",
       "shippingZip": "Zip code",
-      "shippingReferences": "Landmarks (optional)",
-      "note": "Note for the workshop (optional)",
-      "noteHint": "Tell us if you want anything customized on your mask."
+      "shippingReferences": "Landmarks (optional)"
     },
     "methods": {
       "zmg": "Guadalajara Metropolitan Area",
@@ -244,7 +248,10 @@
       "freeShippingApplied": "Your Correos de México shipping is free."
     },
     "submit": "Confirm order",
-    "submitting": "Sending…",
+    "next": "Next",
+    "back": "Back",
+    "connectingPayment": "Connecting to Mercado Pago…",
+    "confirmingOrder": "Confirming your order…",
     "backToCart": "Back to cart",
     "errors": {
       "required": "This field is required.",
@@ -324,6 +331,7 @@
     "outOfStock": "Sold out for now",
     "waitlist": "· Message us to join the waitlist",
     "addToCart": "Add to cart",
+    "adding": "Adding to cart…",
     "added": "Added!",
     "noStock": "Out of stock",
     "askWhatsapp": "Ask on WhatsApp",

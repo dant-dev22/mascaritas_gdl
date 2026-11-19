@@ -2,13 +2,13 @@
 
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { useTransition } from 'react';
 import { Check, Eye, ShoppingCart, Star } from 'lucide-react';
 import { PRODUCT_IMAGE_ASPECT_RATIO } from '@/__data__/products';
-import { useAddToCart } from '@/__hooks__/useAddToCart';
+import { useAddToCartFeedback } from '@/__hooks__/useAddToCartFeedback';
 import { cn, formatMXN } from '@/__lib__/utils';
 import { Badge } from '@/components/ui/Badge';
 import { Button, BUTTON_ICON_PROPS, BUTTON_LARGE_ICON_PROPS } from '@/components/ui/Button';
+import { Spinner } from '@/components/ui/Spinner';
 import { MaskArt } from '@/components/graphics/MaskArt';
 import type { Product } from '@/__types__';
 
@@ -20,15 +20,14 @@ interface ProductCardProps {
 export function ProductCard({ product, className }: ProductCardProps) {
   const t = useTranslations('catalog.productCard');
   const tCatalog = useTranslations('catalog');
-  const [isPending, startTransition] = useTransition();
-  const addToCart = useAddToCart();
+  const { add, status } = useAddToCartFeedback();
+  const isAdding = status === 'adding';
+  const isAdded = status === 'added';
   const detailHref = `/producto/${product.slug}`;
   const hasDiscount = typeof product.oldPriceMXN === 'number';
 
   const handleAdd = (): void => {
-    startTransition(() => {
-      addToCart(product);
-    });
+    add(product);
   };
 
   return (
@@ -124,9 +123,11 @@ export function ProductCard({ product, className }: ProductCardProps) {
             onClick={handleAdd}
             disabled={!product.inStock}
             aria-live="polite"
-            aria-busy={isPending}
+            aria-busy={isAdding}
             leftIcon={
-              isPending ? (
+              isAdding ? (
+                <Spinner size={20} />
+              ) : isAdded ? (
                 <Check {...BUTTON_LARGE_ICON_PROPS} aria-hidden="true" />
               ) : (
                 <ShoppingCart {...BUTTON_LARGE_ICON_PROPS} aria-hidden="true" />
@@ -135,9 +136,11 @@ export function ProductCard({ product, className }: ProductCardProps) {
           >
             {!product.inStock
               ? t('soldOutButton')
-              : isPending
-                ? t('added')
-                : t('addToCart')}
+              : isAdding
+                ? t('adding')
+                : isAdded
+                  ? t('added')
+                  : t('addToCart')}
           </Button>
 
           <Link
