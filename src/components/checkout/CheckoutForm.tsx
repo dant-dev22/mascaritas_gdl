@@ -296,7 +296,12 @@ export function CheckoutForm() {
       <form
         onSubmit={handleSubmit}
         noValidate
-        className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start"
+        className={cn(
+          'grid gap-8',
+          step === 'payment'
+            ? 'mx-auto w-full max-w-2xl'
+            : 'lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start',
+        )}
       >
         <div className="flex flex-col gap-6">
           <StepIndicator
@@ -600,126 +605,136 @@ export function CheckoutForm() {
                   />
                 ))}
               </div>
+
+              {/* En este paso el resumen vive dentro del mismo cuadro: el pedido
+                  se cierra con un único botón de pago. */}
+              <div className="mt-6 border-t border-border-subtle pt-6">
+                <CheckoutSummary
+                  subtotalMXN={state.subtotalMXN}
+                  shippingMXN={shippingMXN}
+                  totalMXN={totalMXN}
+                  deliveryMethod={deliveryMethod}
+                />
+              </div>
+
+              {errorKey ? (
+                <p
+                  role="alert"
+                  className="mt-6 rounded-2xl border border-accent-red/40 bg-accent-red/10 px-4 py-3 text-xs leading-relaxed text-white"
+                >
+                  {t(`errors.${errorKey}`)}
+                </p>
+              ) : null}
+
+              <div className="mt-6">
+                {paymentMethod === 'mercado_pago' ? (
+                  <Button
+                    type="button"
+                    variant="mercadoPago"
+                    size="lg"
+                    fullWidth
+                    disabled={isSubmitting}
+                    onClick={() => void submitOrder()}
+                  >
+                    {isSubmitting ? (
+                      processingMessage
+                    ) : (
+                      <span className="inline-flex items-center gap-2">
+                        {t('payWith')}
+                        <MercadoPagoMark />
+                      </span>
+                    )}
+                  </Button>
+                ) : (
+                  <Button
+                    type="button"
+                    variant="primary"
+                    size="lg"
+                    fullWidth
+                    disabled={isSubmitting}
+                    onClick={() => void submitOrder()}
+                  >
+                    {isSubmitting ? processingMessage : t('submit')}
+                  </Button>
+                )}
+              </div>
             </section>
           )}
         </div>
 
-        <aside className={ASIDE_CLASS}>
-          <CheckoutSummary
-            subtotalMXN={state.subtotalMXN}
-            shippingMXN={shippingMXN}
-            totalMXN={totalMXN}
-            deliveryMethod={deliveryMethod}
-          />
+        {/* En el paso de pago el resumen y el botón viven dentro de la tarjeta
+            de método de pago, así que aquí no se repite el panel lateral. */}
+        {step === 'payment' ? null : (
+          <aside className={ASIDE_CLASS}>
+            <CheckoutSummary
+              subtotalMXN={state.subtotalMXN}
+              shippingMXN={shippingMXN}
+              totalMXN={totalMXN}
+              deliveryMethod={deliveryMethod}
+            />
 
-          {errorKey ? (
-            <p
-              role="alert"
-              className="rounded-2xl border border-accent-red/40 bg-accent-red/10 px-4 py-3 text-xs leading-relaxed text-white"
-            >
-              {t(`errors.${errorKey}`)}
-            </p>
-          ) : null}
+            {errorKey ? (
+              <p
+                role="alert"
+                className="rounded-2xl border border-accent-red/40 bg-accent-red/10 px-4 py-3 text-xs leading-relaxed text-white"
+              >
+                {t(`errors.${errorKey}`)}
+              </p>
+            ) : null}
 
-          {step === 'payment' ? (
-            <>
-              {paymentMethod === 'mercado_pago' ? (
-                <Button
-                  type="button"
-                  variant="mercadoPago"
-                  size="lg"
-                  fullWidth
-                  disabled={isSubmitting}
-                  onClick={() => void submitOrder()}
-                >
-                  {isSubmitting ? (
-                    processingMessage
-                  ) : (
-                    <span className="inline-flex items-center gap-2">
-                      {t('payWith')}
-                      <MercadoPagoMark />
-                    </span>
-                  )}
+            {step === 'shipping' && deliveryMode === 'entrega-personal' ? (
+              <>
+                <Button as="link" href={CART_PATH} variant="secondary" size="md" fullWidth>
+                  {t('backToCart')}
                 </Button>
-              ) : (
-                <Button
-                  type="button"
-                  variant="primary"
-                  size="lg"
-                  fullWidth
-                  disabled={isSubmitting}
-                  onClick={() => void submitOrder()}
-                >
-                  {isSubmitting ? processingMessage : t('submit')}
-                </Button>
-              )}
 
-              <Button as="link" href={CART_PATH} variant="secondary" size="md" fullWidth>
-                {t('backToCart')}
-              </Button>
-
-              <Button
-                type="button"
-                variant="ghost"
-                size="md"
-                fullWidth
-                onClick={() => setStep('review')}
-              >
-                {t('back')}
-              </Button>
-            </>
-          ) : step === 'shipping' && deliveryMode === 'entrega-personal' ? (
-            <>
-              <Button as="link" href={CART_PATH} variant="secondary" size="md" fullWidth>
-                {t('backToCart')}
-              </Button>
-
-              <Button
-                type="button"
-                variant="ghost"
-                size="md"
-                fullWidth
-                onClick={() => setStep('details')}
-              >
-                {t('back')}
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button
-                type="button"
-                variant="primary"
-                size="lg"
-                fullWidth
-                onClick={
-                  step === 'details'
-                    ? goToPayment
-                    : step === 'shipping'
-                      ? goToReview
-                      : () => setStep('payment')
-                }
-              >
-                {t('next')}
-              </Button>
-
-              <Button as="link" href={CART_PATH} variant="secondary" size="md" fullWidth>
-                {t('backToCart')}
-              </Button>
-
-              {step === 'details' ? null : (
                 <Button
                   type="button"
                   variant="ghost"
                   size="md"
                   fullWidth
-                  onClick={() => setStep(step === 'shipping' ? 'details' : 'shipping')}
+                  onClick={() => setStep('details')}
                 >
                   {t('back')}
                 </Button>
-              )}
-            </>
-          )}
-        </aside>
+              </>
+            ) : (
+              <>
+                <Button
+                  type="button"
+                  variant="primary"
+                  size="lg"
+                  fullWidth
+                  onClick={
+                    step === 'details'
+                      ? goToPayment
+                      : step === 'shipping'
+                        ? goToReview
+                        : () => setStep('payment')
+                  }
+                >
+                  {t('next')}
+                </Button>
+
+                <Button as="link" href={CART_PATH} variant="secondary" size="md" fullWidth>
+                  {t('backToCart')}
+                </Button>
+
+                {step === 'details' ? null : (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="md"
+                    fullWidth
+                    onClick={() => setStep(step === 'shipping' ? 'details' : 'shipping')}
+                  >
+                    {t('back')}
+                  </Button>
+                )}
+              </>
+            )}
+          </aside>
+        )}
       </form>
 
       {isSubmitting ? <CheckoutProcessing message={processingMessage} /> : null}
