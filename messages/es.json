@@ -249,11 +249,18 @@
       "whatsappCta": "Coordinar entrega por WhatsApp",
       "whatsappMessage": "Hola, quiero coordinar la entrega personal de mi pedido en la ZMG."
     },
+    "transferencia": {
+      "payCta": "Pagar por transferencia",
+      "whatsappMessage": "Hola, quiero pagar por transferencia mi pedido de Mascaritas GDL.",
+      "whatsappTotal": "Total: {amount}"
+    },
     "payments": {
       "mercadoPago": "Mercado Pago",
       "mercadoPagoDescription": "Paga en línea con tarjeta, transferencia o efectivo en OXXO.",
       "contraEntrega": "Contra entrega (efectivo)",
-      "contraEntregaDescription": "Pagas en efectivo al recibir tus máscaras. Coordinamos la entrega por WhatsApp."
+      "contraEntregaDescription": "Pagas en efectivo al recibir tus máscaras. Coordinamos la entrega por WhatsApp.",
+      "transferencia": "Transferencia",
+      "transferenciaDescription": "¿Eres cliente? Paga más rápido con transferencia y recibe un descuento en el costo final."
     },
     "summary": {
       "title": "Resumen",

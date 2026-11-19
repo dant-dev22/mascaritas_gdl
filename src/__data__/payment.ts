@@ -6,17 +6,22 @@ import type { DeliveryMethod, PaymentIcon, PaymentMethod, PaymentStatus } from '
  */
 
 /** Métodos disponibles, en el orden en que se muestran. */
-export const PAYMENT_METHODS: ReadonlyArray<PaymentMethod> = ['mercado_pago', 'contra_entrega'];
+export const PAYMENT_METHODS: ReadonlyArray<PaymentMethod> = [
+  'mercado_pago',
+  'contra_entrega',
+  'transferencia',
+];
 
 /**
  * Qué métodos acepta cada modalidad de entrega:
  * - La paquetería privada se cotiza a mano y todavía no tiene total, así que
  *   no se puede cobrar en línea.
  * - Correos de México exige prepago: el paquete no sale sin pago.
+ * - La transferencia se cierra por WhatsApp, así que no llega al backend.
  */
 export const PAYMENT_METHODS_BY_DELIVERY: Record<DeliveryMethod, ReadonlyArray<PaymentMethod>> = {
-  zmg: ['mercado_pago', 'contra_entrega'],
-  correos: ['mercado_pago'],
+  zmg: ['mercado_pago', 'contra_entrega', 'transferencia'],
+  correos: ['mercado_pago', 'transferencia'],
   paqueteria: ['contra_entrega'],
 };
 
@@ -63,6 +68,12 @@ export const PAYMENT_METHOD_OPTIONS: ReadonlyArray<PaymentMethodOption> = [
     labelKey: 'contraEntrega',
     descriptionKey: 'contraEntregaDescription',
     icon: 'banknote',
+  },
+  {
+    id: 'transferencia',
+    labelKey: 'transferencia',
+    descriptionKey: 'transferenciaDescription',
+    icon: 'landmark',
   },
 ];
 

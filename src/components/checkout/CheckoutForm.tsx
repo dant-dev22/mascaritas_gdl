@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import type { ChangeEvent, FormEvent, ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
-import { Banknote, CreditCard, FileText, Mail, MapPin, MessageSquare, Package, Phone, Truck, User } from 'lucide-react';
+import { Banknote, CreditCard, FileText, Landmark, Mail, MapPin, MessageSquare, Package, Phone, Truck, User } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { CART_PATH } from '@/__data__/cart';
 import {
@@ -69,6 +69,7 @@ const SHIPPING_ICONS: Record<ShippingIcon, LucideIcon> = {
 const PAYMENT_ICONS: Record<PaymentIcon, LucideIcon> = {
   'credit-card': CreditCard,
   banknote: Banknote,
+  landmark: Landmark,
 };
 
 const CARD_CLASS = 'rounded-[1.5rem] border border-border-subtle bg-surface p-5 sm:p-6';
@@ -146,6 +147,22 @@ export function CheckoutForm() {
     () => buildWhatsAppHref(t('pickup.whatsappMessage')),
     [t],
   );
+
+  // La transferencia se cierra por WhatsApp: el mensaje lleva el resumen para
+  // que el negocio confirme el monto y pase los datos bancarios.
+  const transferenciaWhatsappHref = useMemo(() => {
+    const lines = state.lines.map(
+      (line) => `• ${line.quantity} × ${line.title} — ${formatMXN(line.priceMXN * line.quantity)}`,
+    );
+    const body = [
+      t('transferencia.whatsappMessage'),
+      '',
+      ...lines,
+      t('transferencia.whatsappTotal', { amount: formatMXN(totalMXN ?? state.subtotalMXN) }),
+    ].join('\n');
+
+    return buildWhatsAppHref(body);
+  }, [state.lines, state.subtotalMXN, t, totalMXN]);
 
   const consent = useConsent();
   const initiateCheckoutSent = useRef(false);
@@ -247,9 +264,12 @@ export function CheckoutForm() {
         return;
       }
 
+      // La transferencia se cierra por WhatsApp: aquí no se crea pedido.
+      if (paymentMethod === 'transferencia') return;
+
       void submitOrder();
     },
-    [goToPayment, goToReview, step, submitOrder],
+    [goToPayment, goToReview, paymentMethod, step, submitOrder],
   );
 
   const fieldError = useCallback(
@@ -644,6 +664,19 @@ export function CheckoutForm() {
                         <MercadoPagoMark />
                       </span>
                     )}
+                  </Button>
+                ) : paymentMethod === 'transferencia' ? (
+                  <Button
+                    as="link"
+                    href={transferenciaWhatsappHref}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    variant="primary"
+                    size="lg"
+                    fullWidth
+                    leftIcon={<MessageSquare {...FIELD_ICON_PROPS} aria-hidden="true" />}
+                  >
+                    {t('transferencia.payCta')}
                   </Button>
                 ) : (
                   <Button

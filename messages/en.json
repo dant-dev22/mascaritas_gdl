@@ -249,11 +249,18 @@
       "whatsappCta": "Arrange delivery on WhatsApp",
       "whatsappMessage": "Hi, I'd like to arrange the personal delivery of my order in the ZMG."
     },
+    "transferencia": {
+      "payCta": "Pay by bank transfer",
+      "whatsappMessage": "Hi, I'd like to pay for my Mascaritas GDL order by bank transfer.",
+      "whatsappTotal": "Total: {amount}"
+    },
     "payments": {
       "mercadoPago": "Mercado Pago",
       "mercadoPagoDescription": "Pay online with card, bank transfer or cash at OXXO.",
       "contraEntrega": "Cash on delivery",
-      "contraEntregaDescription": "Pay in cash when you receive your masks. We arrange the delivery over WhatsApp."
+      "contraEntregaDescription": "Pay in cash when you receive your masks. We arrange the delivery over WhatsApp.",
+      "transferencia": "Bank transfer",
+      "transferenciaDescription": "Already a customer? Pay faster by bank transfer and get a discount on your final total."
     },
     "summary": {
       "title": "Summary",
