@@ -202,9 +202,13 @@
     "pageDescription": "Completa tus datos y elige cómo quieres recibir tus máscaras. Al confirmar te contactamos por WhatsApp para acordar el pago y el envío.",
     "steps": {
       "details": "Tus datos y entrega",
-      "payment": "Pago y confirmación"
+      "payment": "Pago",
+      "review": "Revisión"
     },
     "stepProgress": "Paso {current} de {total}",
+    "reviewSectionTitle": "Revisa tu pedido",
+    "reviewItemsTitle": "Productos",
+    "reviewEdit": "Editar",
     "deliverySectionTitle": "Modalidad de entrega",
     "paymentSectionTitle": "Método de pago",
     "contactSectionTitle": "Tus datos",

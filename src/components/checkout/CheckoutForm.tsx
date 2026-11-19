@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
-import type { ChangeEvent, FormEvent } from 'react';
+import type { ChangeEvent, FormEvent, ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 import { Banknote, CreditCard, FileText, Mail, MapPin, Package, Phone, Truck, User } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
@@ -61,15 +61,16 @@ const SECTION_TITLE_CLASS = 'mb-4 font-display text-lg text-white';
 const ASIDE_CLASS =
   'flex flex-col gap-4 rounded-[1.5rem] border border-border-subtle bg-surface p-5 lg:sticky lg:top-24';
 
-/** Pasos del checkout: datos de envío primero, cobro y confirmación después. */
-const CHECKOUT_STEPS = ['details', 'payment'] as const;
+/** Pasos del checkout: datos, método de pago y revisión final antes de pagar. */
+const CHECKOUT_STEPS = ['details', 'payment', 'review'] as const;
 type CheckoutStep = (typeof CHECKOUT_STEPS)[number];
 
 /**
- * Flujo de checkout en dos pasos. El primero captura los datos de contacto y
- * envío junto con la modalidad de entrega; el segundo ofrece el método de pago
- * y el cierre del pedido. Al confirmar, el servidor crea el pedido y, con pago
- * en línea, devuelve el enlace de Mercado Pago al que se redirige al cliente.
+ * Flujo de checkout en tres pasos. El primero captura los datos de contacto y
+ * envío junto con la modalidad de entrega; el segundo ofrece el método de pago;
+ * el tercero resume el pedido para revisarlo. Solo al confirmar en la revisión
+ * el servidor crea el pedido y, con pago en línea, devuelve el enlace de
+ * Mercado Pago al que se redirige al cliente.
  */
 export function CheckoutForm() {
   const t = useTranslations('checkout');
@@ -102,6 +103,17 @@ export function CheckoutForm() {
       ),
     [deliveryMethod],
   );
+
+  // Nombres visibles de lo elegido: se reutilizan en el paso de revisión.
+  const deliveryLabel = useMemo(() => {
+    const option = SHIPPING_METHOD_OPTIONS.find((item) => item.id === deliveryMethod);
+    return option ? t(`methods.${option.labelKey}`) : '';
+  }, [deliveryMethod, t]);
+
+  const paymentLabel = useMemo(() => {
+    const option = PAYMENT_METHOD_OPTIONS.find((item) => item.id === paymentMethod);
+    return option ? t(`payments.${option.labelKey}`) : '';
+  }, [paymentMethod, t]);
 
   const shippingMXN = useMemo(
     () => resolveShippingMXN(deliveryMethod, state.subtotalMXN),
@@ -149,14 +161,27 @@ export function CheckoutForm() {
     setStep('payment');
   }, [values]);
 
+  const goToReview = useCallback((): void => {
+    const nextErrors = validateCheckoutForm(values);
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) return;
+
+    setStep('review');
+  }, [values]);
+
   const handleSubmit = useCallback(
     async (event: FormEvent<HTMLFormElement>): Promise<void> => {
       event.preventDefault();
       if (state.lines.length === 0) return;
 
-      // Enter en el primer paso avanza; el pedido solo se crea en el paso de pago.
-      if (step !== 'payment') {
+      // Los dos primeros pasos solo avanzan: el pedido se crea en la revisión,
+      // para que nadie salga a pagar sin ver antes el resumen completo.
+      if (step === 'details') {
         goToPayment();
+        return;
+      }
+      if (step === 'payment') {
+        goToReview();
         return;
       }
 
@@ -186,7 +211,7 @@ export function CheckoutForm() {
         clear();
       }
     },
-    [clear, deliveryMethod, goToPayment, paymentMethod, state.lines, state.subtotalMXN, step, submit, values],
+    [clear, deliveryMethod, goToPayment, goToReview, paymentMethod, state.lines, state.subtotalMXN, step, submit, values],
   );
 
   const fieldError = useCallback(
@@ -238,10 +263,13 @@ export function CheckoutForm() {
         <div className="flex flex-col gap-6">
           <StepIndicator
             current={step}
-            detailsLabel={t('steps.details')}
-            paymentLabel={t('steps.payment')}
+            labels={{
+              details: t('steps.details'),
+              payment: t('steps.payment'),
+              review: t('steps.review'),
+            }}
             progressLabel={t('stepProgress', {
-              current: step === 'details' ? 1 : 2,
+              current: CHECKOUT_STEPS.indexOf(step) + 1,
               total: CHECKOUT_STEPS.length,
             })}
           />
@@ -391,7 +419,7 @@ export function CheckoutForm() {
                 </div>
               </section>
             </>
-          ) : (
+          ) : step === 'payment' ? (
             <section className={CARD_CLASS}>
               <h2 id={`${groupId}-payment`} className={SECTION_TITLE_CLASS}>
                 {t('paymentSectionTitle')}
@@ -414,6 +442,81 @@ export function CheckoutForm() {
                     description={t(`payments.${option.descriptionKey}`)}
                   />
                 ))}
+              </div>
+            </section>
+          ) : (
+            <section className={CARD_CLASS}>
+              <h2 className={SECTION_TITLE_CLASS}>{t('reviewSectionTitle')}</h2>
+
+              <div className="flex flex-col gap-5">
+                <ReviewBlock
+                  title={t('contactSectionTitle')}
+                  actionLabel={t('reviewEdit')}
+                  onAction={() => setStep('details')}
+                >
+                  <ReviewRow label={t('fields.customerName')} value={values.customerName} />
+                  <ReviewRow label={t('fields.customerContact')} value={values.customerContact} />
+                  {values.customerEmail ? (
+                    <ReviewRow label={t('fields.customerEmail')} value={values.customerEmail} />
+                  ) : null}
+                  {values.customerRfc ? (
+                    <ReviewRow label={t('fields.customerRfc')} value={values.customerRfc} />
+                  ) : null}
+                </ReviewBlock>
+
+                <ReviewBlock
+                  title={t('shippingSectionTitle')}
+                  actionLabel={t('reviewEdit')}
+                  onAction={() => setStep('details')}
+                >
+                  <ReviewRow label={t('fields.shippingStreet')} value={values.shippingStreet} />
+                  <ReviewRow label={t('fields.shippingCity')} value={values.shippingCity} />
+                  <ReviewRow label={t('fields.shippingState')} value={values.shippingState} />
+                  <ReviewRow label={t('fields.shippingZip')} value={values.shippingZip} />
+                  {values.shippingReferences ? (
+                    <ReviewRow
+                      label={t('fields.shippingReferences')}
+                      value={values.shippingReferences}
+                    />
+                  ) : null}
+                </ReviewBlock>
+
+                <ReviewBlock
+                  title={t('deliverySectionTitle')}
+                  actionLabel={t('reviewEdit')}
+                  onAction={() => setStep('details')}
+                >
+                  <p className="text-sm font-semibold text-white">{deliveryLabel}</p>
+                </ReviewBlock>
+
+                <ReviewBlock
+                  title={t('paymentSectionTitle')}
+                  actionLabel={t('reviewEdit')}
+                  onAction={() => setStep('payment')}
+                >
+                  <p className="text-sm font-semibold text-white">{paymentLabel}</p>
+                </ReviewBlock>
+
+                <ReviewBlock title={t('reviewItemsTitle')}>
+                  <ul className="divide-y divide-border-subtle border-y border-border-subtle">
+                    {state.lines.map((line) => (
+                      <li
+                        key={line.productId}
+                        className="flex items-start justify-between gap-3 py-3"
+                      >
+                        <div className="min-w-0">
+                          <p className="text-sm text-white line-clamp-2">{line.title}</p>
+                          <p className="text-xs text-text-faint">
+                            {line.quantity} × {formatMXN(line.priceMXN)}
+                          </p>
+                        </div>
+                        <span className="shrink-0 text-sm font-semibold text-white">
+                          {formatMXN(line.priceMXN * line.quantity)}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </ReviewBlock>
               </div>
             </section>
           )}
@@ -446,10 +549,10 @@ export function CheckoutForm() {
                 {t('backToCart')}
               </Button>
             </>
-          ) : (
+          ) : step === 'payment' ? (
             <>
-              <Button type="submit" variant="primary" size="lg" fullWidth disabled={isSubmitting}>
-                {isSubmitting ? processingMessage : t('submit')}
+              <Button type="button" variant="primary" size="lg" fullWidth onClick={goToReview}>
+                {t('next')}
               </Button>
 
               <Button as="link" href={CART_PATH} variant="secondary" size="md" fullWidth>
@@ -466,6 +569,26 @@ export function CheckoutForm() {
                 {t('back')}
               </Button>
             </>
+          ) : (
+            <>
+              <Button type="submit" variant="primary" size="lg" fullWidth disabled={isSubmitting}>
+                {isSubmitting ? processingMessage : t('submit')}
+              </Button>
+
+              <Button as="link" href={CART_PATH} variant="secondary" size="md" fullWidth>
+                {t('backToCart')}
+              </Button>
+
+              <Button
+                type="button"
+                variant="ghost"
+                size="md"
+                fullWidth
+                onClick={() => setStep('payment')}
+              >
+                {t('back')}
+              </Button>
+            </>
           )}
         </aside>
       </form>
@@ -478,23 +601,14 @@ export function CheckoutForm() {
 interface StepIndicatorProps {
   /** Paso activo. */
   readonly current: CheckoutStep;
-  readonly detailsLabel: string;
-  readonly paymentLabel: string;
+  /** Etiqueta visible de cada paso, por id. */
+  readonly labels: Record<CheckoutStep, string>;
   readonly progressLabel: string;
 }
 
 /** Rastro del avance del checkout: qué paso se ve y cuántos faltan. */
-function StepIndicator({
-  current,
-  detailsLabel,
-  paymentLabel,
-  progressLabel,
-}: StepIndicatorProps) {
-  const steps = [
-    { id: 'details', index: 1, label: detailsLabel },
-    { id: 'payment', index: 2, label: paymentLabel },
-  ] as const;
-  const currentIndex = current === 'details' ? 1 : 2;
+function StepIndicator({ current, labels, progressLabel }: StepIndicatorProps) {
+  const currentIndex = CHECKOUT_STEPS.indexOf(current) + 1;
 
   return (
     <div>
@@ -503,12 +617,13 @@ function StepIndicator({
       </p>
 
       <ol className="flex flex-wrap items-center gap-x-3 gap-y-2">
-        {steps.map((item, position) => {
-          const isActive = item.index === currentIndex;
-          const isDone = item.index < currentIndex;
+        {CHECKOUT_STEPS.map((id, position) => {
+          const index = position + 1;
+          const isActive = index === currentIndex;
+          const isDone = index < currentIndex;
 
           return (
-            <li key={item.id} className="flex items-center gap-3">
+            <li key={id} className="flex items-center gap-3">
               {position > 0 ? (
                 <span aria-hidden="true" className="h-px w-6 bg-border-subtle sm:w-10" />
               ) : null}
@@ -529,14 +644,62 @@ function StepIndicator({
                     isActive ? 'bg-accent-green/15' : null,
                   )}
                 >
-                  {item.index}
+                  {index}
                 </span>
-                <span className="font-medium">{item.label}</span>
+                <span className="font-medium">{labels[id]}</span>
               </span>
             </li>
           );
         })}
       </ol>
+    </div>
+  );
+}
+
+interface ReviewBlockProps {
+  readonly title: string;
+  /** Acción para regresar a corregir el bloque; sin ella solo se muestra. */
+  readonly actionLabel?: string;
+  readonly onAction?: () => void;
+  readonly children: ReactNode;
+}
+
+/** Bloque del paso de revisión: título, atajo para editar y el dato en sí. */
+function ReviewBlock({ title, actionLabel, onAction, children }: ReviewBlockProps) {
+  return (
+    <div className="rounded-2xl border border-border-subtle bg-canvas p-4">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <h3 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-text-faint">
+          {title}
+        </h3>
+
+        {actionLabel && onAction ? (
+          <button
+            type="button"
+            onClick={onAction}
+            className="text-xs font-semibold text-accent-green underline-offset-4 hover:underline focus-visible:underline"
+          >
+            {actionLabel}
+          </button>
+        ) : null}
+      </div>
+
+      <div className="flex flex-col gap-1">{children}</div>
+    </div>
+  );
+}
+
+interface ReviewRowProps {
+  readonly label: string;
+  readonly value: string;
+}
+
+/** Par etiqueta/valor dentro de un bloque de la revisión. */
+function ReviewRow({ label, value }: ReviewRowProps) {
+  return (
+    <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-3">
+      <span className="text-xs text-text-muted">{label}</span>
+      <span className="text-sm text-white sm:text-right">{value}</span>
     </div>
   );
 }
