@@ -268,6 +268,7 @@
       "freeShippingApplied": "Your Correos de México shipping is free."
     },
     "submit": "Confirm order",
+    "payWith": "Pay with",
     "next": "Next",
     "back": "Back",
     "connectingPayment": "Connecting to Mercado Pago…",
@@ -290,7 +291,7 @@
       "whatsappMessage": "Hi, I just placed order {code} at Mascaritas GDL. I would like to confirm it.",
       "onlineTitle": "Your payment is still pending",
       "onlineDescription": "We saved your order. We are taking you to Mercado Pago to pay by card, bank transfer or cash at OXXO; when you finish you come back here to see your payment status.",
-      "payCta": "Pay now with Mercado Pago",
+      "payCta": "Pay now with",
       "payHint": "You can pay again anytime from order tracking, using your order code."
     }
   },

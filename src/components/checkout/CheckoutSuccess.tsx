@@ -10,6 +10,7 @@ import {
   BUTTON_ICON_PROPS,
   BUTTON_LARGE_ICON_PROPS,
 } from '@/components/ui/Button';
+import { MercadoPagoMark } from '@/components/ui/MercadoPagoMark';
 import type { CheckoutResult } from '@/__types__';
 
 /** Margen para que se alcance a leer el código antes de salir a Mercado Pago. */
@@ -95,15 +96,11 @@ export function CheckoutSuccess({ order }: CheckoutSuccessProps) {
       </ul>
 
       {paymentUrl ? (
-        <Button
-          as="link"
-          href={paymentUrl}
-          variant="primary"
-          size="lg"
-          fullWidth
-          leftIcon={<CreditCard {...BUTTON_LARGE_ICON_PROPS} aria-hidden="true" />}
-        >
-          {t('success.payCta')}
+        <Button as="link" href={paymentUrl} variant="mercadoPago" size="lg" fullWidth>
+          <span className="inline-flex items-center gap-2">
+            {t('success.payCta')}
+            <MercadoPagoMark />
+          </span>
         </Button>
       ) : null}
 

@@ -268,6 +268,7 @@
       "freeShippingApplied": "Tu envío por Correos de México va gratis."
     },
     "submit": "Confirmar pedido",
+    "payWith": "Pagar con",
     "next": "Siguiente",
     "back": "Volver",
     "connectingPayment": "Conectando con Mercado Pago…",
@@ -290,7 +291,7 @@
       "whatsappMessage": "Hola, acabo de hacer el pedido {code} en Mascaritas GDL. Quiero confirmarlo.",
       "onlineTitle": "Falta completar tu pago",
       "onlineDescription": "Guardamos tu pedido. Te llevamos a Mercado Pago para pagar con tarjeta, transferencia o efectivo en OXXO; al terminar vuelves aquí con el estado de tu pago.",
-      "payCta": "Pagar ahora con Mercado Pago",
+      "payCta": "Pagar ahora con",
       "payHint": "Puedes volver a pagar cuando quieras desde el rastreo, con tu código de pedido."
     }
   },

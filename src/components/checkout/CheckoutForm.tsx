@@ -40,6 +40,7 @@ import { useCheckout } from '@/__hooks__/useCheckout';
 import { useConsent } from '@/__hooks__/useConsent';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { MercadoPagoMark } from '@/components/ui/MercadoPagoMark';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Spinner } from '@/components/ui/Spinner';
 import { Textarea } from '@/components/ui/Textarea';
@@ -194,13 +195,45 @@ export function CheckoutForm() {
     setStep('review');
   }, [values]);
 
-  const handleSubmit = useCallback(
-    async (event: FormEvent<HTMLFormElement>): Promise<void> => {
-      event.preventDefault();
-      if (state.lines.length === 0) return;
+  // Crea el pedido en el servidor. Solo se ejecuta desde el paso de pago, con
+  // la confirmación explícita del cliente.
+  const submitOrder = useCallback(async (): Promise<void> => {
+    if (state.lines.length === 0) return;
 
-      // Los primeros pasos solo avanzan sección por sección; el pedido se crea
-      // en el paso de pago, después de la revisión final.
+    const nextErrors = validateCheckoutForm(values);
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) {
+      // Se vuelve al primer paso donde falte algo.
+      const hasContactError = CONTACT_CHECKOUT_FIELDS.some((field) => nextErrors[field]);
+      setStep(hasContactError ? 'details' : 'shipping');
+      return;
+    }
+
+    const order = await submit(
+      toCheckoutRequest(values, state.lines, deliveryMethod, paymentMethod),
+      state.subtotalMXN,
+    );
+
+    // El pedido ya existe en el servidor: se mide la conversión antes de
+    // vaciar el carrito, con el total que calculó el servidor.
+    if (order) {
+      trackPurchase({
+        valueMXN: order.totalMXN ?? order.subtotalMXN,
+        lines: order.items.map((item) => ({
+          id: item.productId ?? item.sku,
+          quantity: item.quantity,
+          itemPriceMXN: item.unitPriceMXN,
+        })),
+      });
+      clear();
+    }
+  }, [clear, deliveryMethod, paymentMethod, state.lines, state.subtotalMXN, submit, values]);
+
+  // Enter dentro del formulario avanza de paso; el pedido se crea en el pago.
+  const handleSubmit = useCallback(
+    (event: FormEvent<HTMLFormElement>): void => {
+      event.preventDefault();
+
       if (step === 'details') {
         goToPayment();
         return;
@@ -214,35 +247,9 @@ export function CheckoutForm() {
         return;
       }
 
-      const nextErrors = validateCheckoutForm(values);
-      setErrors(nextErrors);
-      if (Object.keys(nextErrors).length > 0) {
-        // Se vuelve al primer paso donde falte algo.
-        const hasContactError = CONTACT_CHECKOUT_FIELDS.some((field) => nextErrors[field]);
-        setStep(hasContactError ? 'details' : 'shipping');
-        return;
-      }
-
-      const order = await submit(
-        toCheckoutRequest(values, state.lines, deliveryMethod, paymentMethod),
-        state.subtotalMXN,
-      );
-
-      // El pedido ya existe en el servidor: se mide la conversión antes de
-      // vaciar el carrito, con el total que calculó el servidor.
-      if (order) {
-        trackPurchase({
-          valueMXN: order.totalMXN ?? order.subtotalMXN,
-          lines: order.items.map((item) => ({
-            id: item.productId ?? item.sku,
-            quantity: item.quantity,
-            itemPriceMXN: item.unitPriceMXN,
-          })),
-        });
-        clear();
-      }
+      void submitOrder();
     },
-    [clear, deliveryMethod, goToPayment, goToReview, paymentMethod, state.lines, state.subtotalMXN, step, submit, values],
+    [goToPayment, goToReview, step, submitOrder],
   );
 
   const fieldError = useCallback(
@@ -616,9 +623,36 @@ export function CheckoutForm() {
 
           {step === 'payment' ? (
             <>
-              <Button type="submit" variant="primary" size="lg" fullWidth disabled={isSubmitting}>
-                {isSubmitting ? processingMessage : t('submit')}
-              </Button>
+              {paymentMethod === 'mercado_pago' ? (
+                <Button
+                  type="button"
+                  variant="mercadoPago"
+                  size="lg"
+                  fullWidth
+                  disabled={isSubmitting}
+                  onClick={() => void submitOrder()}
+                >
+                  {isSubmitting ? (
+                    processingMessage
+                  ) : (
+                    <span className="inline-flex items-center gap-2">
+                      {t('payWith')}
+                      <MercadoPagoMark />
+                    </span>
+                  )}
+                </Button>
+              ) : (
+                <Button
+                  type="button"
+                  variant="primary"
+                  size="lg"
+                  fullWidth
+                  disabled={isSubmitting}
+                  onClick={() => void submitOrder()}
+                >
+                  {isSubmitting ? processingMessage : t('submit')}
+                </Button>
+              )}
 
               <Button as="link" href={CART_PATH} variant="secondary" size="md" fullWidth>
                 {t('backToCart')}

@@ -1,6 +1,6 @@
 export type BadgeVariant = 'semi-pro' | 'last-units' | 'new' | 'success';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'mercadoPago';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 export interface SocialLink {

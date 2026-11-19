@@ -59,6 +59,15 @@ const buttonVariants = cva(
           'active:bg-surface-hover',
           'focus-visible:shadow-[0_0_0_3px_rgba(0,168,107,0.25)]',
         ].join(' '),
+        // Azul corporativo de Mercado Pago, para los botones de pago en línea.
+        mercadoPago: [
+          'bg-[#009ee3]',
+          'text-white',
+          'shadow-[0_10px_40px_-12px_rgba(0,158,227,0.6)]',
+          'hover:bg-[#008fcf]',
+          'active:bg-[#0082bd]',
+          'focus-visible:shadow-[0_0_0_3px_rgba(0,158,227,0.35)]',
+        ].join(' '),
       } satisfies Record<ButtonVariant, string>,
       size: {
         sm: 'h-11 px-4 text-sm',
