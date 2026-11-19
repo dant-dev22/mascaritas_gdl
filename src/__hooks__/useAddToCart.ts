@@ -15,6 +15,8 @@ export function useAddToCart(): (product: Product) => void {
         slug: product.slug,
         title: product.title,
         priceMXN: product.priceMXN,
+        maskStyle: product.maskStyle,
+        accentColor: product.accentColor,
       });
     },
     [addItem],

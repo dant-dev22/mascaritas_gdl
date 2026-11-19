@@ -1,9 +1,14 @@
+import type { AccentColor, MaskStyle } from './product';
+
 export interface CartLine {
   readonly productId: string;
   readonly slug: string;
   readonly title: string;
   readonly priceMXN: number;
   readonly quantity: number;
+  /** Estilo y paleta de la máscara; alimentan la miniatura `MaskArt` del carrito. */
+  readonly maskStyle: MaskStyle;
+  readonly accentColor: AccentColor;
 }
 
 export type CartState = Readonly<{

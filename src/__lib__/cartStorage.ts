@@ -1,5 +1,12 @@
-import { CART_MAX_QUANTITY, CART_STORAGE_KEY } from '@/__data__/cart';
-import type { CartLine } from '@/__types__';
+import {
+  CART_ACCENT_COLORS,
+  CART_MASK_STYLES,
+  CART_MAX_QUANTITY,
+  CART_STORAGE_KEY,
+  DEFAULT_CART_ACCENT_COLOR,
+  DEFAULT_CART_MASK_STYLE,
+} from '@/__data__/cart';
+import type { AccentColor, CartLine, MaskStyle } from '@/__types__';
 
 /**
  * `localStorage` es un límite del sistema: el usuario puede editarlo a mano y
@@ -23,6 +30,13 @@ function toText(value: unknown): string | null {
   return typeof value === 'string' && value.trim().length > 0 ? value : null;
 }
 
+/** Devuelve el valor si pertenece al catálogo; si no, el valor por defecto. */
+function toEnum<T extends string>(value: unknown, allowed: ReadonlyArray<T>, fallback: T): T {
+  return typeof value === 'string' && (allowed as ReadonlyArray<string>).includes(value)
+    ? (value as T)
+    : fallback;
+}
+
 /** Valida una línea guardada. Devuelve `null` si está corrupta. */
 function parseLine(raw: unknown): CartLine | null {
   if (typeof raw !== 'object' || raw === null) return null;
@@ -36,7 +50,15 @@ function parseLine(raw: unknown): CartLine | null {
 
   if (!productId || !slug || !title || priceMXN === null || quantity === 0) return null;
 
-  return { productId, slug, title, priceMXN, quantity };
+  // Las líneas guardadas antes de la miniatura no traen estilo ni paleta.
+  const maskStyle = toEnum<MaskStyle>(entry.maskStyle, CART_MASK_STYLES, DEFAULT_CART_MASK_STYLE);
+  const accentColor = toEnum<AccentColor>(
+    entry.accentColor,
+    CART_ACCENT_COLORS,
+    DEFAULT_CART_ACCENT_COLOR,
+  );
+
+  return { productId, slug, title, priceMXN, quantity, maskStyle, accentColor };
 }
 
 /** Lee el carrito guardado. Devuelve `[]` en el servidor o si está corrupto. */

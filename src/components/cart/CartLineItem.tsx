@@ -7,6 +7,7 @@ import { CART_MAX_QUANTITY } from '@/__data__/cart';
 import { useCartContext } from '@/__hooks__/useCartContext';
 import { cn, formatMXN } from '@/__lib__/utils';
 import { BUTTON_ICON_PROPS } from '@/components/ui/Button';
+import { MaskArt } from '@/components/graphics/MaskArt';
 import type { CartLine } from '@/__types__';
 
 interface CartLineItemProps {
@@ -40,9 +41,11 @@ export function CartLineItem({ line, className }: CartLineItemProps) {
         aria-label={t('viewProduct', { title: line.title })}
         className="product-ph shrink-0 w-16 h-16 rounded-2xl flex items-center justify-center focus-visible:outline-none focus-visible:shadow-glow-green"
       >
-        <span aria-hidden="true" className="font-display text-2xl text-accent-green leading-none">
-          {line.title.charAt(0)}
-        </span>
+        <MaskArt
+          maskStyle={line.maskStyle}
+          accentColor={line.accentColor}
+          className="w-[72%] h-[72%]"
+        />
       </Link>
 
       <div className="flex-1 min-w-0 flex flex-col gap-2">

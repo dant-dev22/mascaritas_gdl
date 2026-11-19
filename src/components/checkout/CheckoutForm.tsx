@@ -43,6 +43,7 @@ import { Input } from '@/components/ui/Input';
 import { MercadoPagoMark } from '@/components/ui/MercadoPagoMark';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Spinner } from '@/components/ui/Spinner';
+import { MaskArt } from '@/components/graphics/MaskArt';
 import { Textarea } from '@/components/ui/Textarea';
 import { CartEmptyState } from '@/components/cart/CartEmptyState';
 import { CheckoutSuccess } from './CheckoutSuccess';
@@ -584,14 +585,28 @@ export function CheckoutForm() {
                     {state.lines.map((line) => (
                       <li
                         key={line.productId}
-                        className="flex items-start justify-between gap-3 py-3"
+                        className="flex items-center justify-between gap-3 py-3"
                       >
-                        <div className="min-w-0">
-                          <p className="text-sm text-white line-clamp-2">{line.title}</p>
-                          <p className="text-xs text-text-faint">
-                            {line.quantity} × {formatMXN(line.priceMXN)}
-                          </p>
+                        <div className="flex min-w-0 items-center gap-3">
+                          <span
+                            aria-hidden="true"
+                            className="product-ph shrink-0 w-12 h-12 rounded-xl flex items-center justify-center"
+                          >
+                            <MaskArt
+                              maskStyle={line.maskStyle}
+                              accentColor={line.accentColor}
+                              className="w-[72%] h-[72%]"
+                            />
+                          </span>
+
+                          <div className="min-w-0">
+                            <p className="text-sm text-white line-clamp-2">{line.title}</p>
+                            <p className="text-xs text-text-faint">
+                              {line.quantity} × {formatMXN(line.priceMXN)}
+                            </p>
+                          </div>
                         </div>
+
                         <span className="shrink-0 text-sm font-semibold text-white">
                           {formatMXN(line.priceMXN * line.quantity)}
                         </span>
