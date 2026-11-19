@@ -1,11 +1,17 @@
 import type { OrderStatus, OrderTimelineEvent } from './order';
 import type { PaymentMethod, PaymentStatus } from './payment';
 
-/**
- * Modalidades de entrega del checkout. Espejo de `order_data.py` en el backend:
+/** Modalidades de entrega del checkout. Espejo de `order_data.py` en el backend:
  * si añades una, actualízala en ambos lados.
  */
 export type DeliveryMethod = 'zmg' | 'correos' | 'paqueteria';
+
+/**
+ * Primera decisión del paso de envío: mandar el pedido a domicilio o
+ * entregarlo en persona en la ZMG, en cuyo caso el cierre se coordina por
+ * WhatsApp y el checkout termina ahí.
+ */
+export type DeliveryMode = 'envio' | 'entrega-personal';
 
 /** Icono que representa una modalidad de entrega. */
 export type ShippingIcon = 'map-pin' | 'truck' | 'package';

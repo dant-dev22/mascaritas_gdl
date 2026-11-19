@@ -1,4 +1,4 @@
-import type { DeliveryMethod, ShippingIcon } from '@/__types__';
+import type { DeliveryMethod, DeliveryMode, ShippingIcon } from '@/__types__';
 
 /**
  * Tarifas y modalidades de entrega. Espejo de `app/order_data.py` en el
@@ -8,7 +8,10 @@ import type { DeliveryMethod, ShippingIcon } from '@/__types__';
 /** Modalidades disponibles, en el orden en que se muestran. */
 export const DELIVERY_METHODS: ReadonlyArray<DeliveryMethod> = ['zmg', 'correos', 'paqueteria'];
 
-export const DEFAULT_DELIVERY_METHOD: DeliveryMethod = 'zmg';
+export const DEFAULT_DELIVERY_METHOD: DeliveryMethod = 'correos';
+
+/** Primera decisión del paso de envío; por defecto se ofrece envío a domicilio. */
+export const DEFAULT_DELIVERY_MODE: DeliveryMode = 'envio';
 
 /** Tarifa fija por modalidad. La paquetería privada se cotiza por WhatsApp. */
 export const SHIPPING_RATE_MXN: Record<DeliveryMethod, number | null> = {
@@ -53,5 +56,33 @@ export const SHIPPING_METHOD_OPTIONS: ReadonlyArray<ShippingMethodOption> = [
     labelKey: 'paqueteria',
     descriptionKey: 'paqueteriaDescription',
     icon: 'package',
+  },
+];
+
+/**
+ * Paqueterías que se ofrecen cuando se eligió envío a domicilio. Excluye la
+ * entrega personal en la ZMG: esa rama se resuelve por WhatsApp.
+ */
+export const CARRIER_OPTIONS: ReadonlyArray<ShippingMethodOption> = SHIPPING_METHOD_OPTIONS.filter(
+  (option) => option.id !== 'zmg',
+);
+
+export interface DeliveryModeOption {
+  readonly id: DeliveryMode;
+  /** Clave del namespace `checkout.deliveryModes` con el nombre visible. */
+  readonly labelKey: string;
+  /** Clave del namespace `checkout.deliveryModes` con la descripción visible. */
+  readonly descriptionKey: string;
+  readonly icon: ShippingIcon;
+}
+
+/** Modalidades de primer nivel del paso de envío, en orden. */
+export const DELIVERY_MODE_OPTIONS: ReadonlyArray<DeliveryModeOption> = [
+  { id: 'envio', labelKey: 'envio', descriptionKey: 'envioDescription', icon: 'truck' },
+  {
+    id: 'entrega-personal',
+    labelKey: 'entregaPersonal',
+    descriptionKey: 'entregaPersonalDescription',
+    icon: 'map-pin',
   },
 ];

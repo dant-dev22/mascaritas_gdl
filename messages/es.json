@@ -236,6 +236,19 @@
       "paqueteriaDescription": "Cotizamos el envío por WhatsApp según tu destino.",
       "pricePendingQuote": "Por cotizar"
     },
+    "carrierSectionTitle": "Paquetería",
+    "deliveryModes": {
+      "envio": "Envío",
+      "envioDescription": "Te lo mandamos por paquetería a tu domicilio.",
+      "entregaPersonal": "Entrega personal en la ZMG",
+      "entregaPersonalDescription": "Acordamos el punto y la hora de la entrega por WhatsApp."
+    },
+    "pickup": {
+      "title": "Entrega personal en la ZMG",
+      "description": "Cerramos tu pedido por WhatsApp: ahí acordamos el punto y la hora de la entrega en la Zona Metropolitana de Guadalajara.",
+      "whatsappCta": "Coordinar entrega por WhatsApp",
+      "whatsappMessage": "Hola, quiero coordinar la entrega personal de mi pedido en la ZMG."
+    },
     "payments": {
       "mercadoPago": "Mercado Pago",
       "mercadoPagoDescription": "Paga en línea con tarjeta, transferencia o efectivo en OXXO.",

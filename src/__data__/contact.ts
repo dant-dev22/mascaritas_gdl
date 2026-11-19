@@ -4,3 +4,6 @@ export const CONTACT = {
   email: 'hola@mascaritasgdl.mx',
   workshopAddress: 'Col. Americana, Guadalajara, Jalisco',
 } as const;
+
+/** WhatsApp para coordinar la entrega personal en la ZMG desde el checkout. */
+export const ZMG_PICKUP_WHATSAPP_NUMBER = '52331258905';

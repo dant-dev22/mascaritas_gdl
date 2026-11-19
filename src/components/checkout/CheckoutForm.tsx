@@ -3,9 +3,10 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import type { ChangeEvent, FormEvent, ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
-import { Banknote, CreditCard, FileText, Mail, MapPin, Package, Phone, Truck, User } from 'lucide-react';
+import { Banknote, CreditCard, FileText, Mail, MapPin, MessageSquare, Package, Phone, Truck, User } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { CART_PATH } from '@/__data__/cart';
+import { ZMG_PICKUP_WHATSAPP_NUMBER } from '@/__data__/contact';
 import {
   CHECKOUT_FIELD_LIMITS,
   CONTACT_CHECKOUT_FIELDS,
@@ -13,8 +14,10 @@ import {
   SHIPPING_CHECKOUT_FIELDS,
 } from '@/__data__/checkoutForm';
 import {
+  CARRIER_OPTIONS,
   DEFAULT_DELIVERY_METHOD,
-  SHIPPING_METHOD_OPTIONS,
+  DEFAULT_DELIVERY_MODE,
+  DELIVERY_MODE_OPTIONS,
   SHIPPING_RATE_MXN,
   isDeliveryMethod,
   resolveShippingMXN,
@@ -32,6 +35,7 @@ import {
 } from '@/__lib__/checkoutForm';
 import { trackInitiateCheckout, trackPurchase } from '@/__lib__/analytics';
 import { cn, formatMXN } from '@/__lib__/utils';
+import { buildWhatsAppHref } from '@/__lib__/whatsapp';
 import { useCartContext } from '@/__hooks__/useCartContext';
 import { useCheckout } from '@/__hooks__/useCheckout';
 import { useConsent } from '@/__hooks__/useConsent';
@@ -48,6 +52,7 @@ import type {
   CheckoutFormErrors,
   CheckoutFormValues,
   DeliveryMethod,
+  DeliveryMode,
   PaymentIcon,
   PaymentMethod,
   ShippingIcon,
@@ -91,6 +96,7 @@ export function CheckoutForm() {
   const [step, setStep] = useState<CheckoutStep>('details');
   const [values, setValues] = useState<CheckoutFormValues>(EMPTY_CHECKOUT_FORM);
   const [errors, setErrors] = useState<CheckoutFormErrors>({});
+  const [deliveryMode, setDeliveryMode] = useState<DeliveryMode>(DEFAULT_DELIVERY_MODE);
   const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>(DEFAULT_DELIVERY_METHOD);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(() =>
     defaultPaymentMethod(DEFAULT_DELIVERY_METHOD),
@@ -115,16 +121,31 @@ export function CheckoutForm() {
   );
 
   // Nombres visibles de lo elegido: se reutilizan en el paso de revisión.
+  const deliveryModeLabel = useMemo(() => {
+    const option = DELIVERY_MODE_OPTIONS.find((item) => item.id === deliveryMode);
+    return option ? t(`deliveryModes.${option.labelKey}`) : '';
+  }, [deliveryMode, t]);
+
   const deliveryLabel = useMemo(() => {
-    const option = SHIPPING_METHOD_OPTIONS.find((item) => item.id === deliveryMethod);
+    const option = CARRIER_OPTIONS.find((item) => item.id === deliveryMethod);
     return option ? t(`methods.${option.labelKey}`) : '';
   }, [deliveryMethod, t]);
 
+  // La entrega personal se cierra por WhatsApp, así que el envío no se cotiza
+  // aquí; el envío a domicilio usa la tarifa de la paquetería elegida.
   const shippingMXN = useMemo(
-    () => resolveShippingMXN(deliveryMethod, state.subtotalMXN),
-    [deliveryMethod, state.subtotalMXN],
+    () =>
+      deliveryMode === 'entrega-personal'
+        ? null
+        : resolveShippingMXN(deliveryMethod, state.subtotalMXN),
+    [deliveryMode, deliveryMethod, state.subtotalMXN],
   );
   const totalMXN = shippingMXN === null ? null : state.subtotalMXN + shippingMXN;
+
+  const pickupWhatsappHref = useMemo(
+    () => buildWhatsAppHref(t('pickup.whatsappMessage'), ZMG_PICKUP_WHATSAPP_NUMBER),
+    [t],
+  );
 
   const consent = useConsent();
   const initiateCheckoutSent = useRef(false);
@@ -344,64 +365,6 @@ export function CheckoutForm() {
           ) : step === 'shipping' ? (
             <>
               <section className={CARD_CLASS}>
-                <h2 className={SECTION_TITLE_CLASS}>{t('shippingSectionTitle')}</h2>
-
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <Input
-                    name="shippingStreet"
-                    label={t('fields.shippingStreet')}
-                    value={values.shippingStreet}
-                    onChange={handleChange}
-                    error={fieldError('shippingStreet')}
-                    maxLength={CHECKOUT_FIELD_LIMITS.shippingStreet}
-                    autoComplete="street-address"
-                    containerClassName="sm:col-span-2"
-                  />
-
-                  <Input
-                    name="shippingCity"
-                    label={t('fields.shippingCity')}
-                    value={values.shippingCity}
-                    onChange={handleChange}
-                    error={fieldError('shippingCity')}
-                    maxLength={CHECKOUT_FIELD_LIMITS.shippingCity}
-                    autoComplete="address-level2"
-                  />
-
-                  <Input
-                    name="shippingState"
-                    label={t('fields.shippingState')}
-                    value={values.shippingState}
-                    onChange={handleChange}
-                    error={fieldError('shippingState')}
-                    maxLength={CHECKOUT_FIELD_LIMITS.shippingState}
-                    autoComplete="address-level1"
-                  />
-
-                  <Input
-                    name="shippingZip"
-                    label={t('fields.shippingZip')}
-                    value={values.shippingZip}
-                    onChange={handleChange}
-                    error={fieldError('shippingZip')}
-                    maxLength={CHECKOUT_FIELD_LIMITS.shippingZip}
-                    autoComplete="postal-code"
-                    inputMode="numeric"
-                  />
-
-                  <Textarea
-                    name="shippingReferences"
-                    label={t('fields.shippingReferences')}
-                    value={values.shippingReferences}
-                    onChange={handleChange}
-                    maxLength={CHECKOUT_FIELD_LIMITS.shippingReferences}
-                    rows={2}
-                    containerClassName="sm:col-span-2"
-                  />
-                </div>
-              </section>
-
-              <section className={CARD_CLASS}>
                 <h2 id={`${groupId}-delivery`} className={SECTION_TITLE_CLASS}>
                   {t('deliverySectionTitle')}
                 </h2>
@@ -411,25 +374,134 @@ export function CheckoutForm() {
                   aria-labelledby={`${groupId}-delivery`}
                   className="flex flex-col gap-3"
                 >
-                  {SHIPPING_METHOD_OPTIONS.map((option) => (
+                  {DELIVERY_MODE_OPTIONS.map((option) => (
                     <OptionCard
                       key={option.id}
-                      name="deliveryMethod"
+                      name="deliveryMode"
                       value={option.id}
-                      selected={deliveryMethod === option.id}
-                      onSelect={handleDeliverySelect}
+                      selected={deliveryMode === option.id}
+                      onSelect={setDeliveryMode}
                       icon={SHIPPING_ICONS[option.icon]}
-                      label={t(`methods.${option.labelKey}`)}
-                      description={t(`methods.${option.descriptionKey}`)}
-                      trailing={
-                        option.id === 'paqueteria'
-                          ? t('methods.pricePendingQuote')
-                          : formatMXN(SHIPPING_RATE_MXN[option.id] ?? 0)
-                      }
+                      label={t(`deliveryModes.${option.labelKey}`)}
+                      description={t(`deliveryModes.${option.descriptionKey}`)}
                     />
                   ))}
                 </div>
               </section>
+
+              {deliveryMode === 'entrega-personal' ? (
+                <section className={CARD_CLASS}>
+                  <h2 className={SECTION_TITLE_CLASS}>{t('pickup.title')}</h2>
+
+                  <p className="text-sm leading-relaxed text-text-muted">
+                    {t('pickup.description')}
+                  </p>
+
+                  <Button
+                    as="link"
+                    href={pickupWhatsappHref}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    variant="primary"
+                    size="lg"
+                    fullWidth
+                    leftIcon={<MessageSquare {...FIELD_ICON_PROPS} aria-hidden="true" />}
+                    className="mt-5"
+                  >
+                    {t('pickup.whatsappCta')}
+                  </Button>
+                </section>
+              ) : (
+                <>
+                  <section className={CARD_CLASS}>
+                    <h2 className={SECTION_TITLE_CLASS}>{t('shippingSectionTitle')}</h2>
+
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <Input
+                        name="shippingStreet"
+                        label={t('fields.shippingStreet')}
+                        value={values.shippingStreet}
+                        onChange={handleChange}
+                        error={fieldError('shippingStreet')}
+                        maxLength={CHECKOUT_FIELD_LIMITS.shippingStreet}
+                        autoComplete="street-address"
+                        containerClassName="sm:col-span-2"
+                      />
+
+                      <Input
+                        name="shippingCity"
+                        label={t('fields.shippingCity')}
+                        value={values.shippingCity}
+                        onChange={handleChange}
+                        error={fieldError('shippingCity')}
+                        maxLength={CHECKOUT_FIELD_LIMITS.shippingCity}
+                        autoComplete="address-level2"
+                      />
+
+                      <Input
+                        name="shippingState"
+                        label={t('fields.shippingState')}
+                        value={values.shippingState}
+                        onChange={handleChange}
+                        error={fieldError('shippingState')}
+                        maxLength={CHECKOUT_FIELD_LIMITS.shippingState}
+                        autoComplete="address-level1"
+                      />
+
+                      <Input
+                        name="shippingZip"
+                        label={t('fields.shippingZip')}
+                        value={values.shippingZip}
+                        onChange={handleChange}
+                        error={fieldError('shippingZip')}
+                        maxLength={CHECKOUT_FIELD_LIMITS.shippingZip}
+                        autoComplete="postal-code"
+                        inputMode="numeric"
+                      />
+
+                      <Textarea
+                        name="shippingReferences"
+                        label={t('fields.shippingReferences')}
+                        value={values.shippingReferences}
+                        onChange={handleChange}
+                        maxLength={CHECKOUT_FIELD_LIMITS.shippingReferences}
+                        rows={2}
+                        containerClassName="sm:col-span-2"
+                      />
+                    </div>
+                  </section>
+
+                  <section className={CARD_CLASS}>
+                    <h2 id={`${groupId}-carrier`} className={SECTION_TITLE_CLASS}>
+                      {t('carrierSectionTitle')}
+                    </h2>
+
+                    <div
+                      role="radiogroup"
+                      aria-labelledby={`${groupId}-carrier`}
+                      className="flex flex-col gap-3"
+                    >
+                      {CARRIER_OPTIONS.map((option) => (
+                        <OptionCard
+                          key={option.id}
+                          name="deliveryMethod"
+                          value={option.id}
+                          selected={deliveryMethod === option.id}
+                          onSelect={handleDeliverySelect}
+                          icon={SHIPPING_ICONS[option.icon]}
+                          label={t(`methods.${option.labelKey}`)}
+                          description={t(`methods.${option.descriptionKey}`)}
+                          trailing={
+                            option.id === 'paqueteria'
+                              ? t('methods.pricePendingQuote')
+                              : formatMXN(SHIPPING_RATE_MXN[option.id] ?? 0)
+                          }
+                        />
+                      ))}
+                    </div>
+                  </section>
+                </>
+              )}
             </>
           ) : step === 'review' ? (
             <section className={CARD_CLASS}>
@@ -473,7 +545,7 @@ export function CheckoutForm() {
                   actionLabel={t('reviewEdit')}
                   onAction={() => setStep('shipping')}
                 >
-                  <p className="text-sm font-semibold text-white">{deliveryLabel}</p>
+                  <ReviewRow label={deliveryModeLabel} value={deliveryLabel} />
                 </ReviewBlock>
 
                 <ReviewBlock title={t('reviewItemsTitle')}>
@@ -559,6 +631,22 @@ export function CheckoutForm() {
                 size="md"
                 fullWidth
                 onClick={() => setStep('review')}
+              >
+                {t('back')}
+              </Button>
+            </>
+          ) : step === 'shipping' && deliveryMode === 'entrega-personal' ? (
+            <>
+              <Button as="link" href={CART_PATH} variant="secondary" size="md" fullWidth>
+                {t('backToCart')}
+              </Button>
+
+              <Button
+                type="button"
+                variant="ghost"
+                size="md"
+                fullWidth
+                onClick={() => setStep('details')}
               >
                 {t('back')}
               </Button>

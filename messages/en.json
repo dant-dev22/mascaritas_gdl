@@ -233,8 +233,21 @@
       "correos": "Correos de México",
       "correosDescription": "Shipping outside the state. Free from $999 MXN.",
       "paqueteria": "Private courier",
-      "paqueteriaDescription": "We quote the shipping over WhatsApp based on your destination.",
+      "paqueteriaDescription": "We quote shipping over WhatsApp based on your destination.",
       "pricePendingQuote": "To be quoted"
+    },
+    "carrierSectionTitle": "Parcel service",
+    "deliveryModes": {
+      "envio": "Shipping",
+      "envioDescription": "We send it by parcel service to your address.",
+      "entregaPersonal": "Personal delivery in the ZMG",
+      "entregaPersonalDescription": "We arrange the place and time of delivery over WhatsApp."
+    },
+    "pickup": {
+      "title": "Personal delivery in the ZMG",
+      "description": "We close your order over WhatsApp, where we arrange the place and time for delivery in the Guadalajara Metropolitan Area.",
+      "whatsappCta": "Arrange delivery on WhatsApp",
+      "whatsappMessage": "Hi, I'd like to arrange the personal delivery of my order in the ZMG."
     },
     "payments": {
       "mercadoPago": "Mercado Pago",
