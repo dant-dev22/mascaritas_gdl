@@ -201,9 +201,10 @@
     "pageTitle": "Checkout",
     "pageDescription": "Fill in your details and choose how you want to receive your masks. Once you confirm, we reach out on WhatsApp to arrange payment and shipping.",
     "steps": {
-      "details": "Your details and delivery",
-      "payment": "Payment",
-      "review": "Review"
+      "details": "Your details",
+      "shipping": "Shipping",
+      "review": "Final review",
+      "payment": "Payment"
     },
     "stepProgress": "Step {current} of {total}",
     "reviewSectionTitle": "Review your order",

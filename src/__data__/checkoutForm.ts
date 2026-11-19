@@ -23,6 +23,23 @@ export const REQUIRED_CHECKOUT_FIELDS: ReadonlyArray<CheckoutFieldName> = [
   'shippingZip',
 ];
 
+/** Campos del paso «Tus datos» (contacto). */
+export const CONTACT_CHECKOUT_FIELDS: ReadonlyArray<CheckoutFieldName> = [
+  'customerName',
+  'customerContact',
+  'customerEmail',
+  'customerRfc',
+];
+
+/** Campos del paso «Envío» (dirección de entrega). */
+export const SHIPPING_CHECKOUT_FIELDS: ReadonlyArray<CheckoutFieldName> = [
+  'shippingStreet',
+  'shippingCity',
+  'shippingState',
+  'shippingZip',
+  'shippingReferences',
+];
+
 /** Largo máximo por campo. Espejo de los límites de `CheckoutRequest`. */
 export const CHECKOUT_FIELD_LIMITS: Record<CheckoutFieldName, number> = {
   customerName: 120,

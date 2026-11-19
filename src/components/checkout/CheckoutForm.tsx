@@ -6,7 +6,12 @@ import { useTranslations } from 'next-intl';
 import { Banknote, CreditCard, FileText, Mail, MapPin, Package, Phone, Truck, User } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { CART_PATH } from '@/__data__/cart';
-import { CHECKOUT_FIELD_LIMITS, EMPTY_CHECKOUT_FORM } from '@/__data__/checkoutForm';
+import {
+  CHECKOUT_FIELD_LIMITS,
+  CONTACT_CHECKOUT_FIELDS,
+  EMPTY_CHECKOUT_FORM,
+  SHIPPING_CHECKOUT_FIELDS,
+} from '@/__data__/checkoutForm';
 import {
   DEFAULT_DELIVERY_METHOD,
   SHIPPING_METHOD_OPTIONS,
@@ -19,7 +24,12 @@ import {
   defaultPaymentMethod,
   isPaymentMethodAllowed,
 } from '@/__data__/payment';
-import { clearFieldError, toCheckoutRequest, validateCheckoutForm } from '@/__lib__/checkoutForm';
+import {
+  clearFieldError,
+  toCheckoutRequest,
+  validateCheckoutFields,
+  validateCheckoutForm,
+} from '@/__lib__/checkoutForm';
 import { trackInitiateCheckout, trackPurchase } from '@/__lib__/analytics';
 import { cn, formatMXN } from '@/__lib__/utils';
 import { useCartContext } from '@/__hooks__/useCartContext';
@@ -61,16 +71,16 @@ const SECTION_TITLE_CLASS = 'mb-4 font-display text-lg text-white';
 const ASIDE_CLASS =
   'flex flex-col gap-4 rounded-[1.5rem] border border-border-subtle bg-surface p-5 lg:sticky lg:top-24';
 
-/** Pasos del checkout: datos, método de pago y revisión final antes de pagar. */
-const CHECKOUT_STEPS = ['details', 'payment', 'review'] as const;
+/** Pasos del checkout, en orden: datos, envío, revisión y pago. */
+const CHECKOUT_STEPS = ['details', 'shipping', 'review', 'payment'] as const;
 type CheckoutStep = (typeof CHECKOUT_STEPS)[number];
 
 /**
- * Flujo de checkout en tres pasos. El primero captura los datos de contacto y
- * envío junto con la modalidad de entrega; el segundo ofrece el método de pago;
- * el tercero resume el pedido para revisarlo. Solo al confirmar en la revisión
- * el servidor crea el pedido y, con pago en línea, devuelve el enlace de
- * Mercado Pago al que se redirige al cliente.
+ * Flujo de checkout en cuatro pasos, uno por sección. El primero captura los
+ * datos de contacto; el segundo la dirección y la modalidad de entrega; el
+ * tercero resume el pedido para revisarlo; el cuarto ofrece el método de pago.
+ * Solo al confirmar en el pago el servidor crea el pedido y, con pago en línea,
+ * devuelve el enlace de Mercado Pago al que se redirige al cliente.
  */
 export function CheckoutForm() {
   const t = useTranslations('checkout');
@@ -109,11 +119,6 @@ export function CheckoutForm() {
     const option = SHIPPING_METHOD_OPTIONS.find((item) => item.id === deliveryMethod);
     return option ? t(`methods.${option.labelKey}`) : '';
   }, [deliveryMethod, t]);
-
-  const paymentLabel = useMemo(() => {
-    const option = PAYMENT_METHOD_OPTIONS.find((item) => item.id === paymentMethod);
-    return option ? t(`payments.${option.labelKey}`) : '';
-  }, [paymentMethod, t]);
 
   const shippingMXN = useMemo(
     () => resolveShippingMXN(deliveryMethod, state.subtotalMXN),
@@ -154,15 +159,15 @@ export function CheckoutForm() {
   );
 
   const goToPayment = useCallback((): void => {
-    const nextErrors = validateCheckoutForm(values);
+    const nextErrors = validateCheckoutFields(values, CONTACT_CHECKOUT_FIELDS);
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
 
-    setStep('payment');
+    setStep('shipping');
   }, [values]);
 
   const goToReview = useCallback((): void => {
-    const nextErrors = validateCheckoutForm(values);
+    const nextErrors = validateCheckoutFields(values, SHIPPING_CHECKOUT_FIELDS);
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
 
@@ -174,21 +179,27 @@ export function CheckoutForm() {
       event.preventDefault();
       if (state.lines.length === 0) return;
 
-      // Los dos primeros pasos solo avanzan: el pedido se crea en la revisión,
-      // para que nadie salga a pagar sin ver antes el resumen completo.
+      // Los primeros pasos solo avanzan sección por sección; el pedido se crea
+      // en el paso de pago, después de la revisión final.
       if (step === 'details') {
         goToPayment();
         return;
       }
-      if (step === 'payment') {
+      if (step === 'shipping') {
         goToReview();
+        return;
+      }
+      if (step === 'review') {
+        setStep('payment');
         return;
       }
 
       const nextErrors = validateCheckoutForm(values);
       setErrors(nextErrors);
       if (Object.keys(nextErrors).length > 0) {
-        setStep('details');
+        // Se vuelve al primer paso donde falte algo.
+        const hasContactError = CONTACT_CHECKOUT_FIELDS.some((field) => nextErrors[field]);
+        setStep(hasContactError ? 'details' : 'shipping');
         return;
       }
 
@@ -265,8 +276,9 @@ export function CheckoutForm() {
             current={step}
             labels={{
               details: t('steps.details'),
-              payment: t('steps.payment'),
+              shipping: t('steps.shipping'),
               review: t('steps.review'),
+              payment: t('steps.payment'),
             }}
             progressLabel={t('stepProgress', {
               current: CHECKOUT_STEPS.indexOf(step) + 1,
@@ -275,62 +287,62 @@ export function CheckoutForm() {
           />
 
           {step === 'details' ? (
+            <section className={CARD_CLASS}>
+              <h2 className={SECTION_TITLE_CLASS}>{t('contactSectionTitle')}</h2>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Input
+                  name="customerName"
+                  label={t('fields.customerName')}
+                  value={values.customerName}
+                  onChange={handleChange}
+                  error={fieldError('customerName')}
+                  maxLength={CHECKOUT_FIELD_LIMITS.customerName}
+                  autoComplete="name"
+                  leftIcon={<User {...FIELD_ICON_PROPS} aria-hidden="true" />}
+                  containerClassName="sm:col-span-2"
+                />
+
+                <Input
+                  name="customerContact"
+                  label={t('fields.customerContact')}
+                  hint={t('fields.customerContactHint')}
+                  value={values.customerContact}
+                  onChange={handleChange}
+                  error={fieldError('customerContact')}
+                  maxLength={CHECKOUT_FIELD_LIMITS.customerContact}
+                  autoComplete="tel"
+                  inputMode="tel"
+                  leftIcon={<Phone {...FIELD_ICON_PROPS} aria-hidden="true" />}
+                />
+
+                <Input
+                  name="customerEmail"
+                  type="email"
+                  label={t('fields.customerEmail')}
+                  value={values.customerEmail}
+                  onChange={handleChange}
+                  error={fieldError('customerEmail')}
+                  maxLength={CHECKOUT_FIELD_LIMITS.customerEmail}
+                  autoComplete="email"
+                  leftIcon={<Mail {...FIELD_ICON_PROPS} aria-hidden="true" />}
+                />
+
+                <Input
+                  name="customerRfc"
+                  label={t('fields.customerRfc')}
+                  hint={t('fields.customerRfcHint')}
+                  value={values.customerRfc}
+                  onChange={handleChange}
+                  error={fieldError('customerRfc')}
+                  maxLength={CHECKOUT_FIELD_LIMITS.customerRfc}
+                  autoComplete="off"
+                  leftIcon={<FileText {...FIELD_ICON_PROPS} aria-hidden="true" />}
+                />
+              </div>
+            </section>
+          ) : step === 'shipping' ? (
             <>
-              <section className={CARD_CLASS}>
-                <h2 className={SECTION_TITLE_CLASS}>{t('contactSectionTitle')}</h2>
-
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <Input
-                    name="customerName"
-                    label={t('fields.customerName')}
-                    value={values.customerName}
-                    onChange={handleChange}
-                    error={fieldError('customerName')}
-                    maxLength={CHECKOUT_FIELD_LIMITS.customerName}
-                    autoComplete="name"
-                    leftIcon={<User {...FIELD_ICON_PROPS} aria-hidden="true" />}
-                    containerClassName="sm:col-span-2"
-                  />
-
-                  <Input
-                    name="customerContact"
-                    label={t('fields.customerContact')}
-                    hint={t('fields.customerContactHint')}
-                    value={values.customerContact}
-                    onChange={handleChange}
-                    error={fieldError('customerContact')}
-                    maxLength={CHECKOUT_FIELD_LIMITS.customerContact}
-                    autoComplete="tel"
-                    inputMode="tel"
-                    leftIcon={<Phone {...FIELD_ICON_PROPS} aria-hidden="true" />}
-                  />
-
-                  <Input
-                    name="customerEmail"
-                    type="email"
-                    label={t('fields.customerEmail')}
-                    value={values.customerEmail}
-                    onChange={handleChange}
-                    error={fieldError('customerEmail')}
-                    maxLength={CHECKOUT_FIELD_LIMITS.customerEmail}
-                    autoComplete="email"
-                    leftIcon={<Mail {...FIELD_ICON_PROPS} aria-hidden="true" />}
-                  />
-
-                  <Input
-                    name="customerRfc"
-                    label={t('fields.customerRfc')}
-                    hint={t('fields.customerRfcHint')}
-                    value={values.customerRfc}
-                    onChange={handleChange}
-                    error={fieldError('customerRfc')}
-                    maxLength={CHECKOUT_FIELD_LIMITS.customerRfc}
-                    autoComplete="off"
-                    leftIcon={<FileText {...FIELD_ICON_PROPS} aria-hidden="true" />}
-                  />
-                </div>
-              </section>
-
               <section className={CARD_CLASS}>
                 <h2 className={SECTION_TITLE_CLASS}>{t('shippingSectionTitle')}</h2>
 
@@ -419,32 +431,7 @@ export function CheckoutForm() {
                 </div>
               </section>
             </>
-          ) : step === 'payment' ? (
-            <section className={CARD_CLASS}>
-              <h2 id={`${groupId}-payment`} className={SECTION_TITLE_CLASS}>
-                {t('paymentSectionTitle')}
-              </h2>
-
-              <div
-                role="radiogroup"
-                aria-labelledby={`${groupId}-payment`}
-                className="flex flex-col gap-3"
-              >
-                {paymentOptions.map((option) => (
-                  <OptionCard
-                    key={option.id}
-                    name="paymentMethod"
-                    value={option.id}
-                    selected={paymentMethod === option.id}
-                    onSelect={setPaymentMethod}
-                    icon={PAYMENT_ICONS[option.icon]}
-                    label={t(`payments.${option.labelKey}`)}
-                    description={t(`payments.${option.descriptionKey}`)}
-                  />
-                ))}
-              </div>
-            </section>
-          ) : (
+          ) : step === 'review' ? (
             <section className={CARD_CLASS}>
               <h2 className={SECTION_TITLE_CLASS}>{t('reviewSectionTitle')}</h2>
 
@@ -467,7 +454,7 @@ export function CheckoutForm() {
                 <ReviewBlock
                   title={t('shippingSectionTitle')}
                   actionLabel={t('reviewEdit')}
-                  onAction={() => setStep('details')}
+                  onAction={() => setStep('shipping')}
                 >
                   <ReviewRow label={t('fields.shippingStreet')} value={values.shippingStreet} />
                   <ReviewRow label={t('fields.shippingCity')} value={values.shippingCity} />
@@ -484,17 +471,9 @@ export function CheckoutForm() {
                 <ReviewBlock
                   title={t('deliverySectionTitle')}
                   actionLabel={t('reviewEdit')}
-                  onAction={() => setStep('details')}
+                  onAction={() => setStep('shipping')}
                 >
                   <p className="text-sm font-semibold text-white">{deliveryLabel}</p>
-                </ReviewBlock>
-
-                <ReviewBlock
-                  title={t('paymentSectionTitle')}
-                  actionLabel={t('reviewEdit')}
-                  onAction={() => setStep('payment')}
-                >
-                  <p className="text-sm font-semibold text-white">{paymentLabel}</p>
                 </ReviewBlock>
 
                 <ReviewBlock title={t('reviewItemsTitle')}>
@@ -519,6 +498,31 @@ export function CheckoutForm() {
                 </ReviewBlock>
               </div>
             </section>
+          ) : (
+            <section className={CARD_CLASS}>
+              <h2 id={`${groupId}-payment`} className={SECTION_TITLE_CLASS}>
+                {t('paymentSectionTitle')}
+              </h2>
+
+              <div
+                role="radiogroup"
+                aria-labelledby={`${groupId}-payment`}
+                className="flex flex-col gap-3"
+              >
+                {paymentOptions.map((option) => (
+                  <OptionCard
+                    key={option.id}
+                    name="paymentMethod"
+                    value={option.id}
+                    selected={paymentMethod === option.id}
+                    onSelect={setPaymentMethod}
+                    icon={PAYMENT_ICONS[option.icon]}
+                    label={t(`payments.${option.labelKey}`)}
+                    description={t(`payments.${option.descriptionKey}`)}
+                  />
+                ))}
+              </div>
+            </section>
           )}
         </div>
 
@@ -539,37 +543,7 @@ export function CheckoutForm() {
             </p>
           ) : null}
 
-          {step === 'details' ? (
-            <>
-              <Button type="button" variant="primary" size="lg" fullWidth onClick={goToPayment}>
-                {t('next')}
-              </Button>
-
-              <Button as="link" href={CART_PATH} variant="secondary" size="md" fullWidth>
-                {t('backToCart')}
-              </Button>
-            </>
-          ) : step === 'payment' ? (
-            <>
-              <Button type="button" variant="primary" size="lg" fullWidth onClick={goToReview}>
-                {t('next')}
-              </Button>
-
-              <Button as="link" href={CART_PATH} variant="secondary" size="md" fullWidth>
-                {t('backToCart')}
-              </Button>
-
-              <Button
-                type="button"
-                variant="ghost"
-                size="md"
-                fullWidth
-                onClick={() => setStep('details')}
-              >
-                {t('back')}
-              </Button>
-            </>
-          ) : (
+          {step === 'payment' ? (
             <>
               <Button type="submit" variant="primary" size="lg" fullWidth disabled={isSubmitting}>
                 {isSubmitting ? processingMessage : t('submit')}
@@ -584,10 +558,44 @@ export function CheckoutForm() {
                 variant="ghost"
                 size="md"
                 fullWidth
-                onClick={() => setStep('payment')}
+                onClick={() => setStep('review')}
               >
                 {t('back')}
               </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                type="button"
+                variant="primary"
+                size="lg"
+                fullWidth
+                onClick={
+                  step === 'details'
+                    ? goToPayment
+                    : step === 'shipping'
+                      ? goToReview
+                      : () => setStep('payment')
+                }
+              >
+                {t('next')}
+              </Button>
+
+              <Button as="link" href={CART_PATH} variant="secondary" size="md" fullWidth>
+                {t('backToCart')}
+              </Button>
+
+              {step === 'details' ? null : (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="md"
+                  fullWidth
+                  onClick={() => setStep(step === 'shipping' ? 'details' : 'shipping')}
+                >
+                  {t('back')}
+                </Button>
+              )}
             </>
           )}
         </aside>

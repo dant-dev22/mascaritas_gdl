@@ -201,9 +201,10 @@
     "pageTitle": "Finalizar compra",
     "pageDescription": "Completa tus datos y elige cómo quieres recibir tus máscaras. Al confirmar te contactamos por WhatsApp para acordar el pago y el envío.",
     "steps": {
-      "details": "Tus datos y entrega",
-      "payment": "Pago",
-      "review": "Revisión"
+      "details": "Tus datos",
+      "shipping": "Envío",
+      "review": "Revisión final",
+      "payment": "Pago"
     },
     "stepProgress": "Paso {current} de {total}",
     "reviewSectionTitle": "Revisa tu pedido",

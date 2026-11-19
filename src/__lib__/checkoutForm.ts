@@ -29,6 +29,25 @@ export function validateCheckoutForm(values: CheckoutFormValues): CheckoutFormEr
   return errors;
 }
 
+/**
+ * Valida solo los campos de una sección. Sirve para avanzar paso a paso: el
+ * paso de datos no debe exigir todavía la dirección, ni al revés.
+ */
+export function validateCheckoutFields(
+  values: CheckoutFormValues,
+  fields: ReadonlyArray<CheckoutFieldName>,
+): CheckoutFormErrors {
+  const allErrors = validateCheckoutForm(values);
+  const errors: CheckoutFormErrors = {};
+
+  for (const field of fields) {
+    const code = allErrors[field];
+    if (code) errors[field] = code;
+  }
+
+  return errors;
+}
+
 /** Convierte los valores del formulario en el cuerpo que espera el backend. */
 export function toCheckoutRequest(
   values: CheckoutFormValues,
