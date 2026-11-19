@@ -214,6 +214,8 @@
       "customerContact": "WhatsApp o teléfono",
       "customerContactHint": "Te contactamos por aquí para confirmar tu pedido.",
       "customerEmail": "Correo electrónico (opcional)",
+      "customerRfc": "RFC o CURP (opcional)",
+      "customerRfcHint": "Mercado Pago lo pide para pagar con tarjeta. Si no lo tienes, lo puedes omitir.",
       "shippingStreet": "Calle y número",
       "shippingCity": "Ciudad o municipio",
       "shippingState": "Estado",

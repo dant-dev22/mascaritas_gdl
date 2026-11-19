@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
 import { useTranslations } from 'next-intl';
-import { Banknote, CreditCard, Mail, MapPin, Package, Phone, Truck, User } from 'lucide-react';
+import { Banknote, CreditCard, FileText, Mail, MapPin, Package, Phone, Truck, User } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { CART_PATH } from '@/__data__/cart';
 import { CHECKOUT_FIELD_LIMITS, EMPTY_CHECKOUT_FORM } from '@/__data__/checkoutForm';
@@ -287,6 +287,18 @@ export function CheckoutForm() {
                     maxLength={CHECKOUT_FIELD_LIMITS.customerEmail}
                     autoComplete="email"
                     leftIcon={<Mail {...FIELD_ICON_PROPS} aria-hidden="true" />}
+                  />
+
+                  <Input
+                    name="customerRfc"
+                    label={t('fields.customerRfc')}
+                    hint={t('fields.customerRfcHint')}
+                    value={values.customerRfc}
+                    onChange={handleChange}
+                    error={fieldError('customerRfc')}
+                    maxLength={CHECKOUT_FIELD_LIMITS.customerRfc}
+                    autoComplete="off"
+                    leftIcon={<FileText {...FIELD_ICON_PROPS} aria-hidden="true" />}
                   />
                 </div>
               </section>

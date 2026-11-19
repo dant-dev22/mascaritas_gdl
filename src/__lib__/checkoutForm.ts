@@ -40,6 +40,7 @@ export function toCheckoutRequest(
     customerName: values.customerName.trim(),
     customerContact: values.customerContact.trim(),
     customerEmail: toOptional(values.customerEmail),
+    customerRfc: toOptional(values.customerRfc),
     deliveryMethod,
     // La pareja modalidad/método la valida el formulario antes de llegar aquí.
     paymentMethod,

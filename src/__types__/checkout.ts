@@ -15,6 +15,7 @@ export interface CheckoutFormValues {
   readonly customerName: string;
   readonly customerContact: string;
   readonly customerEmail: string;
+  readonly customerRfc: string;
   readonly shippingStreet: string;
   readonly shippingCity: string;
   readonly shippingState: string;
@@ -40,6 +41,7 @@ export interface CheckoutRequestInput {
   readonly customerName: string;
   readonly customerContact: string;
   readonly customerEmail: string | null;
+  readonly customerRfc: string | null;
   readonly deliveryMethod: DeliveryMethod;
   readonly paymentMethod: PaymentMethod;
   readonly shippingStreet: string;

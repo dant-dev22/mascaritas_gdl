@@ -214,6 +214,8 @@
       "customerContact": "WhatsApp or phone",
       "customerContactHint": "This is how we reach you to confirm your order.",
       "customerEmail": "Email (optional)",
+      "customerRfc": "RFC or CURP (optional)",
+      "customerRfcHint": "Mercado Pago asks for it to pay with card. You can skip it if you don't have one.",
       "shippingStreet": "Street and number",
       "shippingCity": "City or municipality",
       "shippingState": "State",
